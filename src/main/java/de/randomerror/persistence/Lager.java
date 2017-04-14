@@ -1,5 +1,6 @@
 package de.randomerror.persistence;
 
+import de.randomerror.GUI.Frame;
 import de.randomerror.util.Provided;
 
 /**
@@ -7,4 +8,10 @@ import de.randomerror.util.Provided;
  */
 @Provided
 public class Lager {
+    public Frame f;
+
+    public void testMethod() {
+        System.out.println("ich bin eine testmethode im Lager");
+        System.out.println("hoffentlich ist mein Frame nicht null: " + f.test());
+    }
 }
