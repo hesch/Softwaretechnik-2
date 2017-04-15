@@ -2,6 +2,8 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
+mainClassName = "de.randomerror.util.Injector"
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     mavenCentral()
