@@ -52,7 +52,7 @@ public class Injector {
         if(i.isInitialized())
             return;
 
-        if(i.getCircularDetection())
+        if(i.isCircularDetection())
             throw new RuntimeException("Circular Dependency detected! Aborting...");
 
         i.setCircularDetection(true);
@@ -70,6 +70,7 @@ public class Injector {
         }
 
         i.setData(instance);
+        i.setInitialized(true);
         i.setCircularDetection(false);
     }
 
