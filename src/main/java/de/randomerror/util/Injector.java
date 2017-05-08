@@ -1,17 +1,8 @@
 package de.randomerror.util;
 
-import de.randomerror.persistence.Lager;
-
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by Henri on 11.04.17.
