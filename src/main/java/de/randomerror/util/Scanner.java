@@ -42,7 +42,7 @@ public class Scanner {
 
     private Class singleFileToClass(Path path, int baseSegments) {
         if(path.toString().endsWith(".class")) {
-            String name = path.subpath(baseSegments, path.getNameCount()).toString().replace('/', '.');
+            String name = path.subpath(baseSegments, path.getNameCount()).toString().replace(File.separatorChar, '.');
             try {
                 return Class.forName(name.substring(0, name.length() - 6));
             } catch (ClassNotFoundException e) {
