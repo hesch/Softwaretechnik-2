@@ -6,6 +6,6 @@ import de.randomerror.util.Provided;
  * Created by henri on 08.05.17.
  */
 @Provided
-public class WarehouseController {
+public class WarehouseViewController {
 
 }
