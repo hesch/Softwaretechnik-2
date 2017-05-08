@@ -30,12 +30,10 @@ public class Injector {
         classes.stream().filter(c -> c.getAnnotation(Provided.class) != null).map(Class::getCanonicalName).forEach(System.out::println);
 
         addToClassPool(classes);
+    }
 
-        classPool.values().stream()
-                .map(i -> i.getData())
-                .filter(o -> o instanceof Lager)
-                .map(o -> (Lager)o)
-                .forEach(lager -> lager.testMethod());
+    public static <T> T getProvided(Class<T> c) {
+        return (T) classPool.get(c).getData();
     }
 
     private static void addToClassPool(List<Class> classes) {
@@ -76,10 +74,12 @@ public class Injector {
 
     private static void injectField(Field f, Object instance) {
         try {
-            if(classPool.get(f.getType()).isInitialized())
-                f.set(instance, classPool.get(f.getType()).getData());
-            else
+            if(!classPool.get(f.getType()).isInitialized()) {
                 resolveInstance(f.getType());
+            }
+            System.out.println("injecting field: " + f.getName() + " on Instance: " + instance.getClass().getCanonicalName());
+            f.setAccessible(true);
+            f.set(instance, classPool.get(f.getType()).getData());
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
