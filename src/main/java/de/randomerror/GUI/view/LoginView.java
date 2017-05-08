@@ -30,6 +30,7 @@ public class LoginView implements View {
         infoLabel.setForeground(Color.red);
         infoLabel.setVisible(false);
 
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.setLayout(new GridBagLayout());
