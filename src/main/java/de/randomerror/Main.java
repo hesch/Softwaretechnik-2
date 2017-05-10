@@ -2,10 +2,7 @@ package de.randomerror;
 
 import de.randomerror.GUI.view.LoginView;
 import de.randomerror.entity.*;
-import de.randomerror.persistence.DeliveryHumanRepo;
-import de.randomerror.persistence.DeliveryRepo;
-import de.randomerror.persistence.ProductClassRepo;
-import de.randomerror.persistence.ProductRepo;
+import de.randomerror.persistence.*;
 import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
 
@@ -22,6 +19,7 @@ public class Main {
     DeliveryRepo deliveryRepo;
     ProductRepo productRepo;
     ProductClassRepo productClassRepo;
+    OrderRepo orderRepo;
     LoginView view;
 
     public static void main(String[] args) throws IOException {
@@ -103,14 +101,43 @@ public class Main {
         items.add(new DeliveryItem(15, p1, 1200));
         items.add(new DeliveryItem(300, p7, 7000));
 
-        deliveryRepo.save(new Delivery(items, dh3));
+        deliveryRepo.save(new Delivery(0, "YK-10024",items, dh3));
 
         items = new LinkedList<>();
 
         items.add(new DeliveryItem(30000, p4, 100));
 
-        deliveryRepo.save(new Delivery(items, dh2));
+        deliveryRepo.save(new Delivery(1, "YK-10507", items, dh2));
 
+        Customer c1 = new Customer("Jan", new Address("Emil-Figge-Strate",
+                "4",
+                "",
+                "1337",
+                "Milky Way",
+                "Irguster",
+                "Universe"), "jan@janface.mc", "709655430");
 
+        List<OrderItem> orderItems = new LinkedList<>();
+
+        orderItems.add(new OrderItem(18, p1));
+        orderItems.add(new OrderItem(6, p2));
+        orderItems.add(new OrderItem(4, p5));
+
+        orderRepo.save(new Order(123, new Address("Emil-Figge-Strate",
+                "4",
+                "",
+                "1337",
+                "Milky Way",
+                "Irguster",
+                "Universe"),
+                new Address("Emil-Figge-Strate",
+                "4",
+                "",
+                "1337",
+                "Milky Way",
+                "Irguster",
+                "Universe"), orderItems, c1));
+
+        System.out.println("testdata initialized");
     }
 }

@@ -2,6 +2,7 @@ package de.randomerror.util;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -21,6 +22,15 @@ public class Injector {
         classes.stream().filter(c -> c.getAnnotation(Provided.class) != null).map(Class::getCanonicalName).forEach(System.out::println);
 
         addToClassPool(classes);
+
+        classPool.forEach((c, i) -> {
+            try{
+                Method m = c.getMethod("onInit");
+                m.invoke(i.getData());
+            } catch(Exception e) {
+                //do nothing
+            }
+        });
     }
 
     public static <T> T getProvided(Class<T> c) {

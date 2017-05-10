@@ -1,14 +1,21 @@
 package de.randomerror.GUI.view;
 
+import de.randomerror.persistence.OrderRepo;
 import de.randomerror.util.Provided;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * Created by henri on 08.05.17.
  */
 @Provided
 public class SalesView implements View {
+    public OrderRepo orderRepo;
+
+    private JFrame frame = new JFrame("Yukon");
+
+    private DefaultTableModel orderModel;
 
     private JPanel salespanel;
     private JTable Bestellungen;
@@ -36,13 +43,30 @@ public class SalesView implements View {
     private JButton abbrechenButton;
     private JButton speichernButton;
 
+    public SalesView() {
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(800,500);
+
+        frame.add(salespanel);
+    }
+
     @Override
     public void show() {
+        orderRepo.findAll().forEach((order) -> {
+            int thePrice = order.getItems().stream().mapToInt(oi -> oi.getProduct().getPrice()*oi.getNumber()).sum();
+            orderModel.addRow(new String[]{order.getOrderId()+"", order.getDeliveryAddress() + "", order.getCustomer().getName(), thePrice/100+""});
+        });
 
+        frame.setVisible(true);
     }
 
     @Override
     public void hide() {
+        frame.setVisible(false);
+    }
 
+    private void createUIComponents() {
+        orderModel = new DefaultTableModel(new String[]{"ID", "Address", "Kunde", "Gesamtpreis"}, 0);
+        Bestellungen = new JTable(orderModel);
     }
 }
