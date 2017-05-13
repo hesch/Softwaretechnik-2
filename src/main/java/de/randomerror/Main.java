@@ -115,7 +115,7 @@ public class Main {
                 "1337",
                 "Milky Way",
                 "Irguster",
-                "Universe"), "jan@janface.mc", "709655430");
+                "Universe"), "jan@janface.mc", "709655430", 45345);
 
         List<OrderItem> orderItems = new LinkedList<>();
 

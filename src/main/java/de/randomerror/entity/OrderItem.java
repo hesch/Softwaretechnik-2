@@ -11,4 +11,9 @@ import lombok.Data;
 public class OrderItem {
     private int number;
     private Product product;
+
+    public double getTotal(){
+
+        return number*product.getPrice()/100;
+    }
 }
