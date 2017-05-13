@@ -18,4 +18,8 @@ public class Order {
     private List<OrderItem> items;
 
     private Customer customer;
+
+    public double getTotal(){
+        return items.stream().mapToDouble(OrderItem::getTotal).sum();
+    }
 }

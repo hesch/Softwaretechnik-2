@@ -12,7 +12,7 @@ import java.util.List;
 @Provided
 public class OrderRepo {
 
-    private List<Order> database = new LinkedList<>();
+    private static List<Order> database = new LinkedList<>();
 
     public List<Order> findAll() {
         return database;
@@ -20,5 +20,9 @@ public class OrderRepo {
 
     public void save(Order d) {
         database.add(d);
+    }
+
+    public static Order findById(long id) {
+        return database.stream().filter(i->i.getOrderId()==id).findFirst().get();
     }
 }

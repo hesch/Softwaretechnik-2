@@ -23,11 +23,11 @@ public class JDBCConnector {
      * Connects to the database with the data provided from the configuration class {@link Config}
      */
     public void connect() {
-        try {
-            // initiate the connection with the database
-            connection = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            // initiate the connection with the database
+//            connection = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

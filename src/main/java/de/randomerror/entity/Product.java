@@ -13,4 +13,8 @@ public class Product {
     private String name;
     private String description;
     private int price;
+
+    public double getDoublePrice(){
+        return price/100;
+    }
 }
