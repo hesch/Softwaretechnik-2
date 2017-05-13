@@ -1,5 +1,6 @@
 package de.randomerror.persistence.JDBC;
 
+import de.randomerror.util.Provided;
 import lombok.Getter;
 
 import java.sql.*;
@@ -8,6 +9,7 @@ import java.util.LinkedList;
 /**
  * Created by henri on 10.05.17.
  */
+@Provided
 public class JDBCConnector {
 
     @Getter
