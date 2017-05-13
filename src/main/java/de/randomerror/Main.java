@@ -20,6 +20,7 @@ public class Main {
     ProductRepo productRepo;
     ProductClassRepo productClassRepo;
     OrderRepo orderRepo;
+    AddressRepo addressRepo;
     LoginView view;
 
     public static void main(String[] args) throws IOException {
@@ -51,18 +52,18 @@ public class Main {
         productRepo.save(p7);
         productRepo.save(p8);
 
-        productClassRepo.save(new ProductClass(p1, 100000));
-        productClassRepo.save(new ProductClass(p2, 10000));
-        productClassRepo.save(new ProductClass(p3, 1000));
-        productClassRepo.save(new ProductClass(p4, 1000));
-        productClassRepo.save(new ProductClass(p5, 100));
-        productClassRepo.save(new ProductClass(p6, 10));
-        productClassRepo.save(new ProductClass(p7, 1));
-        productClassRepo.save(new ProductClass(p8, 700000));
+        productClassRepo.save(new ProductClass(0, p1, 100000));
+        productClassRepo.save(new ProductClass(1, p2, 10000));
+        productClassRepo.save(new ProductClass(2, p3, 1000));
+        productClassRepo.save(new ProductClass(3, p4, 1000));
+        productClassRepo.save(new ProductClass(4, p5, 100));
+        productClassRepo.save(new ProductClass(5, p6, 10));
+        productClassRepo.save(new ProductClass(6, p7, 1));
+        productClassRepo.save(new ProductClass(7, p8, 700000));
 
 
-        DeliveryHuman dh1 = new DeliveryHuman("Mr. Meeseeks",
-                new Address("street",
+        DeliveryHuman dh1 = new DeliveryHuman(0,"Mr. Meeseeks",
+                new Address(0, "street",
                         "3",
                         "stuff inc.",
                         "1337",
@@ -71,8 +72,8 @@ public class Main {
                         "Universe"),
                 "meeseeks@lookatmee.universe",
                 "01234883020394"),
-        dh2 = new DeliveryHuman("Jannis Kaiser",
-                new Address("street",
+        dh2 = new DeliveryHuman(1, "Jannis Kaiser",
+                new Address(1, "street",
                 "4",
                 "more stuff inc.",
                 "1337",
@@ -81,7 +82,7 @@ public class Main {
                 "Universe"),
                 "kaiser@königsmensch.kaiserreich",
                 "0112346520394"),
-        dh3 = new DeliveryHuman("Fishermans Friend", new Address("street",
+        dh3 = new DeliveryHuman(2, "Fishermans Friend", new Address(2, "street",
                 "3",
                 "even more stuff inc.",
                 "1337",
@@ -98,18 +99,18 @@ public class Main {
 
         List<DeliveryItem> items = new LinkedList<>();
 
-        items.add(new DeliveryItem(15, p1, 1200));
-        items.add(new DeliveryItem(300, p7, 7000));
+        items.add(new DeliveryItem(0, 15, p1, 1200));
+        items.add(new DeliveryItem(1, 300, p7, 7000));
 
         deliveryRepo.save(new Delivery(0, "YK-10024",items, dh3));
 
         items = new LinkedList<>();
 
-        items.add(new DeliveryItem(30000, p4, 100));
+        items.add(new DeliveryItem(2, 30000, p4, 100));
 
         deliveryRepo.save(new Delivery(1, "YK-10507", items, dh2));
 
-        Customer c1 = new Customer("Jan", new Address("Emil-Figge-Strate",
+        Customer c1 = new Customer("Jan", new Address(3, "Emil-Figge-Strate",
                 "4",
                 "",
                 "1337",
@@ -119,24 +120,34 @@ public class Main {
 
         List<OrderItem> orderItems = new LinkedList<>();
 
-        orderItems.add(new OrderItem(18, p1));
-        orderItems.add(new OrderItem(6, p2));
-        orderItems.add(new OrderItem(4, p5));
+        orderItems.add(new OrderItem(0,18, p1));
+        orderItems.add(new OrderItem(1,6, p2));
+        orderItems.add(new OrderItem(2,4, p5));
 
-        orderRepo.save(new Order(123, new Address("Emil-Figge-Strate",
+        orderRepo.save(new Order(123, new Address(4, "Emil-Figge-Strate",
                 "4",
                 "",
                 "1337",
                 "Milky Way",
                 "Irguster",
                 "Universe"),
-                new Address("Emil-Figge-Strate",
+                new Address(5, "Emil-Figge-Strate",
                 "4",
                 "",
                 "1337",
                 "Milky Way",
                 "Irguster",
                 "Universe"), orderItems, c1));
+
+        addressRepo.save(new Address(1, "street",
+                "4",
+                "more stuff inc.",
+                "1337",
+                "Milky Way",
+                "Irgendwas mit Supercluster",
+                "Universe"));
+
+        addressRepo.findById(1);
 
         System.out.println("testdata initialized");
     }

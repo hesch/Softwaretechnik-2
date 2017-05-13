@@ -23,6 +23,6 @@ public class OrderRepo {
     }
 
     public static Order findById(long id) {
-        return database.stream().filter(i->i.getOrderId()==id).findFirst().get();
+        return database.stream().filter(i->i.getId()==id).findFirst().get();
     }
 }

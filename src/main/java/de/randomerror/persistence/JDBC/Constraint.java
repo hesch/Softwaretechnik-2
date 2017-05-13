@@ -6,5 +6,5 @@ package de.randomerror.persistence.JDBC;
 public enum Constraint {
     NOT_NULL,
     PRIMARY_KEY,
-
+    FOREIGN_KEY,
 }

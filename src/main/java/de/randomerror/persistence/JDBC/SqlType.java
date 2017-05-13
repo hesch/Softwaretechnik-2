@@ -6,6 +6,7 @@ package de.randomerror.persistence.JDBC;
 public enum SqlType {
     TEXT,
     INT,
+    LONG,
     REAL,
     BLOB,
 }

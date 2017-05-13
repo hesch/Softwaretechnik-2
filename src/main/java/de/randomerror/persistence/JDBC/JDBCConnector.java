@@ -4,7 +4,10 @@ import de.randomerror.util.Provided;
 import lombok.Getter;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,34 +17,37 @@ import java.util.stream.IntStream;
 @Provided
 public class JDBCConnector {
 
-    private List<Entity> entities;
+    private static Map<Class, Entity> entities = new HashMap<>();
 
     @Getter
     private Connection connection;
 
     public JDBCConnector() {
         connect();
+        createDatabaseScheme();
     }
 
     /**
      * Connects to the database with the data provided from the configuration class {@link Config}
      */
     public void connect() {
-//        try {
-//            // initiate the connection with the database
-//            connection = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            // initiate the connection with the database
+            connection = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void registerEntity(Entity e) {
-        entities.add(e);
+    public static void registerEntity(Class c, Entity e) {
+        entities.put(c, e);
     }
-
+    public static Entity getEntity(Class c) {
+        return entities.get(c);
+    }
 
     public void createDatabaseScheme() {
-        entities.forEach(entity -> {
+        entities.values().forEach(entity -> {
             try {
                 Statement s = connection.createStatement();
 
@@ -55,6 +61,8 @@ public class JDBCConnector {
                         .collect(Collectors.joining(", "));
 
                 createSql += "(" + col + ");";
+
+                System.out.println("SQL: " + createSql);
 
                 s.addBatch(createSql);
 
@@ -111,7 +119,7 @@ public class JDBCConnector {
         }
     }
 
-    public void insertEntity(Entity entity, long id) {
+    public void insertEntity(Entity entity) {
         try {
             String sql = "INSERT INTO " + entity.getName() + " (";
             sql += entity.getAttributes().stream().map(Attribute::getName).collect(Collectors.joining(", "));
@@ -134,7 +142,7 @@ public class JDBCConnector {
                             s.setInt(index + 1, (Integer)attribute.getData());
                             break;
                         case REAL:
-                            s.setFloat(index + 1, (Integer)attribute.getData());
+                            s.setFloat(index + 1, (Float) attribute.getData());
                             break;
                         case BLOB:
                             System.out.println("not implemented!");
@@ -148,15 +156,18 @@ public class JDBCConnector {
                 }
             });
 
+            s.execute();
+            s.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public Entity loadEntity(Entity entity, long id) {
+    public Entity loadEntity(Entity entity, int id) {
         try {
             String sql = "SELECT * FROM " + entity.getName() + " WHERE id = ?;";
             PreparedStatement s = connection.prepareStatement(sql);
+            s.setInt(1, id);
 
             ResultSet result = s.executeQuery();
 
@@ -185,6 +196,8 @@ public class JDBCConnector {
                     e.printStackTrace();
                 }
             });
+
+            s.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

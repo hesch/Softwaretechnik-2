@@ -15,4 +15,8 @@ public class Entity {
     private Class clazz;
     private String name;
     private List<Attribute> attributes;
+
+    public Attribute getMatchingAttribute(String name) {
+        return attributes.stream().filter(a -> a.getName().equals(name)).findFirst().get();
+    }
 }

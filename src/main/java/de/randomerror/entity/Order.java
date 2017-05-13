@@ -1,8 +1,10 @@
 package de.randomerror.entity;
 
+import de.randomerror.persistence.JDBC.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Order {
-    private long orderId;
+    private int id;
     private Address deliveryAddress;
     private Address invoiceAddress;
 
@@ -21,5 +23,15 @@ public class Order {
 
     public double getTotal(){
         return items.stream().mapToDouble(OrderItem::getTotal).sum();
+    }
+
+    static {
+        List<Attribute> attributes = new LinkedList<>();
+
+        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
+
+        Entity e = new Entity(Order.class, "yk_order", attributes);
+
+        JDBCConnector.registerEntity(Order.class, e);
     }
 }
