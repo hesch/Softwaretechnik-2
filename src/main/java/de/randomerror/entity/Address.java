@@ -33,10 +33,9 @@ public class Address {
                 (Integer) entity.getMatchingAttribute("id").getData(),
                 (String) entity.getMatchingAttribute("street").getData(),
                 (String) entity.getMatchingAttribute("number").getData(),
-                (String) entity.getMatchingAttribute("company").getData(),
                 (String) entity.getMatchingAttribute("zipCode").getData(),
                 (String) entity.getMatchingAttribute("city").getData(),
-                (String) entity.getMatchingAttribute("province").getData(),
+                (String) entity.getMatchingAttribute("state").getData(),
                 (String) entity.getMatchingAttribute("country").getData()
         );
     }
@@ -53,9 +52,6 @@ public class Address {
         a = new Attribute("number", SqlType.TEXT);
         a.setData(number);
         attributes.add(a);
-        a = new Attribute("company", SqlType.TEXT);
-        a.setData(company);
-        attributes.add(a);
         a = new Attribute("zipCode", SqlType.TEXT);
         a.setData(zipCode);
         attributes.add(a);
@@ -63,7 +59,7 @@ public class Address {
         a.setData(city);
         attributes.add(a);
         a = new Attribute("province", SqlType.TEXT);
-        a.setData(province);
+        a.setData(state);
         attributes.add(a);
         a = new Attribute("country", SqlType.TEXT);
         a.setData(country);

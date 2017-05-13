@@ -136,13 +136,12 @@ public class Main {
 
         addressRepo.save(new Address(1, "street",
                 "4",
-                "more stuff inc.",
                 "1337",
                 "Milky Way",
                 "Irgendwas mit Supercluster",
                 "Universe"));
 
-        addressRepo.findById(1);
+        //addressRepo.findById(1);
 
         System.out.println("testdata initialized");
     }

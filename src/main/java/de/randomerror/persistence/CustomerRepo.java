@@ -16,7 +16,7 @@ public class CustomerRepo {
     private List<Customer> database = new LinkedList<>();
 
     public Optional<Customer> findById(long id){
-        return database.stream().filter(i->i.getCustomerId()==id).findFirst();
+        return database.stream().filter(i->i.getId()==id).findFirst();
     }
 
     public void save(Customer c1) {
