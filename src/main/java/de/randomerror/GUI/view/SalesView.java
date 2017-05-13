@@ -78,13 +78,15 @@ public class SalesView implements View {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
         orderTable.getSelectionModel().addListSelectionListener(listener -> {
-            Order order = OrderRepo.findById(Long.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
-            customerField.setText(order.getCustomer().getName());
-            customerIdField.setText(order.getCustomer().getCustomerId() + "");
-            orderIdField.setText(order.getOrderId() + "");
-            List<OrderItem> orderItems = order.getItems();
-            totalpriceField.setText(order.getTotal()+"");
-            orderItems.forEach(i -> orderItemModel.addRow(new String[]{i.getProduct().getProductId() + "",i.getProduct().getName(),i.getProduct().getDescription(),i.getProduct().getDoublePrice()+"", i.getNumber() + "",i.getTotal()+""}));
+            if(!listener.getValueIsAdjusting()){
+                Order order = OrderRepo.findById(Long.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
+                customerField.setText(order.getCustomer().getName());
+                customerIdField.setText(order.getCustomer().getCustomerId() + "");
+                orderIdField.setText(order.getOrderId() + "");
+                List<OrderItem> orderItems = order.getItems();
+                totalpriceField.setText(order.getTotal()+"");
+                orderItems.forEach(i -> orderItemModel.addRow(new String[]{i.getProduct().getProductId() + "",i.getProduct().getName(),i.getProduct().getDescription(),i.getProduct().getDoublePrice()+"", i.getNumber() + "",i.getTotal()+""}));
+            }
         });
         frame.add(salespanel);
     }
@@ -92,7 +94,6 @@ public class SalesView implements View {
     @Override
     public void show() {
         orderRepo.findAll().forEach((order) -> {
-
             orderModel.addRow(new String[]{order.getOrderId() + "", order.getDeliveryAddress() + "", order.getCustomer().getName(), order.getTotal()+ ""});
         });
 
