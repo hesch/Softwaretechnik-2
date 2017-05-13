@@ -34,6 +34,10 @@ public class WarehouseView implements View {
 
     @Override
     public void show() {
+        controller.getDeliveries().forEach((delivery) -> {
+            System.out.println("adding row: " + delivery.getDeliveryId() + ":" + delivery.getItems().size()+"" + ":" + delivery.getHuman().getName());
+            deliveryModel.addRow(new String[] {delivery.getDeliveryId(), delivery.getItems().size()+"", delivery.getHuman().getName()});
+        });
         frame.setVisible(true);
     }
 
@@ -43,7 +47,12 @@ public class WarehouseView implements View {
     }
 
     private void createUIComponents() {
-        deliveryModel = new DefaultTableModel(new String[]{"Nummer", "stuff", "Anzahl"}, 10);
+        deliveryModel = new DefaultTableModel(new String[]{"Nummer", "Anzahl der Posten", "Lieferant"}, 0);
         deliveryTable = new JTable(deliveryModel);
+    }
+
+    public void onInit() {
+        System.out.println("onInit called");
+
     }
 }

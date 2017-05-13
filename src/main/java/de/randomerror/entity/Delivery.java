@@ -11,6 +11,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Delivery {
+    private long id;
+    private String deliveryId;
     private List<DeliveryItem> items;
     private DeliveryHuman human;
 }

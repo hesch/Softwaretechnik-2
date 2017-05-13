@@ -16,4 +16,8 @@ public class Address {
     private String city;
     private String province;
     private String country;
+
+    public String toString() {
+        return Street + " " + number + ", " + zipCode + " " + city;
+    }
 }

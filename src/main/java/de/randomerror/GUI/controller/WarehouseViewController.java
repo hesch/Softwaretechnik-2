@@ -2,6 +2,7 @@ package de.randomerror.GUI.controller;
 
 import de.randomerror.entity.Delivery;
 import de.randomerror.entity.Warehouse;
+import de.randomerror.persistence.DeliveryRepo;
 import de.randomerror.util.Provided;
 
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.List;
  */
 @Provided
 public class WarehouseViewController {
-    public Warehouse warehouse;
+    public DeliveryRepo deliveryRepo;
 
     public List<Delivery> getDeliveries() {
-        return null;
+        return deliveryRepo.findAll();
     }
 }

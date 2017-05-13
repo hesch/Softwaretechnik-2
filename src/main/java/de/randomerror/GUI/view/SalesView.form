@@ -35,7 +35,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="b9d86" class="javax.swing.JTable" binding="Bestellungen">
+                  <component id="b9d86" class="javax.swing.JTable" binding="Bestellungen" custom-create="true">
                     <constraints/>
                     <properties>
                       <fillsViewportHeight value="false"/>
