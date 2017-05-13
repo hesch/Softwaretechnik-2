@@ -21,4 +21,8 @@ public class ProductClassRepo {
     public void save(ProductClass d) {
         database.add(d);
     }
+
+    public ProductClass findById(long id) {
+        return database.stream().filter(i->i.getProduct().getProductId()==id).findFirst().get();
+    }
 }
