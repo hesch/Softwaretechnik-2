@@ -19,10 +19,9 @@ public class Address {
     private int id;
     private String street;
     private String number;
-    private String company;
     private String zipCode;
     private String city;
-    private String province;
+    private String state;
     private String country;
 
     public String toString() {
