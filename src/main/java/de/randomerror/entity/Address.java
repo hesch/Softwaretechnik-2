@@ -11,10 +11,9 @@ import lombok.Data;
 public class Address {
     private String Street;
     private String number;
-    private String company;
     private String zipCode;
     private String city;
-    private String province;
+    private String state;
     private String country;
 
     public String toString() {
