@@ -5,7 +5,7 @@ package de.randomerror.persistence.JDBC;
  */
 public class Config {
     public static final String
-            URL = "",
+            URL = "jdbc:sqlite:yukonDB.sqlite",
             DATABASE = "",
             USER = "",
             PASSWORD = "";
