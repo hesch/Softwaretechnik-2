@@ -94,6 +94,7 @@ public class SalesView implements View {
         nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
+
         tabbedPane1.addChangeListener(l -> {
             try {
                 while (true) {
@@ -102,6 +103,7 @@ public class SalesView implements View {
             } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
             controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
         });
+
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
             if (!selectionEvent.getValueIsAdjusting()) {
                 try {
@@ -148,7 +150,6 @@ public class SalesView implements View {
                 } else {
                     nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
                     clearCustomerDetails();
-
                 }
             }
 

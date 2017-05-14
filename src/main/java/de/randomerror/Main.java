@@ -43,7 +43,7 @@ public class Main {
                 p5 = new Product("Wecker", "Montags 8 Uhr, der Klinger weckelt!", 1400),
                 p6 = new Product("SD Karte", "Meine ist Kaputt! :(", 13400),
                 p7 = new Product("Space Shuttle", "Ist der Mond aus Käse?", 1333333742),
-                p8 = new Product("Minimammut", "Es ist flauschig und reguliert das Raumklima!", 7);
+                p8 = new Product("Minimammut", "Es ist flauschig und reguliert das Raumklima!", 700);
 
         productRepo.save(p1);
         productRepo.save(p2);

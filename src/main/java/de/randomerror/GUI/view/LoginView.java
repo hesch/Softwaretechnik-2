@@ -70,7 +70,7 @@ public class LoginView implements View {
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.WEST;
         frame.add(loginButton, constraints);
-
+        frame.getRootPane().setDefaultButton(loginButton);
         loginButton.setMnemonic('L');
         loginButton.addActionListener((event) -> {
             String username = nameField.getText();
