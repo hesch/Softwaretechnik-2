@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Data
 public class DeliveryHuman extends AbstractEntity {
-    private int id;
     private String name;
     private Address address;
     private String email;
@@ -21,7 +20,6 @@ public class DeliveryHuman extends AbstractEntity {
     public DeliveryHuman() {
         super("vk_delivery_human");
 
-        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
         addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
         addAttribute("email", (v) -> setEmail((String)v), this::getEmail, SqlType.TEXT);
         addAttribute("phoneNumber", (v) -> setPhoneNumber((String)v), this::getPhoneNumber, SqlType.TEXT);
@@ -29,7 +27,7 @@ public class DeliveryHuman extends AbstractEntity {
 
     public DeliveryHuman(int id, String name, Address address, String email, String phoneNumber) {
         this();
-        this.id = id;
+        setId(id);
         this.name = name;
         this.address = address;
         this.email = email;

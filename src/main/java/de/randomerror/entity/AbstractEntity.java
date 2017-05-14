@@ -4,6 +4,8 @@ import de.randomerror.persistence.JDBC.Attribute;
 import de.randomerror.persistence.JDBC.Constraint;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.SqlType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -20,8 +22,13 @@ public abstract class AbstractEntity {
 
     private String entityName;
 
+    @Getter
+    @Setter
+    private int id;
+
     public AbstractEntity(String entityName) {
         this.entityName = entityName;
+        addAttribute("id", (id) -> this.setId((Integer)id), this::getId,SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
     }
 
     protected void addAttribute(String name, Consumer setter, Supplier getter, SqlType type, Constraint... constraints) {

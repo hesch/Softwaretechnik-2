@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * Created by henri on 13.05.17.
  */
 @Provided
-public class AddressRepo {
+public class AddressRepo extends Repository<Address> {
     public JDBCConnector connector;
     private Entity entity;
 

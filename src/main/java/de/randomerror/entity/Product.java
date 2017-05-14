@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Data
 public class Product extends AbstractEntity {
-    private int id;
     private String name;
     private String description;
     private int price;
@@ -24,7 +23,6 @@ public class Product extends AbstractEntity {
     public Product() {
         super("yk_product");
 
-        addAttribute("id", (v) -> setId((Integer) v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
         addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
         addAttribute("description", (v) -> setDescription((String) v), this::getDescription, SqlType.TEXT);
         addAttribute("price", (v) -> setPrice((Integer) v), this::getPrice, SqlType.INT);
@@ -32,7 +30,7 @@ public class Product extends AbstractEntity {
 
     public Product(int id, String name, String description, int price) {
         this();
-        this.id = id;
+        setId(id);
         this.name = name;
         this.description = description;
         this.price = price;

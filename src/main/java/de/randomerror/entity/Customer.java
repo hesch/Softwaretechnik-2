@@ -16,16 +16,14 @@ public class Customer extends AbstractEntity {
     private Address address;
     private String email;
     private String phoneNumber;
-    private int id;
 
     public Customer() {
         super("yk_customer");
 
-        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
         addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
         addAttribute("email", (v) -> setEmail((String)v), this::getEmail, SqlType.TEXT);
         addAttribute("phoneNumber", (v) -> setPhoneNumber((String)v), this::getPhoneNumber, SqlType.TEXT);
-
+        addAttribute("address", (v) -> setAddress((Address)v), this::getAddress, SqlType.INT, Constraint.FOREIGN_KEY);
     }
 
     public Customer(String name, Address address, String email, String phoneNumber, int id) {
@@ -34,7 +32,13 @@ public class Customer extends AbstractEntity {
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.id = id;
+        setId(id);
+    }
+
+    public Customer(Entity entity) {
+        this();
+
+        fromEntity(entity);
     }
 
     static {

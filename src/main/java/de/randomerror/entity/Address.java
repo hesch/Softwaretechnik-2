@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Data
 public class Address extends AbstractEntity {
-    private int id;
     private String street;
     private String number;
     private String zipCode;
@@ -27,7 +26,6 @@ public class Address extends AbstractEntity {
     public Address() {
         super("yk_address");
 
-        addAttribute("id", (id) -> this.setId((Integer)id), this::getId,SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
         addAttribute("street", (v) -> setStreet((String)v), this::getStreet, SqlType.TEXT);
         addAttribute("number", (v) -> setNumber((String)v), this::getNumber, SqlType.TEXT);
         addAttribute("zipCode", (v) -> setZipCode((String)v), this::getZipCode, SqlType.TEXT);
@@ -44,7 +42,7 @@ public class Address extends AbstractEntity {
 
     public Address(int id, String street, String number, String zipCode, String city, String state, String country) {
         this();
-        this.id = id;
+        setId(id);
         this.street = street;
         this.number = number;
         this.zipCode = zipCode;

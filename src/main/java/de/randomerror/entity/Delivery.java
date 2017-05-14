@@ -12,14 +12,13 @@ import java.util.List;
  */
 @Data
 public class Delivery extends AbstractEntity {
-    private int id;
     private String deliveryId;
     private List<DeliveryItem> items;
     private DeliveryHuman human;
 
     public Delivery(int id, String deliveryId, List<DeliveryItem> items, DeliveryHuman human) {
         this();
-        this.id = id;
+        setId(id);
         this.deliveryId = deliveryId;
         this.items = items;
         this.human = human;
@@ -28,7 +27,6 @@ public class Delivery extends AbstractEntity {
     public Delivery() {
         super("vk_delivery");
 
-        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
         addAttribute("deliveryId", (v) -> setDeliveryId((String)v), this::getDeliveryId, SqlType.TEXT);
     }
 

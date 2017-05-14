@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Data
 public class OrderItem extends AbstractEntity {
-    private int id;
     private int number;
     private Product product;
 
@@ -23,13 +22,12 @@ public class OrderItem extends AbstractEntity {
     public OrderItem() {
         super("yk_order_item");
 
-        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
         addAttribute("number", (v) -> setNumber((Integer)v), this::getNumber, SqlType.INT);
     }
 
     public OrderItem(int id, int number, Product product) {
         this();
-        this.id = id;
+        setId(id);
         this.number = number;
         this.product = product;
     }

@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Data
 public class User extends AbstractEntity {
-    int id;
     String login;
     String password;
     Role role;
@@ -20,14 +19,13 @@ public class User extends AbstractEntity {
     public User() {
         super("yk_user");
 
-        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
         addAttribute("login", (v) -> setLogin((String)v), this::getLogin, SqlType.TEXT);
         addAttribute("password", (v) -> setPassword((String)v), this::getPassword, SqlType.TEXT);
     }
 
     public User(int id, String login, String password, Role role) {
         this();
-        this.id = id;
+        setId(id);
         this.login = login;
         this.password = password;
         this.role = role;

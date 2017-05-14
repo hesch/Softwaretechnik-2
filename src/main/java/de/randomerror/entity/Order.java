@@ -12,10 +12,6 @@ import java.util.List;
  */
 @Data
 public class Order extends AbstractEntity {
-    private int id;
-    private Address deliveryAddress;
-    private Address invoiceAddress;
-
     private List<OrderItem> items;
 
     private Customer customer;
@@ -24,11 +20,9 @@ public class Order extends AbstractEntity {
         return items.stream().mapToDouble(OrderItem::getTotal).sum();
     }
 
-    public Order(int id, Address deliveryAddress, Address invoiceAddress, List<OrderItem> items, Customer customer) {
+    public Order(int id, List<OrderItem> items, Customer customer) {
         this();
-        this.id = id;
-        this.deliveryAddress = deliveryAddress;
-        this.invoiceAddress = invoiceAddress;
+        setId(id);
         this.items = items;
         this.customer = customer;
     }
@@ -37,8 +31,13 @@ public class Order extends AbstractEntity {
 
         super("yk_order");
 
-        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("customer", (v) -> setCustomer((Customer) v), this::getCustomer, SqlType.INT, Constraint.FOREIGN_KEY);
+    }
 
+    public Order(Entity entity) {
+        this();
+
+        fromEntity(entity);
     }
 
     static {
