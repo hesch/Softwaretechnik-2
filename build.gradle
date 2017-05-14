@@ -1,8 +1,9 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'eclipse'
 
-mainClassName = "de.randomerror.util.Injector"
+mainClassName = "de.randomerror.Main"
 
 // In this section you declare where to find the dependencies of your project
 repositories {
