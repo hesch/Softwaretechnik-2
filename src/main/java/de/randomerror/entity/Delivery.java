@@ -16,9 +16,8 @@ public class Delivery extends AbstractEntity {
     private List<DeliveryItem> items;
     private DeliveryHuman human;
 
-    public Delivery(int id, String deliveryId, List<DeliveryItem> items, DeliveryHuman human) {
+    public Delivery(String deliveryId, List<DeliveryItem> items, DeliveryHuman human) {
         this();
-        setId(id);
         this.deliveryId = deliveryId;
         this.items = items;
         this.human = human;

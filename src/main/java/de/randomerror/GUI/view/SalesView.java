@@ -178,7 +178,7 @@ public class SalesView implements View {
                 List<OrderItem> orderItems = new LinkedList<OrderItem>();
                 int c = nOrderItemModel.getRowCount();
                 for (int i = 0; i <= c - 1; i++) {
-                    orderItems.add(new OrderItem(0, Integer.valueOf(nOrderItemsTable.getValueAt(i, 4) + ""), controller.getProductClassById(Integer.valueOf(nOrderItemsTable.getValueAt(i, 0) + "")).getProduct()));
+                    orderItems.add(new OrderItem(Integer.valueOf(nOrderItemsTable.getValueAt(i, 4) + ""), controller.getProductClassById(Integer.valueOf(nOrderItemsTable.getValueAt(i, 0) + "")).getProduct()));
                 }
                 controller.saveNewOrder(Integer.valueOf(nCustomerIdField.getText()), orderItems);
             }

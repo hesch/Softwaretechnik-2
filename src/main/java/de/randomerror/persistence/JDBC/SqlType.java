@@ -5,8 +5,8 @@ package de.randomerror.persistence.JDBC;
  */
 public enum SqlType {
     TEXT,
-    INT,
+    INTEGER,
     LONG,
     REAL,
-    BLOB,
+    BLOB;
 }

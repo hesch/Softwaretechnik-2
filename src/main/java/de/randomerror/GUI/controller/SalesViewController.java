@@ -5,6 +5,7 @@ import de.randomerror.entity.Order;
 import de.randomerror.entity.OrderItem;
 import de.randomerror.entity.ProductClass;
 import de.randomerror.persistence.CustomerRepo;
+import de.randomerror.persistence.OrderItemRepo;
 import de.randomerror.persistence.OrderRepo;
 import de.randomerror.persistence.ProductClassRepo;
 import de.randomerror.util.Provided;
@@ -22,6 +23,7 @@ public class SalesViewController {
     public OrderRepo orderRepo;
     public CustomerRepo customerRepo;
     public ProductClassRepo productClassRepo;
+    public OrderItemRepo orderItemRepo;
 
     public Order getOrderById(int id) {
         return orderRepo.findById(id).get();
@@ -36,7 +38,13 @@ public class SalesViewController {
     }
 
     public void saveNewOrder(int customerId, List<OrderItem> orderItems){
+        Order o = new Order();
+        Customer c = customerRepo.findById(customerId).get();
+        o.setCustomer(c);
 
+        orderRepo.save(o);
+        o.setItems(orderItems);
+        orderItems.forEach(orderItem -> orderItemRepo.save(orderItem));
     }
 
     public List<ProductClass> getInventory() {
@@ -44,6 +52,6 @@ public class SalesViewController {
     }
 
     public ProductClass getProductClassById(long id) {
-        return productClassRepo.findById(id);
+        return productClassRepo.findById(id).get();
     }
 }

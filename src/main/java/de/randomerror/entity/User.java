@@ -23,9 +23,8 @@ public class User extends AbstractEntity {
         addAttribute("password", (v) -> setPassword((String)v), this::getPassword, SqlType.TEXT);
     }
 
-    public User(int id, String login, String password, Role role) {
+    public User(String login, String password, Role role) {
         this();
-        setId(id);
         this.login = login;
         this.password = password;
         this.role = role;

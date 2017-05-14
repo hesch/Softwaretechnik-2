@@ -21,7 +21,7 @@ public class AddressRepo extends Repository<Address> {
         entity = JDBCConnector.getEntity(Address.class);
     }
 
-    public Optional<Address> findById(int id) {
+    public Optional<Address> findById(long id) {
         return connector.loadEntity(entity, id).map(Address::new);
     }
 
@@ -30,7 +30,8 @@ public class AddressRepo extends Repository<Address> {
     }
 
     public void save(Address address) {
-        connector.insertEntity(address.toEntity());
+        long id = connector.insertEntity(address.toEntity());
+        address.setId(id);
     }
 
     public void update(Address address) {connector.updateEntity(address.toEntity(), address.getId());}

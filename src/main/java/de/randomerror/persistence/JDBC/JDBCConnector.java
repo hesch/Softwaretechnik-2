@@ -3,7 +3,6 @@ package de.randomerror.persistence.JDBC;
 import de.randomerror.util.Provided;
 import lombok.Getter;
 
-import javax.swing.text.html.Option;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,8 +88,11 @@ public class JDBCConnector {
                     case TEXT:
                         s.setString(index + 1, (String) attribute.getData());
                         break;
-                    case INT:
-                        s.setInt(index + 1, (Integer)attribute.getData());
+                    case INTEGER:
+                        if(attribute.getData() instanceof Integer)
+                            s.setInt(index + 1, (Integer) attribute.getData());
+                        else if(attribute.getData() instanceof Long)
+                            s.setLong(index+1, (Long) attribute.getData());
                         break;
                     case REAL:
                         s.setFloat(index + 1, (Integer)attribute.getData());
@@ -117,27 +119,35 @@ public class JDBCConnector {
         }
     }
 
-    public void insertEntity(Entity entity) {
+    public long insertEntity(Entity entity) {
+        long id = -1;
+
         try {
+
+            List<Attribute> attributesWithoutId = entity.getAttributes().stream().filter(attribute -> !attribute.getName().equals("id")).collect(Collectors.toList());
+
             String sql = "INSERT INTO " + entity.getName() + " (";
-            sql += entity.getAttributes().stream().map(Attribute::getName).collect(Collectors.joining(", "));
+            sql += attributesWithoutId.stream().map(Attribute::getName).collect(Collectors.joining(", "));
             sql += ") VALUES (";
-            sql += entity.getAttributes().stream()
+            sql += attributesWithoutId.stream()
                     .map(attribute -> "?")
                     .collect(Collectors.joining(", "));
             sql += ");";
 
-            PreparedStatement s = connection.prepareStatement(sql);
+            PreparedStatement s = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            IntStream.range(0, entity.getAttributes().size()).forEach(index -> {
+            IntStream.range(0, attributesWithoutId.size()).forEach(index -> {
                 try {
-                    Attribute attribute = entity.getAttributes().get(index);
+                    Attribute attribute = attributesWithoutId.get(index);
                     switch(attribute.getSqlType()) {
                         case TEXT:
                             s.setString(index + 1, (String) attribute.getData());
                             break;
-                        case INT:
-                            s.setInt(index + 1, (Integer)attribute.getData());
+                        case INTEGER:
+                            if(attribute.getData() instanceof Integer)
+                                s.setInt(index + 1, (Integer) attribute.getData());
+                            else if(attribute.getData() instanceof Long)
+                                s.setLong(index+1, (Long) attribute.getData());
                             break;
                         case REAL:
                             s.setFloat(index + 1, (Float) attribute.getData());
@@ -155,17 +165,22 @@ public class JDBCConnector {
             });
 
             s.execute();
+            ResultSet res = s.getGeneratedKeys();
+            if (res.next())
+                id = res.getLong(1);
             s.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return id;
     }
 
-    public Optional<Entity> loadEntity(Entity entity, int id) {
+    public Optional<Entity> loadEntity(Entity entity, long id) {
         try {
             String sql = "SELECT * FROM " + entity.getName() + " WHERE id = ?;";
             PreparedStatement s = connection.prepareStatement(sql);
-            s.setInt(1, id);
+            s.setLong(1, id);
 
             ResultSet result = s.executeQuery();
 
@@ -176,7 +191,7 @@ public class JDBCConnector {
                     case TEXT:
                         attribute.setData(result.getString(index+1));
                         break;
-                    case INT:
+                    case INTEGER:
                         attribute.setData(result.getInt(index+1));
                         break;
                     case REAL:
@@ -198,7 +213,7 @@ public class JDBCConnector {
             s.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Entity with id: " + id + " not found in table " + entity.getName());
             return Optional.empty();
         }
 
@@ -223,7 +238,7 @@ public class JDBCConnector {
                             case TEXT:
                                 attribute.setData(result.getString(index + 1));
                                 break;
-                            case INT:
+                            case INTEGER:
                                 attribute.setData(result.getInt(index + 1));
                                 break;
                             case REAL:

@@ -1,28 +1,50 @@
 package de.randomerror.persistence;
 
 import de.randomerror.entity.Delivery;
+import de.randomerror.entity.Product;
 import de.randomerror.entity.ProductClass;
+import de.randomerror.persistence.JDBC.Entity;
+import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by henri on 08.05.17.
  */
 @Provided
-public class ProductClassRepo {
-    private List<ProductClass> database = new LinkedList<>();
+public class ProductClassRepo extends Repository<ProductClass> {
+    public ProductRepo productRepo;
+
+    public JDBCConnector connector;
+    private Entity entity;
+
+    public ProductClassRepo() {
+        entity = JDBCConnector.getEntity(ProductClass.class);
+    }
+
+    public Optional<ProductClass> findById(long id) {
+        return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(ProductClass::new);
+    }
 
     public List<ProductClass> findAll() {
-        return database;
+        return connector.loadAllEntities(entity).stream().map(this::dbEntityToObjectEntity).map(ProductClass::new).collect(Collectors.toList());
     }
 
-    public void save(ProductClass d) {
-        database.add(d);
+    public void save(ProductClass order) {
+        long id = connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
+        order.setId(id);
     }
 
-    public ProductClass findById(long id) {
-        return database.stream().filter(i->i.getProduct().getId()==id).findFirst().get();
+    @Override
+    public void update(ProductClass object) {
+        connector.updateEntity(objectEntityToDbEntity(object.toEntity()), object.getId());
+    }
+
+    public void onInit() {
+        mappedAttributes.put("product", productRepo);
     }
 }

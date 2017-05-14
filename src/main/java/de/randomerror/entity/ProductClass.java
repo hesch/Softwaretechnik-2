@@ -1,11 +1,7 @@
 package de.randomerror.entity;
 
 import de.randomerror.persistence.JDBC.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Henri on 02.05.17.
@@ -18,14 +14,20 @@ public class ProductClass extends AbstractEntity{
     public ProductClass() {
         super("yk_product_class");
 
-        addAttribute("stock", (v) -> setStock((Integer)v), this::getStock, SqlType.INT);
+        addAttribute("stock", (v) -> setStock((Integer)v), this::getStock, SqlType.INTEGER);
+        addAttribute("product", (v) -> setProduct((Product) v), this::getProduct, SqlType.INTEGER, Constraint.FOREIGN_KEY);
     }
 
-    public ProductClass(int id, Product product, int stock) {
+    public ProductClass(Product product, int stock) {
         this();
-        setId(id);
         this.product = product;
         this.stock = stock;
+    }
+
+    public ProductClass(Entity e) {
+        this();
+
+        fromEntity(e);
     }
 
     static {

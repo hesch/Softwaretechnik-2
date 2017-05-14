@@ -24,11 +24,11 @@ public abstract class AbstractEntity {
 
     @Getter
     @Setter
-    private int id;
+    private long id;
 
     public AbstractEntity(String entityName) {
         this.entityName = entityName;
-        addAttribute("id", (id) -> this.setId((Integer)id), this::getId,SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("id", (id) -> this.setId((Integer)id), this::getId,SqlType.INTEGER, Constraint.NOT_NULL, Constraint.PRIMARY_KEY, Constraint.AUTOINCREMENT);
     }
 
     protected void addAttribute(String name, Consumer setter, Supplier getter, SqlType type, Constraint... constraints) {

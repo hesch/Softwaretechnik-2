@@ -27,7 +27,7 @@ public class OrderRepo extends Repository<Order> {
         entity = JDBCConnector.getEntity(Order.class);
     }
 
-    public Optional<Order> findById(int id) {
+    public Optional<Order> findById(long id) {
         return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(this::mapEntity);
     }
 
@@ -46,7 +46,9 @@ public class OrderRepo extends Repository<Order> {
     }
 
     public void save(Order order) {
-        connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
+
+        long id = connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
+        order.setId(id);
     }
 
     @Override

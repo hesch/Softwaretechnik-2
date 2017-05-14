@@ -1,10 +1,8 @@
 package de.randomerror.entity;
 
 import de.randomerror.persistence.JDBC.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,9 +23,8 @@ public class Order extends AbstractEntity {
         this.items = orderItems;
     }
 
-    public Order(int id, List<OrderItem> items, Customer customer) {
+    public Order(List<OrderItem> items, Customer customer) {
         this();
-        setId(id);
         this.items = items;
         this.customer = customer;
     }
@@ -36,7 +33,7 @@ public class Order extends AbstractEntity {
 
         super("yk_order");
 
-        addAttribute("customer", (v) -> setCustomer((Customer) v), this::getCustomer, SqlType.INT, Constraint.FOREIGN_KEY);
+        addAttribute("customer", (v) -> setCustomer((Customer) v), this::getCustomer, SqlType.INTEGER, Constraint.FOREIGN_KEY);
     }
 
     public Order(Entity entity) {

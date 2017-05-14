@@ -40,9 +40,8 @@ public class Address extends AbstractEntity {
         this.fromEntity(e);
     }
 
-    public Address(int id, String street, String number, String zipCode, String city, String state, String country) {
+    public Address(String street, String number, String zipCode, String city, String state, String country) {
         this();
-        setId(id);
         this.street = street;
         this.number = number;
         this.zipCode = zipCode;

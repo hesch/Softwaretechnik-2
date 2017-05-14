@@ -31,7 +31,7 @@ public abstract class Repository<T extends AbstractEntity> {
     protected Entity objectEntityToDbEntity(Entity e) {
         mappedAttributes.keySet().forEach(name -> {
             Attribute a = e.getMatchingAttribute(name);
-            mappedAttributes.get(name).save((AbstractEntity) a.getData());
+            mappedAttributes.get(name).saveOrUpdate((AbstractEntity) a.getData());
             mapToId(a);
         });
         return e;
@@ -44,7 +44,7 @@ public abstract class Repository<T extends AbstractEntity> {
         return entity;
     }
 
-    public abstract Optional<T> findById(int id);
+    public abstract Optional<T> findById(long id);
     public abstract void save(T object);
     public abstract void update(T object);
 

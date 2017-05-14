@@ -25,9 +25,8 @@ public class DeliveryHuman extends AbstractEntity {
         addAttribute("phoneNumber", (v) -> setPhoneNumber((String)v), this::getPhoneNumber, SqlType.TEXT);
     }
 
-    public DeliveryHuman(int id, String name, Address address, String email, String phoneNumber) {
+    public DeliveryHuman(String name, Address address, String email, String phoneNumber) {
         this();
-        setId(id);
         this.name = name;
         this.address = address;
         this.email = email;

@@ -24,7 +24,7 @@ public class CustomerRepo extends Repository<Customer> {
         entity = JDBCConnector.getEntity(Customer.class);
     }
 
-    public Optional<Customer> findById(int id) {
+    public Optional<Customer> findById(long id) {
         return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(Customer::new);
     }
 
@@ -33,7 +33,9 @@ public class CustomerRepo extends Repository<Customer> {
     }
 
     public void save(Customer customer) {
-        connector.insertEntity(objectEntityToDbEntity(customer.toEntity()));
+
+        long id = connector.insertEntity(objectEntityToDbEntity(customer.toEntity()));
+        customer.setId(id);
     }
 
     @Override

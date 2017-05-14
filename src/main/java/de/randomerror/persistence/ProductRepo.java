@@ -26,7 +26,7 @@ public class ProductRepo extends Repository<Product> {
         entity = JDBCConnector.getEntity(Product.class);
     }
 
-    public Optional<Product> findById(int id) {
+    public Optional<Product> findById(long id) {
         return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(Product::new);
     }
 
@@ -35,7 +35,8 @@ public class ProductRepo extends Repository<Product> {
     }
 
     public void save(Product order) {
-        connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
+        long id = connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
+        order.setId(id);
     }
 
     @Override

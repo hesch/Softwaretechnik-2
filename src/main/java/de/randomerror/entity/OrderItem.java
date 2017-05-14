@@ -1,11 +1,7 @@
 package de.randomerror.entity;
 
 import de.randomerror.persistence.JDBC.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Henri on 02.05.17.
@@ -14,7 +10,7 @@ import java.util.List;
 public class OrderItem extends AbstractEntity {
     private int number;
     private Product product;
-    private int orderId;
+    private long orderId;
 
     public double getTotal(){
         return number*product.getPrice()/100;
@@ -23,14 +19,13 @@ public class OrderItem extends AbstractEntity {
     public OrderItem() {
         super("yk_order_item");
 
-        addAttribute("number", (v) -> setNumber((Integer)v), this::getNumber, SqlType.INT);
-        addAttribute("product", (v) -> setProduct((Product) v), this::getProduct, SqlType.INT, Constraint.FOREIGN_KEY);
-        addAttribute("order_id", (v) -> setOrderId((Integer) v), this::getOrderId, SqlType.INT, Constraint.FOREIGN_KEY);
+        addAttribute("number", (v) -> setNumber((Integer)v), this::getNumber, SqlType.INTEGER);
+        addAttribute("product", (v) -> setProduct((Product) v), this::getProduct, SqlType.INTEGER, Constraint.FOREIGN_KEY);
+        addAttribute("order_id", (v) -> setOrderId((Integer) v), this::getOrderId, SqlType.INTEGER, Constraint.FOREIGN_KEY);
     }
 
-    public OrderItem(int id, int number, Product product) {
+    public OrderItem(int number, Product product) {
         this();
-        setId(id);
         this.number = number;
         this.product = product;
     }
