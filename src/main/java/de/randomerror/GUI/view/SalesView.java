@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 /**
  * Created by henri on 08.05.17.
  */
+
 @Provided
 public class SalesView implements View {
 
@@ -133,7 +134,6 @@ public class SalesView implements View {
 
                 }
             }
-
             private void clearCustomerDetails() {
                 nPhoneField.setText("");
                 nAdressStreetField.setText("");
@@ -160,16 +160,14 @@ public class SalesView implements View {
                         nOrderItemsTable.setValueAt(Integer.valueOf(nOrderItemsTable.getValueAt(i - 1, 4) + "") + Integer.valueOf(nQuantitySpinner.getValue() + ""), i - 1, 4);
                         nOrderItemsTable.setValueAt(Double.valueOf(nOrderItemsTable.getValueAt(i - 1, 4) + "") * Double.valueOf(nOrderItemsTable.getValueAt(i - 1, 3) + ""), i - 1, 5);
                     } else {
-                        nOrderItemModel.addRow(new String[]{p.getId() + "",
-                                p.getProduct().getName(),
-                                p.getProduct().getDescription(),
-                                p.getProduct().getDoublePrice() + "",
-                                nQuantitySpinner.getValue() + "",
-                                Integer.valueOf(nQuantitySpinner.getValue() + "") * p.getProduct().getDoublePrice() + ""});
+                        nOrderItemModel.addRow(new String[]{p.getId() + "", p.getProduct().getName(), p.getProduct().getDescription(), p.getProduct().getDoublePrice() + "", nQuantitySpinner.getValue() + "", Integer.valueOf(nQuantitySpinner.getValue() + "") * p.getProduct().getDoublePrice() + ""});
                     }
                 }
             }
             nTotalPriceField.setText(IntStream.range(0, nOrderItemModel.getRowCount()).mapToDouble(i -> Double.valueOf(nOrderItemsTable.getValueAt(i, 5) + "")).sum() + "");
+        });
+        nSaveButton.addActionListener(saveEvent->{
+//            controller.saveNewOrder();
         });
         frame.add(salespanel);
     }
