@@ -94,11 +94,13 @@ public class SalesView implements View {
         nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
+
         tabbedPane1.addChangeListener(l -> {
             orderModel = new DefaultTableModel(new String[]{"ID", "Address", "Kunde", "Gesamtpreis"}, 0);
             controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
             orderTable = new JTable(orderModel);
         });
+
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
             if (!selectionEvent.getValueIsAdjusting()) {
                 Order order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
@@ -139,7 +141,6 @@ public class SalesView implements View {
                 } else {
                     nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
                     clearCustomerDetails();
-
                 }
             }
 
