@@ -2,6 +2,7 @@ package de.randomerror.GUI.controller;
 
 import de.randomerror.entity.Customer;
 import de.randomerror.entity.Order;
+import de.randomerror.entity.OrderItem;
 import de.randomerror.entity.ProductClass;
 import de.randomerror.persistence.CustomerRepo;
 import de.randomerror.persistence.OrderRepo;
@@ -33,7 +34,8 @@ public class SalesViewController {
     public Optional<Customer> getCustomerById(long id) {
         return customerRepo.findById(id);
     }
-    public void saveNewOrder(long customerId){
+
+    public void saveNewOrder(long customerId, List<OrderItem> orderItems){
 
     }
 
