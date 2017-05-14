@@ -10,11 +10,11 @@ import de.randomerror.util.Provided;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * Created by henri on 08.05.17.
@@ -51,7 +51,7 @@ public class SalesView implements View {
     private JTextField nAdressCityField;
     private JTextField nAdressStreetField;
     private JTable nOrderItemsTable;
-    private JTextField nTotalPriceLabel;
+    private JTextField nTotalPriceField;
     private JButton nAbortButton;
     private JButton nSaveButton;
     private JPanel orderDetails;
@@ -82,12 +82,14 @@ public class SalesView implements View {
     private JTextField nAdressStateField;
     private JSplitPane orderSplitter;
     private JPanel newOrder;
+    private DefaultTableModel nOrderItemModel;
 
     public SalesView() {
         $$$setupUI$$$();
         nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
+
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
             if (!selectionEvent.getValueIsAdjusting()) {
                 Order order = controller.getOrderById(Long.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
@@ -98,48 +100,76 @@ public class SalesView implements View {
                 totalpriceField.setText(order.getTotal() + "");
                 orderItems.forEach(i -> orderItemModel.addRow(new String[]{i.getProduct().getId() + "", i.getProduct().getName(), i.getProduct().getDescription(), i.getProduct().getDoublePrice() + "", i.getNumber() + "", i.getTotal() + ""}));
             }
-            nInventoryTable.getSelectionModel().addListSelectionListener(inventorySelectionEvent -> {
-                if (!inventorySelectionEvent.getValueIsAdjusting()) {
-                    ProductClass pc = controller.getProductClassById(Long.valueOf(nInventoryTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
-                    nProduktIdField.setText(pc.getProduct().getProductId() + "");
-                }
-            });
-            nCustomerIdField.addFocusListener(new FocusListener() {
-                @Override
-                public void focusGained(FocusEvent e) {
-
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    if (!nCustomerIdField.getText().equals("")) {
-                        long id = Long.valueOf(nCustomerIdField.getText());
-                        Optional<Customer> optional = controller.getCustomerById(id);
-                        if (optional.isPresent()) {
-                            optional.ifPresent(customer -> {
-                                nCustomerField.setText(customer.getName());
-                                nPhoneField.setText(customer.getPhoneNumber());
-                                nAdressStreetField.setText(customer.getAddress().getStreet());
-                                nAdressCityField.setText(customer.getAddress().getCity());
-                                nAdressZipCodeField.setText(customer.getAddress().getZipCode());
-                                nAdressStateField.setText(customer.getAddress().getState());
-                                nAdressCountryField.setText(customer.getAddress().getCountry());
-                            });
-                        } else {
-                            nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
-                            nPhoneField.setText("");
-                            nAdressStreetField.setText("");
-                            nAdressCityField.setText("");
-                            nAdressZipCodeField.setText("");
-                            nAdressStateField.setText("");
-                            nAdressCountryField.setText("");
-                        }
+        });
+        nInventoryTable.getSelectionModel().addListSelectionListener(inventorySelectionEvent -> {
+            if (!inventorySelectionEvent.getValueIsAdjusting()) {
+                ProductClass pc = controller.getProductClassById(Long.valueOf(nInventoryTable.getValueAt(nInventoryTable.getSelectedRow(), 0).toString()));
+                nProduktIdField.setText(pc.getProduct().getId() + "");
+            }
+        });
+        nCustomerIdField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (!nCustomerIdField.getText().equals("")) {
+                    long id = Long.valueOf(nCustomerIdField.getText());
+                    Optional<Customer> optional = controller.getCustomerById(id);
+                    if (optional.isPresent()) {
+                        optional.ifPresent(customer -> {
+                            nCustomerField.setText(customer.getName());
+                            nPhoneField.setText(customer.getPhoneNumber());
+                            nAdressStreetField.setText(customer.getAddress().getStreet());
+                            nAdressCityField.setText(customer.getAddress().getCity());
+                            nAdressZipCodeField.setText(customer.getAddress().getZipCode());
+                            nAdressStateField.setText(customer.getAddress().getState());
+                            nAdressCountryField.setText(customer.getAddress().getCountry());
+                        });
                     } else {
-                        nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
+                        nCustomerField.setText("unbekannte Kundennummer");
+                        clearCustomerDetails();
+                    }
+                } else {
+                    nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
+                    clearCustomerDetails();
 
+                }
+            }
+
+            private void clearCustomerDetails() {
+                nPhoneField.setText("");
+                nAdressStreetField.setText("");
+                nAdressCityField.setText("");
+                nAdressZipCodeField.setText("");
+                nAdressStateField.setText("");
+                nAdressCountryField.setText("");
+            }
+        });
+        nAddButton.addActionListener(addEvent -> {
+            if (!nProduktIdField.getText().equals("")) {
+                if (Integer.valueOf(nQuantitySpinner.getValue() + "") != 0) {
+                    int pid = Integer.valueOf(nProduktIdField.getText());
+                    ProductClass p = controller.getProductClassById(pid);
+                    int c = nOrderItemModel.getRowCount();
+                    boolean contains = false;
+                    int i;
+                    for (i = 0; i <= c - 1; i++) {
+                        if (nOrderItemsTable.getValueAt(i, 0).equals(pid + "")) {
+                            contains = true;
+                        }
+                    }
+                    if (contains) {
+                        nOrderItemsTable.setValueAt(Integer.valueOf(nOrderItemsTable.getValueAt(i - 1, 4) + "") + Integer.valueOf(nQuantitySpinner.getValue() + ""), i - 1, 4);
+                        nOrderItemsTable.setValueAt(Double.valueOf(nOrderItemsTable.getValueAt(i - 1, 4) + "") * Double.valueOf(nOrderItemsTable.getValueAt(i - 1, 3) + ""), i - 1, 5);
+                    } else {
+                        nOrderItemModel.addRow(new String[]{p.getId() + "",
+                                p.getProduct().getName(),
+                                p.getProduct().getDescription(),
+                                p.getProduct().getDoublePrice() + "",
+                                nQuantitySpinner.getValue() + "",
+                                Integer.valueOf(nQuantitySpinner.getValue() + "") * p.getProduct().getDoublePrice() + ""});
                     }
                 }
-            });
+            }
+            nTotalPriceField.setText(IntStream.range(0, nOrderItemModel.getRowCount()).mapToDouble(i -> Double.valueOf(nOrderItemsTable.getValueAt(i, 5) + "")).sum() + "");
         });
         frame.add(salespanel);
     }
@@ -147,7 +177,7 @@ public class SalesView implements View {
     @Override
     public void show() {
         controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getDeliveryAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
-        controller.getInventory().forEach(productClass -> inventoryModel.addRow(new String[]{productClass.getProduct().getProductId() + "", productClass.getProduct().getName(), productClass.getProduct().getDescription(), productClass.getProduct().getDoublePrice() + "", productClass.getStock() + ""}));
+        controller.getInventory().forEach(productClass -> inventoryModel.addRow(new String[]{productClass.getProduct().getId() + "", productClass.getProduct().getName(), productClass.getProduct().getDescription(), productClass.getProduct().getDoublePrice() + "", productClass.getStock() + ""}));
         frame.setVisible(true);
     }
 
@@ -160,10 +190,11 @@ public class SalesView implements View {
         orderModel = new DefaultTableModel(new String[]{"ID", "Address", "Kunde", "Gesamtpreis"}, 0);
         orderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);
         inventoryModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Bestand"}, 0);
-
+        nOrderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);
         orderTable = new JTable(orderModel);
         orderItemTable = new JTable(orderItemModel);
         nInventoryTable = new JTable(inventoryModel);
+        nOrderItemsTable = new JTable(nOrderItemModel);
 
     }
 
@@ -298,14 +329,15 @@ public class SalesView implements View {
         nOrderItemsContainer = new JPanel();
         nOrderItemsContainer.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         nOrderContainerSplitter.setRightComponent(nOrderItemsContainer);
-        nOrderItemsTable = new JTable();
-        nOrderItemsContainer.add(nOrderItemsTable, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         nTotalpriceLabel = new JLabel();
         nTotalpriceLabel.setText("Summe");
         nOrderItemsContainer.add(nTotalpriceLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        nTotalPriceLabel = new JTextField();
-        nTotalPriceLabel.setEditable(false);
-        nOrderItemsContainer.add(nTotalPriceLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        nTotalPriceField = new JTextField();
+        nTotalPriceField.setEditable(false);
+        nOrderItemsContainer.add(nTotalPriceField, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JScrollPane scrollPane2 = new JScrollPane();
+        nOrderItemsContainer.add(scrollPane2, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane2.setViewportView(nOrderItemsTable);
         nInventoryContainer = new JPanel();
         nInventoryContainer.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 5, new Insets(0, 0, 0, 0), -1, -1));
         nOrderContainerSplitter.setLeftComponent(nInventoryContainer);
@@ -322,9 +354,9 @@ public class SalesView implements View {
         nAddButton = new JButton();
         nAddButton.setText("hinzufügen");
         nInventoryContainer.add(nAddButton, new com.intellij.uiDesigner.core.GridConstraints(0, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JScrollPane scrollPane2 = new JScrollPane();
-        nInventoryContainer.add(scrollPane2, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 5, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        scrollPane2.setViewportView(nInventoryTable);
+        final JScrollPane scrollPane3 = new JScrollPane();
+        nInventoryContainer.add(scrollPane3, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 5, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane3.setViewportView(nInventoryTable);
     }
 
     /**
