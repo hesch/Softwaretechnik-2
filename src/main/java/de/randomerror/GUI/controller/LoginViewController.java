@@ -1,5 +1,6 @@
 package de.randomerror.GUI.controller;
 
+import de.randomerror.GUI.view.DeliveryView;
 import de.randomerror.GUI.view.SalesView;
 import de.randomerror.GUI.view.WarehouseView;
 import de.randomerror.services.LoginService;
@@ -10,8 +11,9 @@ import de.randomerror.util.Provided;
  */
 @Provided
 public class LoginViewController {
-    public WarehouseView warehouseView;
-    public SalesView salesView;
+    private WarehouseView warehouseView;
+    private SalesView salesView;
+    private DeliveryView deliveryView;
 
     public LoginService loginService;
 
@@ -22,7 +24,7 @@ public class LoginViewController {
     public void transitionToNextView() {
         switch (loginService.getCurrentUser().getRole()) {
             case SUPPLY_HUMAN:
-//                supplyView.show();
+//                deliveryView.show();
                 break;
             case SALES_HUMAN:
                 salesView.show();
