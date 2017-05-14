@@ -140,8 +140,23 @@ public class Main {
                 "Milky Way",
                 "Irgendwas mit Supercluster",
                 "Universe"));
+        addressRepo.findById(1);
 
-        //addressRepo.findById(1);
+        addressRepo.save(new Address(2, "asdf",
+                "4465",
+                "13371",
+                "Milky Way",
+                "Irgendwas mit Supercluster",
+                "Universe"));
+
+        addressRepo.save(new Address(3, "stasse",
+                "123",
+                "131437",
+                "Milky Way",
+                "Irgendwas mit Supercluster",
+                "Universe"));
+
+        List<Address> addresses = addressRepo.findAll();
 
         System.out.println("testdata initialized");
     }

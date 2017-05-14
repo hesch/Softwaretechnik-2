@@ -11,8 +11,7 @@ import java.util.List;
  * Created by Henri on 02.05.17.
  */
 @Data
-@AllArgsConstructor
-public class OrderItem {
+public class OrderItem extends AbstractEntity {
     private int id;
     private int number;
     private Product product;
@@ -20,15 +19,22 @@ public class OrderItem {
     public double getTotal(){
         return number*product.getPrice()/100;
     }
+    
+    public OrderItem() {
+        super("yk_order_item");
+
+        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("number", (v) -> setNumber((Integer)v), this::getNumber, SqlType.INT);
+    }
+
+    public OrderItem(int id, int number, Product product) {
+        this();
+        this.id = id;
+        this.number = number;
+        this.product = product;
+    }
 
     static {
-        List<Attribute> attributes = new LinkedList<>();
-
-        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
-        attributes.add(new Attribute("number", SqlType.INT));
-
-        Entity e = new Entity(OrderItem.class, "yk_order_item", attributes);
-
-        JDBCConnector.registerEntity(OrderItem.class, e);
+        JDBCConnector.registerEntity(OrderItem.class, new OrderItem().toEntity());
     }
 }

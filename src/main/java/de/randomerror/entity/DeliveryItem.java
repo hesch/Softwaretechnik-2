@@ -11,22 +11,30 @@ import java.util.List;
  * Created by henri on 08.05.17.
  */
 @Data
-@AllArgsConstructor
-public class DeliveryItem {
+public class DeliveryItem extends AbstractEntity {
     private int id;
     private int number;
     private Product product;
     private int pricePerItem;
 
+    public DeliveryItem() {
+        super("yk_delivery_item");
+
+        addAttribute("id", (v) -> setId((Integer) v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("number", (v) -> setNumber((Integer) v), this::getNumber, SqlType.INT);
+        addAttribute("pricePerItem", (v) -> setPricePerItem((Integer)v), this::getPricePerItem, SqlType.INT);
+
+    }
+
+    public DeliveryItem(int id, int number, Product product, int pricePerItem) {
+        this();
+        this.id = id;
+        this.number = number;
+        this.product = product;
+        this.pricePerItem = pricePerItem;
+    }
+
     static {
-        List<Attribute> attributes = new LinkedList<>();
-
-        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
-        attributes.add(new Attribute("number", SqlType.INT));
-        attributes.add(new Attribute("pricePerItem", SqlType.INT));
-
-        Entity e = new Entity(DeliveryItem.class, "yk_delivery_item", attributes);
-
-        JDBCConnector.registerEntity(DeliveryItem.class, e);
+        JDBCConnector.registerEntity(DeliveryItem.class, new DeliveryItem().toEntity());
     }
 }

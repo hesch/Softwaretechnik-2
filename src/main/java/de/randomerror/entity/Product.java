@@ -11,8 +11,7 @@ import java.util.List;
  * Created by Henri on 02.05.17.
  */
 @Data
-@AllArgsConstructor
-public class Product {
+public class Product extends AbstractEntity {
     private int id;
     private String name;
     private String description;
@@ -22,16 +21,24 @@ public class Product {
         return price/100;
     }
 
+    public Product() {
+        super("yk_product");
+
+        addAttribute("id", (v) -> setId((Integer) v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
+        addAttribute("description", (v) -> setDescription((String) v), this::getDescription, SqlType.TEXT);
+        addAttribute("price", (v) -> setPrice((Integer) v), this::getPrice, SqlType.INT);
+    }
+
+    public Product(int id, String name, String description, int price) {
+        this();
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     static {
-        List<Attribute> attributes = new LinkedList<>();
-
-        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
-        attributes.add(new Attribute("name", SqlType.TEXT));
-        attributes.add(new Attribute("description", SqlType.TEXT));
-        attributes.add(new Attribute("price", SqlType.INT));
-
-        Entity e = new Entity(Product.class, "yk_product", attributes);
-
-        JDBCConnector.registerEntity(Product.class, e);
+        JDBCConnector.registerEntity(Product.class, new Product().toEntity());
     }
 }

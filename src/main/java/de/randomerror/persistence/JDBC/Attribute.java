@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,13 @@ public class Attribute {
     private SqlType sqlType;
     private List<Constraint> constraints;
     private Object data;
+
+    public Attribute(Attribute attribute) {
+        this.name = attribute.name;
+        this.sqlType = attribute.sqlType;
+        this.constraints = new LinkedList<>(attribute.constraints);
+        this.data = attribute.data;
+    }
 
     public Attribute(String name, SqlType type) {
         this.name = name;

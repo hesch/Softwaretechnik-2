@@ -11,24 +11,33 @@ import java.util.List;
  * Created by Henri on 02.05.17.
  */
 @Data
-@AllArgsConstructor
-public class Customer {
+public class Customer extends AbstractEntity {
     private String name;
     private Address address;
     private String email;
     private String phoneNumber;
     private int id;
 
+    public Customer() {
+        super("yk_customer");
+
+        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
+        addAttribute("email", (v) -> setEmail((String)v), this::getEmail, SqlType.TEXT);
+        addAttribute("phoneNumber", (v) -> setPhoneNumber((String)v), this::getPhoneNumber, SqlType.TEXT);
+
+    }
+
+    public Customer(String name, Address address, String email, String phoneNumber, int id) {
+        this();
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.id = id;
+    }
+
     static {
-        List<Attribute> attributes = new LinkedList<>();
-
-        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
-        attributes.add(new Attribute("name", SqlType.TEXT));
-        attributes.add(new Attribute("email", SqlType.TEXT));
-        attributes.add(new Attribute("phoneNumber", SqlType.TEXT));
-
-        Entity e = new Entity(Customer.class, "yk_customer", attributes);
-
-        JDBCConnector.registerEntity(Customer.class, e);
+        JDBCConnector.registerEntity(Customer.class, new Customer().toEntity());
     }
 }

@@ -205,4 +205,53 @@ public class JDBCConnector {
 
         return entity;
     }
+
+    public List<Entity> loadAllEntities(Entity entity) {
+        List<Entity> results = null;
+        try {
+            results = new LinkedList<>();
+            String sql = "SELECT * FROM " + entity.getName() + ";";
+            Statement s = connection.createStatement();
+            ResultSet result = s.executeQuery(sql);
+
+            while(result.next()) {
+                Entity current = new Entity(entity);
+
+                IntStream.range(0, entity.getAttributes().size()).forEach(index -> {
+                    try {
+                        Attribute attribute = current.getAttributes().get(index);
+                        switch (attribute.getSqlType()) {
+                            case TEXT:
+                                attribute.setData(result.getString(index + 1));
+                                break;
+                            case INT:
+                                attribute.setData(result.getInt(index + 1));
+                                break;
+                            case REAL:
+                                attribute.setData(result.getFloat(index + 1));
+                                break;
+                            case BLOB:
+                                System.out.println("not implemented!");
+                                break;
+                            default:
+                                System.out.println("Type Not Found!");
+                                return;
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                results.add(current);
+            }
+
+            s.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return results;
+    }
 }

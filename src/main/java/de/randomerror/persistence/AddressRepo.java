@@ -7,6 +7,7 @@ import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by henri on 13.05.17.
@@ -20,8 +21,12 @@ public class AddressRepo {
         entity = JDBCConnector.getEntity(Address.class);
     }
 
-    public Address findById(long id) {
-        return new Address(connector.loadEntity(entity, 0));
+    public Address findById(int id) {
+        return new Address(connector.loadEntity(entity, id));
+    }
+
+    public List<Address> findAll() {
+        return connector.loadAllEntities(entity).stream().map(Address::new).collect(Collectors.toList());
     }
 
     public void save(Address address) {

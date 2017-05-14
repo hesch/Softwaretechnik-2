@@ -3,10 +3,7 @@ package de.randomerror.entity;
 import de.randomerror.persistence.JDBC.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.w3c.dom.Attr;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,8 +11,7 @@ import java.util.List;
  * Created by Henri on 02.05.17.
  */
 @Data
-@AllArgsConstructor
-public class Address {
+public class Address extends AbstractEntity {
     private int id;
     private String street;
     private String number;
@@ -28,60 +24,36 @@ public class Address {
         return street + " " + number + ", " + zipCode + " " + city;
     }
 
-    public Address(Entity entity) {
-        this(
-                (Integer) entity.getMatchingAttribute("id").getData(),
-                (String) entity.getMatchingAttribute("street").getData(),
-                (String) entity.getMatchingAttribute("number").getData(),
-                (String) entity.getMatchingAttribute("zipCode").getData(),
-                (String) entity.getMatchingAttribute("city").getData(),
-                (String) entity.getMatchingAttribute("state").getData(),
-                (String) entity.getMatchingAttribute("country").getData()
-        );
+    public Address() {
+        super("yk_address");
+
+        addAttribute("id", (id) -> this.setId((Integer)id), this::getId,SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("street", (v) -> setStreet((String)v), this::getStreet, SqlType.TEXT);
+        addAttribute("number", (v) -> setNumber((String)v), this::getNumber, SqlType.TEXT);
+        addAttribute("zipCode", (v) -> setZipCode((String)v), this::getZipCode, SqlType.TEXT);
+        addAttribute("city", (v) -> setCity((String)v), this::getCity, SqlType.TEXT);
+        addAttribute("state", (v) -> setState((String)v), this::getState, SqlType.TEXT);
+        addAttribute("country", (v) -> setCountry((String)v), this::getCountry, SqlType.TEXT);
     }
 
-    public Entity toEntity() {
-        List<Attribute> attributes = new LinkedList<>();
+    public Address(Entity e) {
+        this();
 
-        Attribute a = new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
-        a.setData(id);
-        attributes.add(a);
-        a = new Attribute("street", SqlType.TEXT);
-        a.setData(street);
-        attributes.add(a);
-        a = new Attribute("number", SqlType.TEXT);
-        a.setData(number);
-        attributes.add(a);
-        a = new Attribute("zipCode", SqlType.TEXT);
-        a.setData(zipCode);
-        attributes.add(a);
-        a = new Attribute("city", SqlType.TEXT);
-        a.setData(city);
-        attributes.add(a);
-        a = new Attribute("province", SqlType.TEXT);
-        a.setData(state);
-        attributes.add(a);
-        a = new Attribute("country", SqlType.TEXT);
-        a.setData(country);
-        attributes.add(a);
+        this.fromEntity(e);
+    }
 
-        return new Entity(Address.class, "address", attributes);
+    public Address(int id, String street, String number, String zipCode, String city, String state, String country) {
+        this();
+        this.id = id;
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.state = state;
+        this.country = country;
     }
 
     static {
-        List<Attribute> attributes = new LinkedList<>();
-
-        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
-        attributes.add(new Attribute("street", SqlType.TEXT));
-        attributes.add(new Attribute("number", SqlType.TEXT));
-        attributes.add(new Attribute("company", SqlType.TEXT));
-        attributes.add(new Attribute("zipCode", SqlType.TEXT));
-        attributes.add(new Attribute("city", SqlType.TEXT));
-        attributes.add(new Attribute("province", SqlType.TEXT));
-        attributes.add(new Attribute("country", SqlType.TEXT));
-
-        Entity e = new Entity(Address.class, "yk_address", attributes);
-
-        JDBCConnector.registerEntity(Address.class, e);
+        JDBCConnector.registerEntity(Address.class, new Address().toEntity());
     }
 }

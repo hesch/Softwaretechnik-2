@@ -11,24 +11,32 @@ import java.util.List;
  * Created by Henri on 02.05.17.
  */
 @Data
-@AllArgsConstructor
-public class DeliveryHuman {
+public class DeliveryHuman extends AbstractEntity {
     private int id;
     private String name;
     private Address address;
     private String email;
     private String phoneNumber;
+    
+    public DeliveryHuman() {
+        super("vk_delivery_human");
+
+        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+        addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
+        addAttribute("email", (v) -> setEmail((String)v), this::getEmail, SqlType.TEXT);
+        addAttribute("phoneNumber", (v) -> setPhoneNumber((String)v), this::getPhoneNumber, SqlType.TEXT);
+    }
+
+    public DeliveryHuman(int id, String name, Address address, String email, String phoneNumber) {
+        this();
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
 
     static {
-        List<Attribute> attributes = new LinkedList<>();
-
-        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
-        attributes.add(new Attribute("name", SqlType.TEXT));
-        attributes.add(new Attribute("email", SqlType.TEXT));
-        attributes.add(new Attribute("phoneNumber", SqlType.TEXT));
-
-        Entity e = new Entity(DeliveryHuman.class, "yk_delivery_human", attributes);
-
-        JDBCConnector.registerEntity(DeliveryHuman.class, e);
+        JDBCConnector.registerEntity(DeliveryHuman.class, new DeliveryHuman().toEntity());
     }
 }

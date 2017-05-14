@@ -16,9 +16,9 @@ import java.util.Optional;
 public class UserRepo {
 
     private User[] database = {
-            new User("warehouse", "test", Role.WAREHOUSE_HUMAN),
-            new User("sales", "test", Role.SALES_HUMAN),
-            new User("supply", "test", Role.SUPPLY_HUMAN)};
+            new User(0, "warehouse", "test", Role.WAREHOUSE_HUMAN),
+            new User(1, "sales", "test", Role.SALES_HUMAN),
+            new User(2, "supply", "test", Role.SUPPLY_HUMAN)};
 
     public Optional<User> findByLogin(String login) {
         return Arrays.stream(database).filter(u -> u.getLogin().equals(login)).findFirst();

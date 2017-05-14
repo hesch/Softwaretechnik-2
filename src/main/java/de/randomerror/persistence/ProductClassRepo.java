@@ -23,6 +23,6 @@ public class ProductClassRepo {
     }
 
     public ProductClass findById(long id) {
-        return database.stream().filter(i->i.getProduct().getProductId()==id).findFirst().get();
+        return database.stream().filter(i->i.getProduct().getId()==id).findFirst().get();
     }
 }

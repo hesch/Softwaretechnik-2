@@ -11,8 +11,7 @@ import java.util.List;
  * Created by Henri on 02.05.17.
  */
 @Data
-@AllArgsConstructor
-public class Order {
+public class Order extends AbstractEntity {
     private int id;
     private Address deliveryAddress;
     private Address invoiceAddress;
@@ -25,13 +24,24 @@ public class Order {
         return items.stream().mapToDouble(OrderItem::getTotal).sum();
     }
 
+    public Order(int id, Address deliveryAddress, Address invoiceAddress, List<OrderItem> items, Customer customer) {
+        this();
+        this.id = id;
+        this.deliveryAddress = deliveryAddress;
+        this.invoiceAddress = invoiceAddress;
+        this.items = items;
+        this.customer = customer;
+    }
+
+    public Order() {
+
+        super("yk_order");
+
+        addAttribute("id", (v) -> setId((Integer)v), this::getId, SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY);
+
+    }
+
     static {
-        List<Attribute> attributes = new LinkedList<>();
-
-        attributes.add(new Attribute("id", SqlType.INT, Constraint.NOT_NULL, Constraint.PRIMARY_KEY));
-
-        Entity e = new Entity(Order.class, "yk_order", attributes);
-
-        JDBCConnector.registerEntity(Order.class, e);
+        JDBCConnector.registerEntity(Order.class, new Order().toEntity());
     }
 }
