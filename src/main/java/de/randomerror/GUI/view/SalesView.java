@@ -199,7 +199,7 @@ public class SalesView implements View {
 
     @Override
     public void show() {
-        controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getName(), order.getTotal() + ""}));
+        controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
         controller.getInventory().forEach(productClass -> inventoryModel.addRow(new String[]{productClass.getProduct().getId() + "", productClass.getProduct().getName(), productClass.getProduct().getDescription(), productClass.getProduct().getDoublePrice() + "", productClass.getStock() + ""}));
         frame.setVisible(true);
     }
