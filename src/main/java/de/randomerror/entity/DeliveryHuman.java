@@ -18,7 +18,7 @@ public class DeliveryHuman extends AbstractEntity {
     private String phoneNumber;
     
     public DeliveryHuman() {
-        super("vk_delivery_human");
+        super("yk_delivery_human");
 
         addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
         addAttribute("email", (v) -> setEmail((String)v), this::getEmail, SqlType.TEXT);

@@ -95,12 +95,21 @@ public class SalesView implements View {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
         tabbedPane1.addChangeListener(l -> {
-            orderModel = new DefaultTableModel(new String[]{"ID", "Address", "Kunde", "Gesamtpreis"}, 0);
+            try {
+                while (true) {
+                    orderModel.removeRow(0);
+                }
+            } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
             controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
-            orderTable = new JTable(orderModel);
         });
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
             if (!selectionEvent.getValueIsAdjusting()) {
+                try {
+                    while (true) {
+                        orderItemModel.removeRow(0);
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
+
                 Order order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
                 customerField.setText(order.getCustomer().getName());
                 customerIdField.setText(order.getCustomer().getId() + "");
@@ -195,8 +204,11 @@ public class SalesView implements View {
             nAdressStateField.setText("");
             nAdressCountryField.setText("");
             nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
-            nOrderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);
-            nOrderItemsTable = new JTable(nOrderItemModel);
+            try {
+                while (true) {
+                    nOrderItemModel.removeRow(0);
+                }
+            } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
         });
         frame.add(salespanel);
     }

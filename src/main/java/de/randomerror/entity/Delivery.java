@@ -24,7 +24,7 @@ public class Delivery extends AbstractEntity {
     }
 
     public Delivery() {
-        super("vk_delivery");
+        super("yk_delivery");
 
         addAttribute("deliveryId", (v) -> setDeliveryId((String)v), this::getDeliveryId, SqlType.TEXT);
     }
