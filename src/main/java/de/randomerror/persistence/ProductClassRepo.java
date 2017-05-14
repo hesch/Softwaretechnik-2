@@ -1,6 +1,5 @@
 package de.randomerror.persistence;
 
-import de.randomerror.entity.Delivery;
 import de.randomerror.entity.ProductClass;
 import de.randomerror.util.Provided;
 

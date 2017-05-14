@@ -1,14 +1,10 @@
 package de.randomerror.persistence;
 
-import de.randomerror.entity.Customer;
-import de.randomerror.entity.Delivery;
-import de.randomerror.entity.OrderItem;
 import de.randomerror.entity.Product;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
