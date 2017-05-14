@@ -20,6 +20,11 @@ public class Order extends AbstractEntity {
         return items.stream().mapToDouble(OrderItem::getTotal).sum();
     }
 
+    public void setItems(List<OrderItem> orderItems) {
+        orderItems.forEach(orderItem -> orderItem.setOrderId(this.getId()));
+        this.items = orderItems;
+    }
+
     public Order(int id, List<OrderItem> items, Customer customer) {
         this();
         setId(id);

@@ -24,8 +24,8 @@ public class CustomerRepo extends Repository<Customer> {
         entity = JDBCConnector.getEntity(Customer.class);
     }
 
-    public Customer findById(int id) {
-        return new Customer(dbEntityToObjectEntity(connector.loadEntity(entity, id)));
+    public Optional<Customer> findById(int id) {
+        return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(Customer::new);
     }
 
     public List<Customer> findAll() {
@@ -34,6 +34,11 @@ public class CustomerRepo extends Repository<Customer> {
 
     public void save(Customer customer) {
         connector.insertEntity(objectEntityToDbEntity(customer.toEntity()));
+    }
+
+    @Override
+    public void update(Customer object) {
+        connector.updateEntity(objectEntityToDbEntity(object.toEntity()), object.getId());
     }
 
     public void onInit() {

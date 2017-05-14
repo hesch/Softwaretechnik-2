@@ -36,6 +36,12 @@ public class Product extends AbstractEntity {
         this.price = price;
     }
 
+    public Product(Entity e) {
+        this();
+
+        fromEntity(e);
+    }
+
     static {
         JDBCConnector.registerEntity(Product.class, new Product().toEntity());
     }

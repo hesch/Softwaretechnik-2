@@ -22,15 +22,15 @@ public class SalesViewController {
     public CustomerRepo customerRepo;
     public ProductClassRepo productClassRepo;
 
-    public Order getOrderById(long id) {
-        return orderRepo.findById(id);
+    public Order getOrderById(int id) {
+        return orderRepo.findById(id).get();
     }
 
     public List<Order> getAllOrders() {
         return orderRepo.findAll();
     }
 
-    public Optional<Customer> getCustomerById(long id) {
+    public Optional<Customer> getCustomerById(int id) {
         return customerRepo.findById(id);
     }
     public void saveNewOrder(long customerId){

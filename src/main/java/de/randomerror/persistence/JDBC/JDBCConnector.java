@@ -3,11 +3,9 @@ package de.randomerror.persistence.JDBC;
 import de.randomerror.util.Provided;
 import lombok.Getter;
 
+import javax.swing.text.html.Option;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -163,7 +161,7 @@ public class JDBCConnector {
         }
     }
 
-    public Entity loadEntity(Entity entity, int id) {
+    public Optional<Entity> loadEntity(Entity entity, int id) {
         try {
             String sql = "SELECT * FROM " + entity.getName() + " WHERE id = ?;";
             PreparedStatement s = connection.prepareStatement(sql);
@@ -193,17 +191,18 @@ public class JDBCConnector {
                 }
 
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             });
 
             s.close();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return Optional.empty();
         }
 
-        return entity;
+        return Optional.of(entity);
     }
 
     public List<Entity> loadAllEntities(Entity entity) {

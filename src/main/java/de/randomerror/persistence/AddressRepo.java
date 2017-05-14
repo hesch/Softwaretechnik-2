@@ -1,12 +1,12 @@
 package de.randomerror.persistence;
 
 import de.randomerror.entity.Address;
-import de.randomerror.entity.Order;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -21,8 +21,8 @@ public class AddressRepo extends Repository<Address> {
         entity = JDBCConnector.getEntity(Address.class);
     }
 
-    public Address findById(int id) {
-        return new Address(connector.loadEntity(entity, id));
+    public Optional<Address> findById(int id) {
+        return connector.loadEntity(entity, id).map(Address::new);
     }
 
     public List<Address> findAll() {
@@ -32,4 +32,6 @@ public class AddressRepo extends Repository<Address> {
     public void save(Address address) {
         connector.insertEntity(address.toEntity());
     }
+
+    public void update(Address address) {connector.updateEntity(address.toEntity(), address.getId());}
 }

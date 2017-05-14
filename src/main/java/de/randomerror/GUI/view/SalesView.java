@@ -92,7 +92,7 @@ public class SalesView implements View {
 
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
             if (!selectionEvent.getValueIsAdjusting()) {
-                Order order = controller.getOrderById(Long.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
+                Order order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
                 customerField.setText(order.getCustomer().getName());
                 customerIdField.setText(order.getCustomer().getId() + "");
                 orderIdField.setText(order.getId() + "");
@@ -111,7 +111,7 @@ public class SalesView implements View {
             @Override
             public void focusLost(FocusEvent e) {
                 if (!nCustomerIdField.getText().equals("")) {
-                    long id = Long.valueOf(nCustomerIdField.getText());
+                    int id = Integer.valueOf(nCustomerIdField.getText());
                     Optional<Customer> optional = controller.getCustomerById(id);
                     if (optional.isPresent()) {
                         optional.ifPresent(customer -> {
@@ -176,7 +176,7 @@ public class SalesView implements View {
 
     @Override
     public void show() {
-        controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getDeliveryAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
+        controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getName(), order.getTotal() + ""}));
         controller.getInventory().forEach(productClass -> inventoryModel.addRow(new String[]{productClass.getProduct().getId() + "", productClass.getProduct().getName(), productClass.getProduct().getDescription(), productClass.getProduct().getDoublePrice() + "", productClass.getStock() + ""}));
         frame.setVisible(true);
     }

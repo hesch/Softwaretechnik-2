@@ -121,18 +121,7 @@ public class Main {
         orderItems.add(new OrderItem(1,6, p2));
         orderItems.add(new OrderItem(2,4, p5));
 
-        orderRepo.save(new Order(123, new Address(4, "Emil-Figge-Strate",
-                "4",
-                "1337",
-                "Milky Way",
-                "Irguster",
-                "Universe"),
-                new Address(5, "Emil-Figge-Strate",
-                        "4",
-                        "1337",
-                        "Milky Way",
-                        "Irguster",
-                        "Universe"), orderItems, c1));
+        orderRepo.save(new Order(123, orderItems, c1));
 
         addressRepo.save(new Address(1, "street",
                 "4",
@@ -157,6 +146,8 @@ public class Main {
                 "Universe"));
 
         List<Address> addresses = addressRepo.findAll();
+
+        List<Order> orders = orderRepo.findAll();
 
         System.out.println("testdata initialized");
     }
