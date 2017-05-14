@@ -35,7 +35,7 @@ public class SalesViewController {
         return customerRepo.findById(id);
     }
 
-    public void saveNewOrder(long customerId, List<OrderItem> orderItems){
+    public void saveNewOrder(int customerId, List<OrderItem> orderItems){
 
     }
 

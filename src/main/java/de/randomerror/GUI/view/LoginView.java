@@ -27,8 +27,7 @@ public class LoginView implements View {
     private JButton loginButton = new JButton("Login");
 
     public LoginView() {
-        infoLabel.setForeground(Color.red);
-        infoLabel.setVisible(false);
+        infoLabel.setText("Login: sales  Passwort: test");
 
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -80,6 +79,7 @@ public class LoginView implements View {
             try {
                 controller.login(username, password);
             } catch(CredentialsInvalidException e) {
+                infoLabel.setForeground(Color.red);
                 infoLabel.setText(e.getMessage());
                 infoLabel.setVisible(true);
                 frame.pack();
