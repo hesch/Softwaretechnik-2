@@ -4,6 +4,7 @@ import de.randomerror.entity.Customer;
 import de.randomerror.entity.Delivery;
 import de.randomerror.entity.OrderItem;
 import de.randomerror.entity.Product;
+import de.randomerror.persistence.DAO.ProductDAO;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
  * Created by henri on 08.05.17.
  */
 @Provided
-public class ProductRepo extends Repository<Product> {
+public class ProductRepo extends Repository<Product> implements ProductDAO {
 
     public JDBCConnector connector;
     private Entity entity;

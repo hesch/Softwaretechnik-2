@@ -1,6 +1,7 @@
 package de.randomerror.persistence;
 
 import de.randomerror.entity.Address;
+import de.randomerror.persistence.DAO.AddressDAO;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  * Created by henri on 13.05.17.
  */
 @Provided
-public class AddressRepo extends Repository<Address> {
+public class AddressRepo extends Repository<Address> implements AddressDAO {
     public JDBCConnector connector;
     private Entity entity;
 

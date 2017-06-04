@@ -1,6 +1,7 @@
 package de.randomerror.persistence;
 
 import de.randomerror.entity.*;
+import de.randomerror.persistence.DAO.OrderDAO;
 import de.randomerror.persistence.JDBC.Attribute;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  * Created by Henri on 09.05.17.
  */
 @Provided
-public class OrderRepo extends Repository<Order> {
+public class OrderRepo extends Repository<Order> implements OrderDAO {
 
     public CustomerRepo customerRepo;
     public OrderItemRepo orderItemRepo;
