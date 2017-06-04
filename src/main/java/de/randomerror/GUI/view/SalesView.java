@@ -104,7 +104,7 @@ public class SalesView implements View {
         });
 
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
-            if (!selectionEvent.getValueIsAdjusting()) {
+            if (!selectionEvent.getValueIsAdjusting() && orderTable.getSelectedRow() > 0) {
                 OrderDTO order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
                 try {
                     while (true) {
