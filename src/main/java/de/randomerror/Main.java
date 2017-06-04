@@ -3,7 +3,7 @@ package de.randomerror;
 import de.randomerror.GUI.view.LoginView;
 import de.randomerror.entity.*;
 import de.randomerror.persistence.*;
-import de.randomerror.persistence.DAO.OrderDAO;
+import de.randomerror.persistence.DAO.*;
 import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
 
@@ -18,12 +18,12 @@ import java.util.List;
 public class Main {
     DeliveryHumanRepo deliveryHumanRepo;
     DeliveryRepo deliveryRepo;
-    ProductRepo productRepo;
-    ProductClassRepo productClassRepo;
-    CustomerRepo customerRepo;
+    ProductDAO productRepo;
+    ProductClassDAO productClassRepo;
+    CustomerDAO customerRepo;
     OrderDAO orderRepo;
-    OrderItemRepo orderItemRepo;
-    AddressRepo addressRepo;
+    OrderItemDAO orderItemRepo;
+    AddressDAO addressRepo;
     LoginView view;
 
     public static void main(String[] args) throws IOException {

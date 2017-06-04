@@ -5,7 +5,10 @@ import de.randomerror.entity.OrderDTO;
 import de.randomerror.entity.OrderItemDTO;
 import de.randomerror.entity.ProductClassDTO;
 import de.randomerror.persistence.CustomerRepo;
+import de.randomerror.persistence.DAO.CustomerDAO;
 import de.randomerror.persistence.DAO.OrderDAO;
+import de.randomerror.persistence.DAO.OrderItemDAO;
+import de.randomerror.persistence.DAO.ProductClassDAO;
 import de.randomerror.persistence.OrderItemRepo;
 import de.randomerror.persistence.OrderRepo;
 import de.randomerror.persistence.ProductClassRepo;
@@ -22,9 +25,9 @@ import java.util.Optional;
 @Data
 public class SalesViewController {
     public OrderDAO orderRepo;
-    public CustomerRepo customerRepo;
-    public ProductClassRepo productClassRepo;
-    public OrderItemRepo orderItemRepo;
+    public CustomerDAO customerRepo;
+    public ProductClassDAO productClassRepo;
+    public OrderItemDAO orderItemRepo;
 
     public OrderDTO getOrderById(int id) {
         return orderRepo.findById(id).get();
