@@ -12,6 +12,7 @@ import de.randomerror.persistence.DAO.ProductClassDAO;
 import de.randomerror.persistence.OrderItemRepo;
 import de.randomerror.persistence.OrderRepo;
 import de.randomerror.persistence.ProductClassRepo;
+import de.randomerror.services.SalesService;
 import de.randomerror.util.Provided;
 import lombok.Data;
 
@@ -24,38 +25,37 @@ import java.util.Optional;
 @Provided
 @Data
 public class SalesViewController {
-    public OrderDAO orderRepo;
-    public CustomerDAO customerRepo;
-    public ProductClassDAO productClassRepo;
-    public OrderItemDAO orderItemRepo;
 
+
+    public SalesService salesService;
     public OrderDTO getOrderById(int id) {
-        return orderRepo.findById(id).get();
+
+        return salesService.getOrderById(id).get();
     }
 
     public List<OrderDTO> getAllOrders() {
-        return orderRepo.findAll();
+        return salesService.getAllOrders();
     }
 
     public Optional<CustomerDTO> getCustomerById(int id) {
-        return customerRepo.findById(id);
+        return salesService.getCustomerById(id);
     }
 
     public void saveNewOrder(int customerId, List<OrderItemDTO> orderItems){
         OrderDTO o = new OrderDTO();
-        CustomerDTO c = customerRepo.findById(customerId).get();
+        CustomerDTO c = salesService.getCustomerById(customerId).get();
         o.setCustomer(c);
 
-        orderRepo.save(o);
+        salesService.saveOrder(o);
         o.setItems(orderItems);
-        orderItems.forEach(orderItem -> orderItemRepo.save(orderItem));
+        orderItems.forEach(orderItem -> salesService.saveOrderItem(orderItem));
     }
 
     public List<ProductClassDTO> getInventory() {
-        return productClassRepo.findAll();
+        return salesService.findAllProductClasses();
     }
 
     public ProductClassDTO getProductClassById(long id) {
-        return productClassRepo.findById(id).get();
+        return salesService.findProductClassById(id).get();
     }
 }
