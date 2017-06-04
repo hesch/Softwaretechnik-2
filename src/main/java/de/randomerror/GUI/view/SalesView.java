@@ -99,7 +99,7 @@ public class SalesView implements View {
                 while (true) {
                     orderModel.removeRow(0);
                 }
-            } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
+            } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...everything is normal*/}
             controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
         });
 
@@ -110,9 +110,8 @@ public class SalesView implements View {
                     while (true) {
                         orderItemModel.removeRow(0);
                     }
-                } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
+                } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...everything is normal*/}
 
-                OrderDTO order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
                 customerField.setText(order.getCustomer().getName());
                 customerIdField.setText(order.getCustomer().getId() + "");
                 orderIdField.setText(order.getId() + "");
