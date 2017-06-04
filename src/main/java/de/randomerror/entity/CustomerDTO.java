@@ -1,31 +1,28 @@
 package de.randomerror.entity;
 
 import de.randomerror.persistence.JDBC.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Henri on 02.05.17.
  */
 @Data
-public class DeliveryHuman extends AbstractEntity {
+public class CustomerDTO extends AbstractEntity {
     private String name;
-    private Address address;
+    private AddressDTO address;
     private String email;
     private String phoneNumber;
-    
-    public DeliveryHuman() {
-        super("yk_delivery_human");
+
+    public CustomerDTO() {
+        super("yk_customer");
 
         addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
         addAttribute("email", (v) -> setEmail((String)v), this::getEmail, SqlType.TEXT);
         addAttribute("phoneNumber", (v) -> setPhoneNumber((String)v), this::getPhoneNumber, SqlType.TEXT);
+        addAttribute("address", (v) -> setAddress((AddressDTO)v), this::getAddress, SqlType.INTEGER, Constraint.FOREIGN_KEY);
     }
 
-    public DeliveryHuman(String name, Address address, String email, String phoneNumber) {
+    public CustomerDTO(String name, AddressDTO address, String email, String phoneNumber) {
         this();
         this.name = name;
         this.address = address;
@@ -33,7 +30,13 @@ public class DeliveryHuman extends AbstractEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public CustomerDTO(Entity entity) {
+        this();
+
+        fromEntity(entity);
+    }
+
     static {
-        JDBCConnector.registerEntity(DeliveryHuman.class, new DeliveryHuman().toEntity());
+        JDBCConnector.registerEntity(CustomerDTO.class, new CustomerDTO().toEntity());
     }
 }

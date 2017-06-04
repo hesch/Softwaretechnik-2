@@ -75,7 +75,6 @@ public class LoginView implements View {
         loginButton.addActionListener((event) -> {
             String username = nameField.getText();
             String password = new String(passwordField.getPassword());
-
             try {
                 controller.login(username, password);
             } catch(CredentialsInvalidException e) {

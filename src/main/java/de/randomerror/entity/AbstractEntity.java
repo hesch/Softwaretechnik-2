@@ -44,7 +44,7 @@ public abstract class AbstractEntity {
             attribute.setData(getterMap.get(name).get());
         });
 
-        return new Entity(Address.class, entityName, new LinkedList<>(attributeMap.values()));
+        return new Entity(AddressDTO.class, entityName, new LinkedList<>(attributeMap.values()));
     }
 
     public void fromEntity(Entity e) {

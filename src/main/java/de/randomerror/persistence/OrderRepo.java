@@ -1,12 +1,10 @@
 package de.randomerror.persistence;
 
 import de.randomerror.entity.*;
-import de.randomerror.persistence.JDBC.Attribute;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
  * Created by Henri on 09.05.17.
  */
 @Provided
-public class OrderRepo extends Repository<Order> {
+public class OrderRepo extends Repository<OrderDTO> {
 
     public CustomerRepo customerRepo;
     public OrderItemRepo orderItemRepo;
@@ -24,20 +22,20 @@ public class OrderRepo extends Repository<Order> {
     private Entity entity;
 
     public OrderRepo() {
-        entity = JDBCConnector.getEntity(Order.class);
+        entity = JDBCConnector.getEntity(OrderDTO.class);
     }
 
-    public Optional<Order> findById(long id) {
+    public Optional<OrderDTO> findById(long id) {
         return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(this::mapEntity);
     }
 
-    public List<Order> findAll() {
+    public List<OrderDTO> findAll() {
         return connector.loadAllEntities(entity).stream().map(this::dbEntityToObjectEntity).map(this::mapEntity).collect(Collectors.toList());
     }
 
-    private Order mapEntity(Entity entity) {
-        Order order = new Order(entity);
-        List<OrderItem> items = orderItemRepo.findAll()
+    private OrderDTO mapEntity(Entity entity) {
+        OrderDTO order = new OrderDTO(entity);
+        List<OrderItemDTO> items = orderItemRepo.findAll()
                 .stream()
                 .filter(orderItem -> orderItem.getOrderId() == order.getId())
                 .collect(Collectors.toList());
@@ -45,14 +43,14 @@ public class OrderRepo extends Repository<Order> {
         return order;
     }
 
-    public void save(Order order) {
+    public void save(OrderDTO order) {
 
         long id = connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
         order.setId(id);
     }
 
     @Override
-    public void update(Order object) {
+    public void update(OrderDTO object) {
         connector.updateEntity(objectEntityToDbEntity(object.toEntity()), object.getId());
     }
 

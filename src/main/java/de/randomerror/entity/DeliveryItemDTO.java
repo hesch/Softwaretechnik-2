@@ -7,12 +7,12 @@ import lombok.Data;
  * Created by henri on 08.05.17.
  */
 @Data
-public class DeliveryItem extends AbstractEntity {
+public class DeliveryItemDTO extends AbstractEntity {
     private int number;
-    private Product product;
+    private ProductDTO product;
     private int pricePerItem;
 
-    public DeliveryItem() {
+    public DeliveryItemDTO() {
         super("yk_delivery_item");
 
         addAttribute("number", (v) -> setNumber((Integer) v), this::getNumber, SqlType.INTEGER);
@@ -20,7 +20,7 @@ public class DeliveryItem extends AbstractEntity {
 
     }
 
-    public DeliveryItem(int number, Product product, int pricePerItem) {
+    public DeliveryItemDTO(int number, ProductDTO product, int pricePerItem) {
         this();
         this.number = number;
         this.product = product;
@@ -28,6 +28,6 @@ public class DeliveryItem extends AbstractEntity {
     }
 
     static {
-        JDBCConnector.registerEntity(DeliveryItem.class, new DeliveryItem().toEntity());
+        JDBCConnector.registerEntity(DeliveryItemDTO.class, new DeliveryItemDTO().toEntity());
     }
 }

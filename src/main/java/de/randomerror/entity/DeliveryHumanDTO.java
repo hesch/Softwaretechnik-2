@@ -7,22 +7,21 @@ import lombok.Data;
  * Created by Henri on 02.05.17.
  */
 @Data
-public class Customer extends AbstractEntity {
+public class DeliveryHumanDTO extends AbstractEntity {
     private String name;
-    private Address address;
+    private AddressDTO address;
     private String email;
     private String phoneNumber;
-
-    public Customer() {
-        super("yk_customer");
+    
+    public DeliveryHumanDTO() {
+        super("yk_delivery_human");
 
         addAttribute("name", (v) -> setName((String)v), this::getName, SqlType.TEXT);
         addAttribute("email", (v) -> setEmail((String)v), this::getEmail, SqlType.TEXT);
         addAttribute("phoneNumber", (v) -> setPhoneNumber((String)v), this::getPhoneNumber, SqlType.TEXT);
-        addAttribute("address", (v) -> setAddress((Address)v), this::getAddress, SqlType.INTEGER, Constraint.FOREIGN_KEY);
     }
 
-    public Customer(String name, Address address, String email, String phoneNumber) {
+    public DeliveryHumanDTO(String name, AddressDTO address, String email, String phoneNumber) {
         this();
         this.name = name;
         this.address = address;
@@ -30,13 +29,7 @@ public class Customer extends AbstractEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public Customer(Entity entity) {
-        this();
-
-        fromEntity(entity);
-    }
-
     static {
-        JDBCConnector.registerEntity(Customer.class, new Customer().toEntity());
+        JDBCConnector.registerEntity(DeliveryHumanDTO.class, new DeliveryHumanDTO().toEntity());
     }
 }

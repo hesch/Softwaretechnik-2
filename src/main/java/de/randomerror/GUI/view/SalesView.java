@@ -3,10 +3,10 @@ package de.randomerror.GUI.view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import de.randomerror.GUI.controller.SalesViewController;
-import de.randomerror.entity.Customer;
-import de.randomerror.entity.Order;
-import de.randomerror.entity.OrderItem;
-import de.randomerror.entity.ProductClass;
+import de.randomerror.entity.CustomerDTO;
+import de.randomerror.entity.OrderDTO;
+import de.randomerror.entity.OrderItemDTO;
+import de.randomerror.entity.ProductClassDTO;
 import de.randomerror.util.Provided;
 
 import javax.swing.*;
@@ -17,7 +17,6 @@ import java.awt.event.FocusEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Vector;
 import java.util.stream.IntStream;
 
 /**
@@ -106,24 +105,25 @@ public class SalesView implements View {
 
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
             if (!selectionEvent.getValueIsAdjusting()) {
+                OrderDTO order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
                 try {
                     while (true) {
                         orderItemModel.removeRow(0);
                     }
                 } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
 
-                Order order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
+                OrderDTO order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
                 customerField.setText(order.getCustomer().getName());
                 customerIdField.setText(order.getCustomer().getId() + "");
                 orderIdField.setText(order.getId() + "");
-                List<OrderItem> orderItems = order.getItems();
+                List<OrderItemDTO> orderItems = order.getItems();
                 totalpriceField.setText(order.getTotal() + "");
                 orderItems.forEach(i -> orderItemModel.addRow(new String[]{i.getProduct().getId() + "", i.getProduct().getName(), i.getProduct().getDescription(), i.getProduct().getDoublePrice() + "", i.getNumber() + "", i.getTotal() + ""}));
             }
         });
         nInventoryTable.getSelectionModel().addListSelectionListener(inventorySelectionEvent -> {
             if (!inventorySelectionEvent.getValueIsAdjusting()) {
-                ProductClass pc = controller.getProductClassById(Long.valueOf(nInventoryTable.getValueAt(nInventoryTable.getSelectedRow(), 0).toString()));
+                ProductClassDTO pc = controller.getProductClassById(Long.valueOf(nInventoryTable.getValueAt(nInventoryTable.getSelectedRow(), 0).toString()));
                 nProduktIdField.setText(pc.getProduct().getId() + "");
             }
         });
@@ -132,7 +132,7 @@ public class SalesView implements View {
             public void focusLost(FocusEvent e) {
                 if (!nCustomerIdField.getText().equals("")) {
                     int id = Integer.valueOf(nCustomerIdField.getText());
-                    Optional<Customer> optional = controller.getCustomerById(id);
+                    Optional<CustomerDTO> optional = controller.getCustomerById(id);
                     if (optional.isPresent()) {
                         optional.ifPresent(customer -> {
                             nCustomerField.setText(customer.getName());
@@ -166,7 +166,7 @@ public class SalesView implements View {
             if (!nProduktIdField.getText().equals("")) {
                 if (Integer.valueOf(nQuantitySpinner.getValue() + "") != 0) {
                     int pid = Integer.valueOf(nProduktIdField.getText());
-                    ProductClass p = controller.getProductClassById(pid);
+                    ProductClassDTO p = controller.getProductClassById(pid);
                     int c = nOrderItemModel.getRowCount();
                     boolean contains = false;
                     int i;
@@ -187,12 +187,12 @@ public class SalesView implements View {
         });
         nSaveButton.addActionListener(saveEvent -> {
             int id = Integer.valueOf(nCustomerIdField.getText());
-            Optional<Customer> optional = controller.getCustomerById(id);
+            Optional<CustomerDTO> optional = controller.getCustomerById(id);
             if (optional.isPresent() && Double.valueOf(nTotalPriceField.getText()) >= 0) {
-                List<OrderItem> orderItems = new LinkedList<OrderItem>();
+                List<OrderItemDTO> orderItems = new LinkedList<OrderItemDTO>();
                 int c = nOrderItemModel.getRowCount();
                 for (int i = 0; i <= c - 1; i++) {
-                    orderItems.add(new OrderItem(Integer.valueOf(nOrderItemsTable.getValueAt(i, 4) + ""), controller.getProductClassById(Integer.valueOf(nOrderItemsTable.getValueAt(i, 0) + "")).getProduct()));
+                    orderItems.add(new OrderItemDTO(Integer.valueOf(nOrderItemsTable.getValueAt(i, 4) + ""), controller.getProductClassById(Integer.valueOf(nOrderItemsTable.getValueAt(i, 0) + "")).getProduct()));
                 }
                 controller.saveNewOrder(Integer.valueOf(nCustomerIdField.getText()), orderItems);
             }
@@ -227,7 +227,7 @@ public class SalesView implements View {
     }
 
     private void createUIComponents() {
-        orderModel = new DefaultTableModel(new String[]{"ID", "Address", "Kunde", "Gesamtpreis"}, 0);
+        orderModel = new DefaultTableModel(new String[]{"ID", "AddressDTO", "Kunde", "Gesamtpreis"}, 0);
         orderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);
         inventoryModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Bestand"}, 0);
         nOrderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);

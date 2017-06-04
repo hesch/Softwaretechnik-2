@@ -7,36 +7,36 @@ import lombok.Data;
  * Created by Henri on 02.05.17.
  */
 @Data
-public class OrderItem extends AbstractEntity {
+public class OrderItemDTO extends AbstractEntity {
     private int number;
-    private Product product;
+    private ProductDTO product;
     private long orderId;
 
     public double getTotal(){
         return number*product.getPrice()/100;
     }
     
-    public OrderItem() {
+    public OrderItemDTO() {
         super("yk_order_item");
 
         addAttribute("number", (v) -> setNumber((Integer)v), this::getNumber, SqlType.INTEGER);
-        addAttribute("product", (v) -> setProduct((Product) v), this::getProduct, SqlType.INTEGER, Constraint.FOREIGN_KEY);
+        addAttribute("product", (v) -> setProduct((ProductDTO) v), this::getProduct, SqlType.INTEGER, Constraint.FOREIGN_KEY);
         addAttribute("order_id", (v) -> setOrderId((Integer) v), this::getOrderId, SqlType.INTEGER, Constraint.FOREIGN_KEY);
     }
 
-    public OrderItem(int number, Product product) {
+    public OrderItemDTO(int number, ProductDTO product) {
         this();
         this.number = number;
         this.product = product;
     }
 
-    public OrderItem(Entity e) {
+    public OrderItemDTO(Entity e) {
         this();
 
         fromEntity(e);
     }
 
     static {
-        JDBCConnector.registerEntity(OrderItem.class, new OrderItem().toEntity());
+        JDBCConnector.registerEntity(OrderItemDTO.class, new OrderItemDTO().toEntity());
     }
 }
