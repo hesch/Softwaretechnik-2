@@ -1,7 +1,6 @@
 package de.randomerror.GUI.controller;
 
-import de.randomerror.entity.Delivery;
-import de.randomerror.entity.Warehouse;
+import de.randomerror.entity.DeliveryDTO;
 import de.randomerror.persistence.DeliveryRepo;
 import de.randomerror.util.Provided;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public class WarehouseViewController {
     public DeliveryRepo deliveryRepo;
 
-    public List<Delivery> getDeliveries() {
+    public List<DeliveryDTO> getDeliveries() {
         return deliveryRepo.findAll();
     }
 }

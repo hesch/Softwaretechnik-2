@@ -1,6 +1,6 @@
 package de.randomerror.persistence;
 
-import de.randomerror.entity.Address;
+import de.randomerror.entity.AddressDTO;
 import de.randomerror.persistence.DAO.AddressDAO;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
@@ -14,26 +14,26 @@ import java.util.stream.Collectors;
  * Created by henri on 13.05.17.
  */
 @Provided
-public class AddressRepo extends Repository<Address> implements AddressDAO {
+public class AddressRepo extends Repository<AddressDTO> implements AddressDAO {
     public JDBCConnector connector;
     private Entity entity;
 
     public AddressRepo() {
-        entity = JDBCConnector.getEntity(Address.class);
+        entity = JDBCConnector.getEntity(AddressDTO.class);
     }
 
-    public Optional<Address> findById(long id) {
-        return connector.loadEntity(entity, id).map(Address::new);
+    public Optional<AddressDTO> findById(long id) {
+        return connector.loadEntity(entity, id).map(AddressDTO::new);
     }
 
-    public List<Address> findAll() {
-        return connector.loadAllEntities(entity).stream().map(Address::new).collect(Collectors.toList());
+    public List<AddressDTO> findAll() {
+        return connector.loadAllEntities(entity).stream().map(AddressDTO::new).collect(Collectors.toList());
     }
 
-    public void save(Address address) {
+    public void save(AddressDTO address) {
         long id = connector.insertEntity(address.toEntity());
         address.setId(id);
     }
 
-    public void update(Address address) {connector.updateEntity(address.toEntity(), address.getId());}
+    public void update(AddressDTO address) {connector.updateEntity(address.toEntity(), address.getId());}
 }

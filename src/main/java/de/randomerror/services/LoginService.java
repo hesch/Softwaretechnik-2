@@ -1,7 +1,7 @@
 package de.randomerror.services;
 
 import de.randomerror.GUI.exceptions.CredentialsInvalidException;
-import de.randomerror.entity.User;
+import de.randomerror.entity.UserDTO;
 import de.randomerror.persistence.UserRepo;
 import de.randomerror.util.Provided;
 import lombok.Getter;
@@ -14,7 +14,7 @@ public class LoginService {
     private UserRepo userRepo;
 
     @Getter
-    private User currentUser;
+    private UserDTO currentUser;
 
     public void login(String login, String pass) {
         currentUser = userRepo.findByLogin(login)

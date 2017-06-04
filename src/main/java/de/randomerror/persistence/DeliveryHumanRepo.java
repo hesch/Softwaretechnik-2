@@ -1,7 +1,6 @@
 package de.randomerror.persistence;
 
-import de.randomerror.entity.Delivery;
-import de.randomerror.entity.DeliveryHuman;
+import de.randomerror.entity.DeliveryHumanDTO;
 import de.randomerror.util.Provided;
 
 import java.util.LinkedList;
@@ -12,13 +11,13 @@ import java.util.List;
  */
 @Provided
 public class DeliveryHumanRepo {
-    private List<DeliveryHuman> database = new LinkedList<>();
+    private List<DeliveryHumanDTO> database = new LinkedList<>();
 
-    public List<DeliveryHuman> findAll() {
+    public List<DeliveryHumanDTO> findAll() {
         return database;
     }
 
-    public void save(DeliveryHuman d) {
+    public void save(DeliveryHumanDTO d) {
         database.add(d);
     }
 }

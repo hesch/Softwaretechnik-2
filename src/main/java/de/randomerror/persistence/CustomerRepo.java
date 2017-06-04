@@ -1,13 +1,11 @@
 package de.randomerror.persistence;
 
-import de.randomerror.entity.Address;
-import de.randomerror.entity.Customer;
+import de.randomerror.entity.CustomerDTO;
 import de.randomerror.persistence.DAO.CustomerDAO;
 import de.randomerror.persistence.JDBC.Entity;
 import de.randomerror.persistence.JDBC.JDBCConnector;
 import de.randomerror.util.Provided;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,31 +14,31 @@ import java.util.stream.Collectors;
  * Created by Jan on 13.05.2017.
  */
 @Provided
-public class CustomerRepo extends Repository<Customer> implements CustomerDAO {
+public class CustomerRepo extends Repository<CustomerDTO> implements CustomerDAO {
     public AddressRepo addressRepo;
     public JDBCConnector connector;
     private Entity entity;
 
     public CustomerRepo() {
-        entity = JDBCConnector.getEntity(Customer.class);
+        entity = JDBCConnector.getEntity(CustomerDTO.class);
     }
 
-    public Optional<Customer> findById(long id) {
-        return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(Customer::new);
+    public Optional<CustomerDTO> findById(long id) {
+        return connector.loadEntity(entity, id).map(this::dbEntityToObjectEntity).map(CustomerDTO::new);
     }
 
-    public List<Customer> findAll() {
-        return connector.loadAllEntities(entity).stream().map(this::dbEntityToObjectEntity).map(Customer::new).collect(Collectors.toList());
+    public List<CustomerDTO> findAll() {
+        return connector.loadAllEntities(entity).stream().map(this::dbEntityToObjectEntity).map(CustomerDTO::new).collect(Collectors.toList());
     }
 
-    public void save(Customer customer) {
+    public void save(CustomerDTO customer) {
 
         long id = connector.insertEntity(objectEntityToDbEntity(customer.toEntity()));
         customer.setId(id);
     }
 
     @Override
-    public void update(Customer object) {
+    public void update(CustomerDTO object) {
         connector.updateEntity(objectEntityToDbEntity(object.toEntity()), object.getId());
     }
 

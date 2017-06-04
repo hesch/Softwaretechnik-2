@@ -7,30 +7,30 @@ import lombok.Data;
  * Created by Henri on 02.05.17.
  */
 @Data
-public class ProductClass extends AbstractEntity{
-    private Product product;
+public class ProductClassDTO extends AbstractEntity{
+    private ProductDTO product;
     private int stock;
     
-    public ProductClass() {
+    public ProductClassDTO() {
         super("yk_product_class");
 
         addAttribute("stock", (v) -> setStock((Integer)v), this::getStock, SqlType.INTEGER);
-        addAttribute("product", (v) -> setProduct((Product) v), this::getProduct, SqlType.INTEGER, Constraint.FOREIGN_KEY);
+        addAttribute("product", (v) -> setProduct((ProductDTO) v), this::getProduct, SqlType.INTEGER, Constraint.FOREIGN_KEY);
     }
 
-    public ProductClass(Product product, int stock) {
+    public ProductClassDTO(ProductDTO product, int stock) {
         this();
         this.product = product;
         this.stock = stock;
     }
 
-    public ProductClass(Entity e) {
+    public ProductClassDTO(Entity e) {
         this();
 
         fromEntity(e);
     }
 
     static {
-        JDBCConnector.registerEntity(ProductClass.class, new ProductClass().toEntity());
+        JDBCConnector.registerEntity(ProductClassDTO.class, new ProductClassDTO().toEntity());
     }
 }

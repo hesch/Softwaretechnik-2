@@ -1,17 +1,13 @@
 package de.randomerror.entity;
 
 import de.randomerror.persistence.JDBC.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Henri on 02.05.17.
  */
 @Data
-public class Address extends AbstractEntity {
+public class AddressDTO extends AbstractEntity {
     private String street;
     private String number;
     private String zipCode;
@@ -23,7 +19,7 @@ public class Address extends AbstractEntity {
         return street + " " + number + ", " + zipCode + " " + city;
     }
 
-    public Address() {
+    public AddressDTO() {
         super("yk_address");
 
         addAttribute("street", (v) -> setStreet((String)v), this::getStreet, SqlType.TEXT);
@@ -34,13 +30,13 @@ public class Address extends AbstractEntity {
         addAttribute("country", (v) -> setCountry((String)v), this::getCountry, SqlType.TEXT);
     }
 
-    public Address(Entity e) {
+    public AddressDTO(Entity e) {
         this();
 
         this.fromEntity(e);
     }
 
-    public Address(String street, String number, String zipCode, String city, String state, String country) {
+    public AddressDTO(String street, String number, String zipCode, String city, String state, String country) {
         this();
         this.street = street;
         this.number = number;
@@ -51,6 +47,6 @@ public class Address extends AbstractEntity {
     }
 
     static {
-        JDBCConnector.registerEntity(Address.class, new Address().toEntity());
+        JDBCConnector.registerEntity(AddressDTO.class, new AddressDTO().toEntity());
     }
 }

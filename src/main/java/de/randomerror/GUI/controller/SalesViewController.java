@@ -1,9 +1,9 @@
 package de.randomerror.GUI.controller;
 
-import de.randomerror.entity.Customer;
-import de.randomerror.entity.Order;
-import de.randomerror.entity.OrderItem;
-import de.randomerror.entity.ProductClass;
+import de.randomerror.entity.CustomerDTO;
+import de.randomerror.entity.OrderDTO;
+import de.randomerror.entity.OrderItemDTO;
+import de.randomerror.entity.ProductClassDTO;
 import de.randomerror.persistence.CustomerRepo;
 import de.randomerror.persistence.OrderItemRepo;
 import de.randomerror.persistence.OrderRepo;
@@ -25,21 +25,21 @@ public class SalesViewController {
     public ProductClassRepo productClassRepo;
     public OrderItemRepo orderItemRepo;
 
-    public Order getOrderById(int id) {
+    public OrderDTO getOrderById(int id) {
         return orderRepo.findById(id).get();
     }
 
-    public List<Order> getAllOrders() {
+    public List<OrderDTO> getAllOrders() {
         return orderRepo.findAll();
     }
 
-    public Optional<Customer> getCustomerById(int id) {
+    public Optional<CustomerDTO> getCustomerById(int id) {
         return customerRepo.findById(id);
     }
 
-    public void saveNewOrder(int customerId, List<OrderItem> orderItems){
-        Order o = new Order();
-        Customer c = customerRepo.findById(customerId).get();
+    public void saveNewOrder(int customerId, List<OrderItemDTO> orderItems){
+        OrderDTO o = new OrderDTO();
+        CustomerDTO c = customerRepo.findById(customerId).get();
         o.setCustomer(c);
 
         orderRepo.save(o);
@@ -47,11 +47,11 @@ public class SalesViewController {
         orderItems.forEach(orderItem -> orderItemRepo.save(orderItem));
     }
 
-    public List<ProductClass> getInventory() {
+    public List<ProductClassDTO> getInventory() {
         return productClassRepo.findAll();
     }
 
-    public ProductClass getProductClassById(long id) {
+    public ProductClassDTO getProductClassById(long id) {
         return productClassRepo.findById(id).get();
     }
 }
