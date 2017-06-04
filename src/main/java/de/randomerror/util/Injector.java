@@ -1,5 +1,7 @@
 package de.randomerror.util;
 
+import de.randomerror.persistence.OrderRepo;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -46,7 +48,7 @@ public class Injector {
     }
 
     private static <T> void resolveInstance(Class<T> c) {
-        Instance<T> i = classPool.get(c);
+        Instance<T> i = getInstanceFromClassPool(c).get();
 
         if(i.isInitialized())
             return;
@@ -58,11 +60,20 @@ public class Injector {
 
         T instance = null;
         try {
-            instance = c.newInstance();
+            if(c.isInterface()) {
+                Optional<Class> optional = classPool.keySet().stream().filter(c::isAssignableFrom).findFirst();
+                if(optional.isPresent()) {
+                    System.out.println("found Interface: " + c.getCanonicalName() + " using implementation: " + optional.get().getCanonicalName());
+                    c = optional.get();
+                    instance = (T) optional.get().newInstance();
+                } else return;
+            } else {
+                instance = c.newInstance();
+            }
             final T finalInstance = instance;
 
             Arrays.stream(c.getDeclaredFields())
-                .filter(f -> classPool.containsKey(f.getType()))
+                .filter(f -> containsType(f.getType()))
                 .forEach(f -> injectField(f, finalInstance));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -75,14 +86,27 @@ public class Injector {
 
     private static void injectField(Field f, Object instance) {
         try {
-            if(!classPool.get(f.getType()).isInitialized()) {
+            if(!getInstanceFromClassPool(f.getType()).map(Instance::isInitialized)
+                    .orElse(false)) {
                 resolveInstance(f.getType());
             }
             System.out.println("injecting field: " + f.getName() + " on Instance: " + instance.getClass().getCanonicalName());
             f.setAccessible(true);
-            f.set(instance, classPool.get(f.getType()).getData());
+            f.set(instance, getInstanceFromClassPool(f.getType()).get().getData());
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static Optional<Instance> getInstanceFromClassPool(Class type) {
+        return classPool.keySet().stream()
+                .filter(clazz -> type.isAssignableFrom(clazz))
+                .findFirst()
+                .map(classPool::get);
+    }
+
+    private static boolean containsType(Class type) {
+        return classPool.keySet().stream()
+                .anyMatch(clazz -> type.isAssignableFrom(clazz));
     }
 }
