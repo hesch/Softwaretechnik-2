@@ -12,13 +12,17 @@ import java.util.*;
  */
 public class Injector {
 
-    private static Map<Class, Instance> classPool = new HashMap<>();
+    private static Injector instance = new Injector();
 
-    public static void main(String[] args) throws IOException {
-        init();
+    public static Injector getInstance() {
+        return instance;
     }
 
-    public static void init() throws IOException {
+    private Injector() {}
+
+    private Map<Class, Instance> classPool = new HashMap<>();
+
+    public void init() throws IOException {
         List<Class> classes = new Scanner().scanPackage("de.randomerror");
 
         classes.stream().filter(c -> c.getAnnotation(Provided.class) != null).map(Class::getCanonicalName).forEach(System.out::println);
@@ -35,19 +39,19 @@ public class Injector {
         });
     }
 
-    public static <T> T getProvided(Class<T> c) {
+    public <T> T getProvided(Class<T> c) {
         return (T) classPool.get(c).getData();
     }
 
-    private static void addToClassPool(List<Class> classes) {
+    private void addToClassPool(List<Class> classes) {
         classes.stream()
                 .filter(c -> c.getAnnotation(Provided.class) != null)
                 .forEach(c -> classPool.put(c, new Instance()));
 
-        classPool.keySet().forEach(Injector::resolveInstance);
+        classPool.keySet().forEach(this::resolveInstance);
     }
 
-    private static <T> void resolveInstance(Class<T> c) {
+    private <T> void resolveInstance(Class<T> c) {
         Instance<T> i = getInstanceFromClassPool(c).get();
 
         if(i.isInitialized())
@@ -84,7 +88,7 @@ public class Injector {
         i.setCircularDetection(false);
     }
 
-    private static void injectField(Field f, Object instance) {
+    private void injectField(Field f, Object instance) {
         try {
             if(!getInstanceFromClassPool(f.getType()).map(Instance::isInitialized)
                     .orElse(false)) {
@@ -98,14 +102,14 @@ public class Injector {
         }
     }
 
-    private static Optional<Instance> getInstanceFromClassPool(Class type) {
+    private Optional<Instance> getInstanceFromClassPool(Class type) {
         return classPool.keySet().stream()
                 .filter(clazz -> type.isAssignableFrom(clazz))
                 .findFirst()
                 .map(classPool::get);
     }
 
-    private static boolean containsType(Class type) {
+    private boolean containsType(Class type) {
         return classPool.keySet().stream()
                 .anyMatch(clazz -> type.isAssignableFrom(clazz));
     }

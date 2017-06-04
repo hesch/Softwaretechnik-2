@@ -27,8 +27,8 @@ public class Main {
     LoginView view;
 
     public static void main(String[] args) throws IOException {
-        Injector.init();
-        Injector.getProvided(Main.class).init();
+        Injector.getInstance().init();
+        Injector.getInstance().getProvided(Main.class).init();
     }
 
     public void init() {
