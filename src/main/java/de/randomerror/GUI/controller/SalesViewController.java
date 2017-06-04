@@ -5,6 +5,7 @@ import de.randomerror.entity.OrderDTO;
 import de.randomerror.entity.OrderItemDTO;
 import de.randomerror.entity.ProductClassDTO;
 import de.randomerror.persistence.CustomerRepo;
+import de.randomerror.persistence.DAO.OrderDAO;
 import de.randomerror.persistence.OrderItemRepo;
 import de.randomerror.persistence.OrderRepo;
 import de.randomerror.persistence.ProductClassRepo;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Provided
 @Data
 public class SalesViewController {
-    public OrderRepo orderRepo;
+    public OrderDAO orderRepo;
     public CustomerRepo customerRepo;
     public ProductClassRepo productClassRepo;
     public OrderItemRepo orderItemRepo;

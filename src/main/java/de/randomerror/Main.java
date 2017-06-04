@@ -3,6 +3,7 @@ package de.randomerror;
 import de.randomerror.GUI.view.LoginView;
 import de.randomerror.entity.*;
 import de.randomerror.persistence.*;
+import de.randomerror.persistence.DAO.OrderDAO;
 import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
 
@@ -20,7 +21,7 @@ public class Main {
     ProductRepo productRepo;
     ProductClassRepo productClassRepo;
     CustomerRepo customerRepo;
-    OrderRepo orderRepo;
+    OrderDAO orderRepo;
     OrderItemRepo orderItemRepo;
     AddressRepo addressRepo;
     LoginView view;
