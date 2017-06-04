@@ -67,7 +67,7 @@ public class SalesView implements View {
     private JSplitPane nOrderDetailSplitter;
     private JPanel nCustomerDetail;
     private JLabel nCustomerIdLabel;
-    private JLabel nCustomeLabel;
+    private JLabel nCustomerLabel;
     private JLabel nPhoneLabel;
     private JLabel nAdressLabel;
     private JPanel nAdressContainer;
@@ -304,9 +304,9 @@ public class SalesView implements View {
         nCustomerIdLabel = new JLabel();
         nCustomerIdLabel.setText("KundenNr:");
         nCustomerDetail.add(nCustomerIdLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        nCustomeLabel = new JLabel();
-        nCustomeLabel.setText("Kunde:");
-        nCustomerDetail.add(nCustomeLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        nCustomerLabel = new JLabel();
+        nCustomerLabel.setText("Kunde:");
+        nCustomerDetail.add(nCustomerLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nCustomerIdField = new JTextField();
         nCustomerDetail.add(nCustomerIdField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         nPhoneLabel = new JLabel();
