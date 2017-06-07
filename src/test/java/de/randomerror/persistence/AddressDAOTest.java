@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Created by henri on 04.06.17.
@@ -36,20 +37,51 @@ public class AddressDAOTest {
 
         //insert testdata
         AddressDTO[] testData = new AddressDTO[] {
-          new AddressDTO("musterstraße", "42", "44145", "Dortmund", "NRW", "Germany")
+          new AddressDTO("musterstraße", "42", "44145", "Dortmund", "NRW", "Germany"),
+          new AddressDTO("Uhlandstraße", "22", "44148", "Dortmund", "NRW", "Germany")
         };
 
         Arrays.stream(testData).forEach(iut::save);
     }
 
     @Test
-    void firstTest() {
-        assertEquals(2, 1+1);
+    void findAllIsCorrectLength() {
+        assertEquals(2, iut.findAll().size());
     }
 
+    @Test
+    void saveFailsOnAlreadySavedItem() {
+        AddressDTO address = new AddressDTO("Emil-Figge-Straße", "42", "44269", "Dortmund", "NRW", "Germany");
+        iut.save(address);
+        iut.save(address); //TODO: this is strange
+
+        assertEquals(address, iut.findById(address.getId()).get());
+    }
 
     @Test
-    void findAllIsCorrectLength() {
-        assertEquals(1, iut.findAll().size());
+    void findByIdFindsSavedItem() {
+        AddressDTO address = new AddressDTO("Emil-Figge-Straße", "42", "44269", "Dortmund", "NRW", "Germany");
+        iut.save(address);
+
+        assertEquals(address, iut.findById(address.getId()).get());
+    }
+
+    @Test
+    void findByIdReutrnsEmptyOptionalIfNotFound() {
+        iut.findById(1235763457L).ifPresent(s -> {
+            fail(s + " should not be present");
+        });
+    }
+
+    @Test
+    void updateUpdatesStuff() {
+        AddressDTO address = new AddressDTO("Emil-Figge-Straße", "42", "44269", "Dortmund", "NRW", "Germany");
+        iut.save(address);
+        assertEquals(address, iut.findById(address.getId()).get());
+
+        address.setNumber("43");
+        iut.update(address);
+
+        assertEquals(address.getNumber(), iut.findById(address.getId()).get().getNumber());
     }
 }
