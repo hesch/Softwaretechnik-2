@@ -118,7 +118,6 @@ public class Main {
                 "Universe");
         addressRepo.save(c1a);
 
-        System.out.println("id after addressRepo save: " + c1a.getId());
         CustomerDTO c1 = new CustomerDTO("Jan", c1a, "jan@janface.mc", "709655430");
         customerRepo.save(c1);
 
