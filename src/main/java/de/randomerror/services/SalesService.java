@@ -2,7 +2,6 @@ package de.randomerror.services;
 
 import de.randomerror.entity.CustomerDTO;
 import de.randomerror.entity.OrderDTO;
-import de.randomerror.entity.OrderItemDTO;
 import de.randomerror.entity.ProductClassDTO;
 import de.randomerror.persistence.DAO.CustomerDAO;
 import de.randomerror.persistence.DAO.OrderDAO;
@@ -40,9 +39,6 @@ public class SalesService {
         orderDAO.save(o);
     }
 
-    public void saveOrderItem(OrderItemDTO orderItem) {
-         orderItemDAO.save(orderItem);
-    }
 
     public List<ProductClassDTO> findAllProductClasses() {
         return productClassDAO.findAll();

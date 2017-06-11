@@ -46,9 +46,13 @@ public class OrderRepo extends Repository<OrderDTO> implements OrderDAO {
     }
 
     public void save(OrderDTO order) {
-
         long id = connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
         order.setId(id);
+
+        order.getItems().forEach(item -> {
+            item.setOrderId(id);
+            orderItemRepo.saveOrUpdate(item);
+        });
     }
 
     @Override

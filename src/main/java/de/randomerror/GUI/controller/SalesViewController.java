@@ -45,10 +45,9 @@ public class SalesViewController {
         OrderDTO o = new OrderDTO();
         CustomerDTO c = salesService.getCustomerById(customerId).get();
         o.setCustomer(c);
+        o.setItems(orderItems);
 
         salesService.saveOrder(o);
-        o.setItems(orderItems);
-        orderItems.forEach(orderItem -> salesService.saveOrderItem(orderItem));
     }
 
     public List<ProductClassDTO> getInventory() {
