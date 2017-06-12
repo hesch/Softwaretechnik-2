@@ -9,9 +9,5 @@ import java.util.Optional;
 /**
  * Created by henri on 04.06.17.
  */
-public interface OrderItemDAO {
-    Optional<OrderItemDTO> findById(long id);
-    List<OrderItemDTO> findAll();
-    void save(OrderItemDTO address);
-    void update(OrderItemDTO address);
+public interface OrderItemDAO  extends DAO<OrderItemDTO>  {
 }
