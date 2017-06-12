@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -50,12 +51,14 @@ public class AddressDAOTest {
     }
 
     @Test
-    void saveFailsOnAlreadySavedItem() {
+    void saveSavesNewItem() {
         AddressDTO address = new AddressDTO("Emil-Figge-Straße", "42", "44269", "Dortmund", "NRW", "Germany");
         iut.save(address);
-        iut.save(address); //TODO: this is strange
+        long id = address.getId();
+        iut.save(address);
+        long id2 = address.getId();
 
-        assertEquals(address, iut.findById(address.getId()).get());
+        assertNotEquals(id, id2);
     }
 
     @Test
