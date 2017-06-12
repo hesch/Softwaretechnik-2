@@ -22,7 +22,7 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
         notifyObservers(new ObservableEvent(element, EventState.ADDED));
     }
 
-    public void removeElement(OrderDTO element) {
+    public void removeElement(DATA element) {
         data.remove(element);
         setChanged();
         notifyObservers(new ObservableEvent(element, EventState.DELETED));
