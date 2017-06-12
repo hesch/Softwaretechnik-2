@@ -49,10 +49,11 @@ public class OrderRepo extends Repository<OrderDTO> implements OrderDAO {
         long id = connector.insertEntity(objectEntityToDbEntity(order.toEntity()));
         order.setId(id);
 
-        order.getItems().forEach(item -> {
-            item.setOrderId(id);
-            orderItemRepo.saveOrUpdate(item);
-        });
+        if(order.getItems() != null)
+            order.getItems().forEach(item -> {
+                item.setOrderId(id);
+                orderItemRepo.saveOrUpdate(item);
+            });
     }
 
     @Override
