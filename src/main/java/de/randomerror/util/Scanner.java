@@ -4,14 +4,11 @@ import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Objects;
+import java.nio.file.*;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,19 +19,37 @@ import java.util.stream.Stream;
 public class Scanner {
 
     public List<Class> scanPackage(String packageName) throws IOException {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        classLoader = ClassLoader.getSystemClassLoader();
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
         String path = packageName.replace('.', File.separatorChar);
         int stuff = Paths.get(path).getNameCount();
         Enumeration<URL> resources = classLoader.getResources(path);
 
-        return Collections.list(resources).stream().map(this::URLToPath).flatMap(it -> pathToClasses(it, stuff)).collect(Collectors.toList());
+        return Collections.list(resources)
+                .stream()
+                .map(this::URLToURI)
+                .peek(res -> {
+                    if(res.getScheme().equals("file")) return;
+                    try {FileSystems.newFileSystem(res, new HashMap<>());}
+                    catch (IOException e) {e.printStackTrace();}
+                })
+                .map(this::URIToPath)
+                .flatMap(it -> pathToClasses(it, stuff))
+                .collect(Collectors.toList());
     }
 
-    private Path URLToPath(URL url) {
+    private URI URLToURI(URL url) {
         try {
-            return Paths.get(url.toURI());
+            return url.toURI();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Path URIToPath(URI uri) {
+        try {
+            return Paths.get(uri);
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
