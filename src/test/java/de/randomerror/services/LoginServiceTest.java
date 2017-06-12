@@ -24,7 +24,6 @@ public class LoginServiceTest {
         ls = Injector.getInstance().getProvided(LoginService.class);
     }
 
-    private LoginService ls;
     @Test
     void login() {
         ls.login("sales","test");
