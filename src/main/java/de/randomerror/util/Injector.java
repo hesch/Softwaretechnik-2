@@ -40,7 +40,7 @@ public class Injector {
     }
 
     public <T> T getProvided(Class<T> c) {
-        return (T) classPool.get(c).getData();
+        return (T) getInstanceFromClassPool(c).get().getData();
     }
 
     private void addToClassPool(List<Class> classes) {
