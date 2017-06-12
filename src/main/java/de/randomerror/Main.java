@@ -128,7 +128,7 @@ public class Main {
                 "Universe");
         addressRepo.save(c1a);
 
-        CustomerDTO c1 = new CustomerDTO("Jan", c1a, "jan@janface.mc", "709655430");
+        CustomerDTO c1 = new CustomerDTO("Jan", c1a, "jan@stuff.com", "709655430");
         customerRepo.save(c1);
 
         List<OrderItemDTO> orderItems = new LinkedList<>();

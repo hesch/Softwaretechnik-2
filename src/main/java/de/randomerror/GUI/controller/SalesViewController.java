@@ -70,12 +70,12 @@ public class SalesViewController implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         ObservableEvent e = (ObservableEvent) arg;
-
         switch (e.getState()) {
             case ADDED:
             case MODIFIED:
             case DELETED://orderDAO delete;
         }
+
     }
 
     public void onInit() {
