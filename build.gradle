@@ -3,16 +3,18 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = "de.randomerror.Main"
 
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     dependencies {
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.0'
     }
 }
 
@@ -30,4 +32,13 @@ dependencies {
 
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
     testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M4'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'de.randomerror.Main'
+        )
+    }
 }
