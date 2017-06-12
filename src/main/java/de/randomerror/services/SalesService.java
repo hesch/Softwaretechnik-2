@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Created by Jan on 04.06.2017.
@@ -62,6 +63,10 @@ public class SalesService implements Observer {
             case DELETED://orderDAO delete;
         }
 
+    }
+
+    public void onInit() {
+        orderList.addObserver(this);
     }
 }
 

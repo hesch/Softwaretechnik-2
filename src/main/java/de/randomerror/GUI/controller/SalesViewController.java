@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Created by Jan on 13.05.2017.
@@ -75,5 +76,9 @@ public class SalesViewController implements Observer {
             case MODIFIED:
             case DELETED://orderDAO delete;
         }
+    }
+
+    public void onInit() {
+        Stream.of(customerList, orderList, productClassList).forEach(l -> l.addObserver(this));
     }
 }
