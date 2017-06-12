@@ -1,5 +1,9 @@
 package de.randomerror;
 
+import de.randomerror.GUI.model.ObservableCustomerList;
+import de.randomerror.GUI.model.ObservableDataList;
+import de.randomerror.GUI.model.ObservableOrderList;
+import de.randomerror.GUI.model.ObservableProductClassList;
 import de.randomerror.GUI.view.LoginView;
 import de.randomerror.entity.*;
 import de.randomerror.persistence.*;
@@ -8,8 +12,10 @@ import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by Henri on 11.04.17.
@@ -25,6 +31,10 @@ public class Main {
     OrderItemDAO orderItemRepo;
     AddressDAO addressRepo;
     LoginView view;
+
+    ObservableCustomerList customerList;
+    ObservableOrderList orderList;
+    ObservableProductClassList productClassList;
 
     public static void main(String[] args) throws IOException {
         Injector.getInstance().init();
@@ -161,5 +171,10 @@ public class Main {
         List<OrderDTO> orders = orderRepo.findAll();
 
         System.out.println("testdata initialized");
+
+
+        System.out.println("Reinitializing ObservableDataLists");
+
+        Stream.of(customerList, orderList, productClassList).forEach(ObservableDataList::onInit);
     }
 }
