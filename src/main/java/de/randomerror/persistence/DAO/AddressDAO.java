@@ -9,9 +9,4 @@ import java.util.Optional;
 /**
  * Created by henri on 04.06.17.
  */
-public interface AddressDAO {
-    Optional<AddressDTO> findById(long id);
-    List<AddressDTO> findAll();
-    void save(AddressDTO address);
-    void update(AddressDTO address);
-}
+public interface AddressDAO extends DAO<AddressDTO> {}

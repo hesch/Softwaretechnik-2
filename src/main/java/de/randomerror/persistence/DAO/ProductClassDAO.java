@@ -8,9 +8,5 @@ import java.util.Optional;
 /**
  * Created by henri on 04.06.17.
  */
-public interface ProductClassDAO {
-    Optional<ProductClassDTO> findById(long id);
-    List<ProductClassDTO> findAll();
-    void save(ProductClassDTO address);
-    void update(ProductClassDTO address);
+public interface ProductClassDAO extends DAO<ProductClassDTO> {
 }
