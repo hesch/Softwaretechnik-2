@@ -1,5 +1,9 @@
 package de.randomerror.GUI.controller;
 
+import de.randomerror.GUI.model.ObservableCustomerList;
+import de.randomerror.GUI.model.ObservableEvent;
+import de.randomerror.GUI.model.ObservableOrderList;
+import de.randomerror.GUI.model.ObservableProductClassList;
 import de.randomerror.entity.CustomerDTO;
 import de.randomerror.entity.OrderDTO;
 import de.randomerror.entity.OrderItemDTO;
@@ -17,6 +21,8 @@ import de.randomerror.util.Provided;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 
 /**
@@ -24,37 +30,50 @@ import java.util.Optional;
  */
 @Provided
 @Data
-public class SalesViewController {
+public class SalesViewController implements Observer {
 
 
-    public SalesService salesService;
-    public OrderDTO getOrderById(int id) {
+    public ObservableOrderList orderList;
+    public ObservableCustomerList customerList;
+    public ObservableProductClassList productClassList;
 
-        return salesService.getOrderById(id).get();
+    public OrderDTO getOrderById(long id) {
+
+        return orderList.getData().stream().filter(e -> e.getId() == id).findFirst().get();
     }
 
     public List<OrderDTO> getAllOrders() {
-        return salesService.getAllOrders();
+        return orderList.getData();
     }
 
     public Optional<CustomerDTO> getCustomerById(int id) {
-        return salesService.getCustomerById(id);
+        return customerList.getData().stream().filter(e -> e.getId() == id).findFirst();
     }
 
-    public void saveNewOrder(int customerId, List<OrderItemDTO> orderItems){
+    public void saveNewOrder(int customerId, List<OrderItemDTO> orderItems) {
         OrderDTO o = new OrderDTO();
-        CustomerDTO c = salesService.getCustomerById(customerId).get();
+        CustomerDTO c = getCustomerById(customerId).get();
         o.setCustomer(c);
         o.setItems(orderItems);
 
-        salesService.saveOrder(o);
+        orderList.addElement(o);
     }
 
     public List<ProductClassDTO> getInventory() {
-        return salesService.findAllProductClasses();
+        return getProductClassList().getData();
     }
 
-    public ProductClassDTO getProductClassById(long id) {
-        return salesService.findProductClassById(id).get();
+    public ProductClassDTO getProductClassById(long id){return productClassList.getData().stream().filter(e -> e.getId() == id).findFirst().get();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        ObservableEvent e = (ObservableEvent) arg;
+
+        switch (e.getState()) {
+            case ADDED:
+            case MODIFIED:
+            case DELETED://orderDAO delete;
+        }
     }
 }
