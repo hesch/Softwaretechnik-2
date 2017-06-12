@@ -25,7 +25,10 @@
             <constraints>
               <tabbedpane title="Bestellungen"/>
             </constraints>
-            <properties/>
+            <properties>
+              <continuousLayout value="true"/>
+              <dividerLocation value="453"/>
+            </properties>
             <border type="none"/>
             <children>
               <scrollpane id="78e24" binding="orderScroll">

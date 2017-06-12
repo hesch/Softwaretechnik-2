@@ -104,7 +104,7 @@ public class SalesView implements View {
         });
 
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
-            if (!selectionEvent.getValueIsAdjusting() && orderTable.getSelectedRow() > 0) {
+            if (!selectionEvent.getValueIsAdjusting() && orderTable.getSelectedRow() >= 0) {
                 OrderDTO order = controller.getOrderById(Integer.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
                 try {
                     while (true) {
@@ -254,6 +254,8 @@ public class SalesView implements View {
         tabbedPane1 = new JTabbedPane();
         salespanel.add(tabbedPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         orderSplitter = new JSplitPane();
+        orderSplitter.setContinuousLayout(true);
+        orderSplitter.setDividerLocation(453);
         tabbedPane1.addTab("Bestellungen", orderSplitter);
         orderScroll = new JScrollPane();
         orderSplitter.setLeftComponent(orderScroll);
