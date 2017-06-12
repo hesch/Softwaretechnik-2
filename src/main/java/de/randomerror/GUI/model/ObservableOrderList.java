@@ -16,6 +16,13 @@ public class ObservableOrderList extends Observable {
     public OrderDAO orderRepo;
     private List<OrderDTO> data;
 
+    public void addElement(OrderDTO order) {
+        data.add(order);
+        setChanged();
+        notifyObservers(new ObservableEvent(order, EventState.ADDED));
+    }
+
+
     public void onInit() {
         data = orderRepo.findAll();
     }
