@@ -1,6 +1,7 @@
 package de.randomerror.util;
 
 import de.randomerror.persistence.OrderRepo;
+import lombok.extern.log4j.Log4j;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -10,6 +11,7 @@ import java.util.*;
 /**
  * Created by Henri on 11.04.17.
  */
+@Log4j
 public class Injector {
 
     private static Injector instance = new Injector();
@@ -25,7 +27,7 @@ public class Injector {
     public void init() throws IOException {
         List<Class> classes = new Scanner().scanPackage("de.randomerror");
 
-        classes.stream().filter(c -> c.getAnnotation(Provided.class) != null).map(Class::getCanonicalName).forEach(System.out::println);
+        classes.stream().filter(c -> c.getAnnotation(Provided.class) != null).map(Class::getCanonicalName).forEach(log::debug);
 
         addToClassPool(classes);
 
@@ -67,7 +69,7 @@ public class Injector {
             if(c.isInterface()) {
                 Optional<Class> optional = classPool.keySet().stream().filter(c::isAssignableFrom).findFirst();
                 if(optional.isPresent()) {
-                    System.out.println("found Interface: " + c.getCanonicalName() + " using implementation: " + optional.get().getCanonicalName());
+                    log.debug("found Interface: " + c.getCanonicalName() + " using implementation: " + optional.get().getCanonicalName());
                     c = optional.get();
                     instance = (T) optional.get().newInstance();
                 } else return;
@@ -94,7 +96,7 @@ public class Injector {
                     .orElse(false)) {
                 resolveInstance(f.getType());
             }
-            System.out.println("injecting field: " + f.getName() + " on Instance: " + instance.getClass().getCanonicalName());
+            log.trace("injecting field: " + f.getName() + " on Instance: " + instance.getClass().getCanonicalName());
             f.setAccessible(true);
             f.set(instance, getInstanceFromClassPool(f.getType()).get().getData());
         } catch (IllegalAccessException e) {
