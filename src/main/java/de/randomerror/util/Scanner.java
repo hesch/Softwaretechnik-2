@@ -1,6 +1,7 @@
 package de.randomerror.util;
 
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.stream.Stream;
  * Created by Henri on 15.04.17.
  */
 @NoArgsConstructor
+@Log4j2
 public class Scanner {
 
     public List<Class> scanPackage(String packageName) throws IOException {
@@ -59,7 +61,7 @@ public class Scanner {
         if(path.toString().endsWith(".class")) {
             String name = path.subpath(baseSegments, path.getNameCount()).toString().replace(File.separatorChar, '.');
             try {
-                System.out.println("class: " + name.substring(0, name.length() - 6));
+                log.info("class: " + name.substring(0, name.length() - 6));
                 return Class.forName(name.substring(0, name.length() - 6));
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -71,7 +73,7 @@ public class Scanner {
 
     private Stream<Class> pathToClasses(Path path, int stuff) {
         try {
-            System.out.println(path);
+            log.trace(path);
             int baseSegments = path.getNameCount()-stuff;
             return Files.walk(path, 10).filter(Files::isRegularFile).map(file -> singleFileToClass(file, baseSegments)).filter(Objects::nonNull);
         } catch (Exception e) {

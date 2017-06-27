@@ -1,17 +1,17 @@
 package de.randomerror.util;
 
-import de.randomerror.persistence.OrderRepo;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
+
 /**
  * Created by Henri on 11.04.17.
  */
-@Log4j
+@Log4j2
 public class Injector {
 
     private static Injector instance = new Injector();

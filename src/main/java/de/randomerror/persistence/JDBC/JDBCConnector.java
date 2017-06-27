@@ -2,6 +2,7 @@ package de.randomerror.persistence.JDBC;
 
 import de.randomerror.util.Provided;
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 
 import java.sql.*;
 import java.util.*;
@@ -12,6 +13,7 @@ import java.util.stream.IntStream;
  * Created by henri on 10.05.17.
  */
 @Provided
+@Log4j2
 public class JDBCConnector {
 
     private static Map<Class, Entity> entities = new HashMap<>();
@@ -59,7 +61,7 @@ public class JDBCConnector {
 
                 createSql += "(" + col + ");";
 
-                System.out.println("SQL: " + createSql);
+                log.trace("SQL: " + createSql);
 
                 s.addBatch(createSql);
 
@@ -98,10 +100,10 @@ public class JDBCConnector {
                         s.setFloat(index + 1, (Integer)attribute.getData());
                         break;
                     case BLOB:
-                        System.out.println("not implemented!");
+                        log.error("not implemented!");
                         break;
                     default:
-                        System.out.println("Type Not Found!");
+                        log.error("Type Not Found!");
                         return;
                 }
                 } catch (SQLException e) {
@@ -153,10 +155,10 @@ public class JDBCConnector {
                             s.setFloat(index + 1, (Float) attribute.getData());
                             break;
                         case BLOB:
-                            System.out.println("not implemented!");
+                            log.error("not implemented!");
                             break;
                         default:
-                            System.out.println("Type Not Found!");
+                            log.error("Type Not Found!");
                             return;
                     }
                 } catch (SQLException e) {
@@ -198,10 +200,10 @@ public class JDBCConnector {
                         attribute.setData(result.getFloat(index+1));
                         break;
                     case BLOB:
-                        System.out.println("not implemented!");
+                        log.error("not implemented!");
                         break;
                     default:
-                        System.out.println("Type Not Found!");
+                        log.error("Type Not Found!");
                         return;
                 }
 
@@ -213,7 +215,7 @@ public class JDBCConnector {
             s.close();
 
         } catch (Exception e) {
-            System.out.println("Entity with id: " + id + " not found in table " + entity.getName());
+            log.info("Entity with id: " + id + " not found in table " + entity.getName());
             return Optional.empty();
         }
 
@@ -245,10 +247,10 @@ public class JDBCConnector {
                                 attribute.setData(result.getFloat(index + 1));
                                 break;
                             case BLOB:
-                                System.out.println("not implemented!");
+                                log.error("not implemented!");
                                 break;
                             default:
-                                System.out.println("Type Not Found!");
+                                log.error("Type Not Found!");
                                 return;
                         }
 
