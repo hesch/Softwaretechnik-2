@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- *
+ *Controller for the SalesView
  */
 @Provided
 @Data
@@ -38,19 +38,37 @@ public class SalesViewController implements Observer {
     public ObservableCustomerList customerList;
     public ObservableProductClassList productClassList;
 
+    /**
+     * Filters the observableOrderList for an order with the given id and returns the Order.
+     * @param id
+     * @return OrderDTO
+     */
     public OrderDTO getOrderById(long id) {
 
         return orderList.getData().stream().filter(e -> e.getId() == id).findFirst().get();
     }
 
+    /**
+     * @return List<OrderDTO> List of all Orders contained in the OberservableOrderList.
+     */
     public List<OrderDTO> getAllOrders() {
         return orderList.getData();
     }
 
+    /**
+     * Filters the observableCustomerList for a Customer with the given id and returns the Customer contained in an Optional.
+     * @param id
+     * @return Optional<CustomerDTO>
+     */
     public Optional<CustomerDTO> getCustomerById(int id) {
         return customerList.getData().stream().filter(e -> e.getId() == id).findFirst();
     }
 
+    /**
+     * Creates a new OrderDTO with the given Arguments and adds it to the ObservableOrderList.
+     * @param customerId
+     * @param orderItems
+     */
     public void saveNewOrder(int customerId, List<OrderItemDTO> orderItems) {
         OrderDTO o = new OrderDTO();
         CustomerDTO c = getCustomerById(customerId).get();
@@ -60,10 +78,19 @@ public class SalesViewController implements Observer {
         orderList.addElement(o);
     }
 
+    /**
+     *
+     * @return List<ProductClassDTO> a List containign all ProductClasses.
+     */
     public List<ProductClassDTO> getInventory() {
         return getProductClassList().getData();
     }
 
+    /**
+     * Filters the ObservableProductClassList for a ProductClassDTO with the given id and returns the ProductClassDTO.
+     * @param id
+     * @return
+     */
     public ProductClassDTO getProductClassById(long id){return productClassList.getData().stream().filter(e -> e.getId() == id).findFirst().get();
     }
 
@@ -78,6 +105,9 @@ public class SalesViewController implements Observer {
 
     }
 
+    /**
+     * registers the SalesviewController as Observer on the obersavable Lists
+     */
     public void onInit() {
         Stream.of(customerList, orderList, productClassList).forEach(l -> l.addObserver(this));
     }
