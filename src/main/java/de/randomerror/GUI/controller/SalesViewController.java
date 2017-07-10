@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Created by Jan on 13.05.2017.
+ *
  */
 @Provided
 @Data

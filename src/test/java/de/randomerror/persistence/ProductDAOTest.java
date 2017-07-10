@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +24,7 @@ public class ProductDAOTest {
     private static ProductDAO iut; // implementation under test
 
     @BeforeAll
-    static void setup() throws IOException {
+    static void setup() throws IOException, URISyntaxException {
         //wire all the dependencies together
         Injector.getInstance().init();
         iut = Injector.getInstance().getProvided(ProductRepo.class);

@@ -7,18 +7,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-/**
- * Created by henri on 04.06.17.
- */
+
 public class LoginServiceTest {
     static LoginService ls;
 
     @BeforeAll
-    static void setup() throws IOException {
+    static void setup() throws IOException, URISyntaxException {
         //wire all the dependencies together
         Injector.getInstance().init();
         ls = Injector.getInstance().getProvided(LoginService.class);

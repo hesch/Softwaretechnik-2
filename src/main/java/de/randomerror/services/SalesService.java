@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Created by Jan on 04.06.2017.
+ *
  */
 @Provided
 public class SalesService implements Observer {

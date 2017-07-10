@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Created by henri on 14.05.17.
+ *
  */
 public abstract class AbstractEntity {
 

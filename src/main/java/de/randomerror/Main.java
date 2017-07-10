@@ -12,18 +12,16 @@ import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-/**
- * Created by Henri on 11.04.17.
- */
+
 @Provided
 public class Main {
-    DeliveryHumanRepo deliveryHumanRepo;
-    DeliveryRepo deliveryRepo;
+
     ProductDAO productRepo;
     ProductClassDAO productClassRepo;
     CustomerDAO customerRepo;
@@ -36,7 +34,8 @@ public class Main {
     ObservableOrderList orderList;
     ObservableProductClassList productClassList;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        System.out.println("stuff");
         Injector.getInstance().init();
         Injector.getInstance().getProvided(Main.class).init();
     }
@@ -75,50 +74,7 @@ public class Main {
         productClassRepo.save(new ProductClassDTO(p8, 700000));
 
 
-//        DeliveryHuman dh1 = new DeliveryHuman("Mr. Meeseeks",
-//                new AddressDTO("street",
-//                        "3",
-//                        "1337",
-//                        "Milky Way",
-//                        "Irgendwas mit Supercluster",
-//                        "Universe"),
-//                "meeseeks@lookatmee.universe",
-//                "01234883020394"),
-//                dh2 = new DeliveryHuman( "Jannis Kaiser",
-//                        new AddressDTO( "street",
-//                                "4",
-//                                "1337",
-//                                "Milky Way",
-//                                "Irgendwas mit Supercluster",
-//                                "Universe"),
-//                        "kaiser@königsmensch.kaiserreich",
-//                        "0112346520394"),
-//                dh3 = new DeliveryHuman( "Fishermans Friend", new AddressDTO("street",
-//                        "3",
-//                        "1337",
-//                        "Milky Way",
-//                        "Irgendwas mit Supercluster",
-//                        "Universe"),
-//                        "friend@fishmebabyonemoretime.sealevelsarerising",
-//                        "505505505505505");
-//
-//        deliveryHumanRepo.save(dh1);
-//        deliveryHumanRepo.save(dh2);
-//        deliveryHumanRepo.save(dh3);
 
-
-//        List<DeliveryItem> items = new LinkedList<>();
-//
-//        items.add(new DeliveryItem( 15, p1, 1200));
-//        items.add(new DeliveryItem( 300, p7, 7000));
-//
-//        deliveryRepo.save(new DeliveryDTO( "YK-10024", items, dh3));
-//
-//        items = new LinkedList<>();
-//
-//        items.add(new DeliveryItem(30000, p4, 100));
-//
-//        deliveryRepo.save(new DeliveryDTO("YK-10507", items, dh2));
 
         AddressDTO c1a = new AddressDTO("Emil-Figge-Strate",
                 "4",

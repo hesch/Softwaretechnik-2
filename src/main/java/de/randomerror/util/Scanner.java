@@ -14,19 +14,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Created by Henri on 15.04.17.
+ *
  */
 @NoArgsConstructor
 @Log4j2
 public class Scanner {
 
-    public List<Class> scanPackage(String packageName) throws IOException {
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-
-        String path = packageName.replace('.', File.separatorChar);
+    public List<Class> scanPackage(String packageName) throws IOException, URISyntaxException {
+        ClassLoader classLoader = Scanner.class.getClassLoader();//ClassLoader.getSystemClassLoader();
+        String path = packageName.replace('.', '/');
         int stuff = Paths.get(path).getNameCount();
         Enumeration<URL> resources = classLoader.getResources(path);
-
         return Collections.list(resources)
                 .stream()
                 .map(this::URLToURI)
@@ -39,7 +37,6 @@ public class Scanner {
                 .flatMap(it -> pathToClasses(it, stuff))
                 .collect(Collectors.toList());
     }
-
     private URI URLToURI(URL url) {
         try {
             return url.toURI();
@@ -48,7 +45,6 @@ public class Scanner {
         }
         return null;
     }
-
     private Path URIToPath(URI uri) {
         try {
             return Paths.get(uri);
@@ -59,7 +55,7 @@ public class Scanner {
 
     private Class singleFileToClass(Path path, int baseSegments) {
         if(path.toString().endsWith(".class")) {
-            String name = path.subpath(baseSegments, path.getNameCount()).toString().replace(File.separatorChar, '.');
+            String name = path.subpath(baseSegments, path.getNameCount()).toString().replace('/', '.');
             try {
                 log.info("class: " + name.substring(0, name.length() - 6));
                 return Class.forName(name.substring(0, name.length() - 6));

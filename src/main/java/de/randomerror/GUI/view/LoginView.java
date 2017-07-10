@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by henri on 08.05.17.
+ *
  */
 @Provided
 public class LoginView implements View {

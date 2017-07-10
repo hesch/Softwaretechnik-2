@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- * Created by henri on 12.06.17.
+ *
  */
 public abstract class ObservableDataList<DATA extends AbstractEntity, REPO extends DAO<DATA>> extends Observable {
     public REPO repo;

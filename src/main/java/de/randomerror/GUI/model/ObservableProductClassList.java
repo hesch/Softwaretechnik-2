@@ -6,7 +6,7 @@ import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
 
 /**
- * Created by henri on 12.06.17.
+ *
  */
 @Provided
 public class ObservableProductClassList extends ObservableDataList<ProductClassDTO, ProductClassDAO> {

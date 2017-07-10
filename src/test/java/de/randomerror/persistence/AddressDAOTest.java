@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -17,15 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-/**
- * Created by henri on 04.06.17.
- */
+
 public class AddressDAOTest {
 
     private static AddressDAO iut; // implementation under test
 
     @BeforeAll
-    static void setup() throws IOException {
+    static void setup() throws IOException, URISyntaxException {
         //wire all the dependencies together
         Injector.getInstance().init();
         iut = Injector.getInstance().getProvided(AddressRepo.class);

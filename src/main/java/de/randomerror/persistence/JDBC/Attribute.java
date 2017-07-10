@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by henri on 13.05.17.
+ *
  */
 @Data
 public class Attribute {

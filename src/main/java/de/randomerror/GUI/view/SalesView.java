@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
- * Created by henri on 08.05.17.
+ *
  */
 
 @Provided

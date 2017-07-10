@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by henri on 13.05.17.
+ *
  */
 @Data
 @AllArgsConstructor

@@ -10,12 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collections;
 
 
-/**
- * Created by henri on 04.06.17.
- */
+
 
 public class SalesServiceTest {
     private static SalesService salesService;
@@ -24,7 +23,7 @@ public class SalesServiceTest {
     private static ProductClassDAO productClassMock;
 
     @BeforeAll
-    static void setup() throws IOException {
+    static void setup() throws IOException, URISyntaxException {
         //wire all the dependencies together
         Injector.getInstance().init();
         salesService = Injector.getInstance().getProvided(SalesService.class);

@@ -2,10 +2,9 @@ package de.randomerror.util;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 /**
- * Created by Henri on 14.04.17.
- */
+*
+*/
 @Data
 @NoArgsConstructor
 public class Instance<T> {

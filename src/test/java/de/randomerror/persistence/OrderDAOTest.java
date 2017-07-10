@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -23,7 +24,7 @@ public class OrderDAOTest {
     private static OrderDAO iut; // implementation under test
 
     @BeforeAll
-    static void setup() throws IOException {
+    static void setup() throws IOException, URISyntaxException {
         //wire all the dependencies together
         Injector.getInstance().init();
         iut = Injector.getInstance().getProvided(OrderRepo.class);

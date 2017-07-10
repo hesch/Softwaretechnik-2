@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Created by henri on 10.05.17.
+ *
  */
 @Provided
 @Log4j2

@@ -5,11 +5,12 @@ import lombok.extern.log4j.Log4j2;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.*;
 
 
 /**
- * Created by Henri on 11.04.17.
+ *
  */
 @Log4j2
 public class Injector {
@@ -24,7 +25,7 @@ public class Injector {
 
     private Map<Class, Instance> classPool = new HashMap<>();
 
-    public void init() throws IOException {
+    public void init() throws IOException, URISyntaxException {
         List<Class> classes = new Scanner().scanPackage("de.randomerror");
 
         classes.stream().filter(c -> c.getAnnotation(Provided.class) != null).map(Class::getCanonicalName).forEach(log::debug);

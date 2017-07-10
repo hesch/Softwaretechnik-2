@@ -4,7 +4,7 @@ import de.randomerror.persistence.JDBC.*;
 import lombok.Data;
 
 /**
- * Created by henri on 08.05.17.
+ *
  */
 @Data
 public class DeliveryItemDTO extends AbstractEntity {
