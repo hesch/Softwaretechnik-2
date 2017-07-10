@@ -10,6 +10,7 @@ import de.randomerror.persistence.*;
 import de.randomerror.persistence.DAO.*;
 import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 /**
  * Created by Henri on 11.04.17.
  */
+@Log4j2
 @Provided
 public class Main {
     DeliveryHumanRepo deliveryHumanRepo;
@@ -170,10 +172,10 @@ public class Main {
 
         List<OrderDTO> orders = orderRepo.findAll();
 
-        System.out.println("testdata initialized");
+        log.info("testdata initialized");
 
 
-        System.out.println("Reinitializing ObservableDataLists");
+        log.info("Reinitializing ObservableDataLists");
 
         Stream.of(customerList, orderList, productClassList).forEach(ObservableDataList::onInit);
     }
