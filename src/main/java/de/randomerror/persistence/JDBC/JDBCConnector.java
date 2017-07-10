@@ -18,10 +18,13 @@ public class JDBCConnector {
 
     private static Map<Class, Entity> entities = new HashMap<>();
 
+    private Config config;
+
     @Getter
     private Connection connection;
 
     public JDBCConnector() {
+        config = Config.getInstance();
         connect();
         createDatabaseScheme();
     }
@@ -32,7 +35,7 @@ public class JDBCConnector {
     public void connect() {
         try {
             // initiate the connection with the database
-            connection = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);
+            connection = DriverManager.getConnection(config.getUrl() + config.getDatabase(), config.getUser(), config.getPassword());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
