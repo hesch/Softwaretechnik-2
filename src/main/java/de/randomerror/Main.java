@@ -23,6 +23,7 @@ import java.util.stream.Stream;
  *
  */
 @Provided
+@Log4j2
 public class Main {
 
     ProductDAO productRepo;
