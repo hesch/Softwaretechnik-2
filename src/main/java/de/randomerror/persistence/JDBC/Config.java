@@ -25,24 +25,20 @@ public class Config {
 
     private Properties properties;
 
-    private String getProperty(String name) {
-        String out = properties.getProperty(name);
-        return out == null ? "" : out;
-    }
 
     public String getUrl() {
-        return getProperty("jdbc.url");
+        return properties.getProperty("jdbc.url", "");
     }
 
     public String getDatabase() {
-        return getProperty("jdbc.database");
+        return properties.getProperty("jdbc.database", "");
     }
 
     public String getUser() {
-        return getProperty("jdbc.user");
+        return properties.getProperty("jdbc.user", "");
     }
 
     public String getPassword() {
-        return getProperty("jdbc.password");
+        return properties.getProperty("jdbc.password", "");
     }
 }
