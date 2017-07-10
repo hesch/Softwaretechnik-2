@@ -57,7 +57,7 @@ public class Scanner {
         if(path.toString().endsWith(".class")) {
             String name = path.subpath(baseSegments, path.getNameCount()).toString().replace('/', '.');
             try {
-                log.info("class: " + name.substring(0, name.length() - 6));
+                log.trace("found class: " + name.substring(0, name.length() - 6));
                 return Class.forName(name.substring(0, name.length() - 6));
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);

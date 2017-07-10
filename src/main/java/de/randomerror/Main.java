@@ -10,6 +10,7 @@ import de.randomerror.persistence.*;
 import de.randomerror.persistence.DAO.*;
 import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -126,10 +127,10 @@ public class Main {
 
         List<OrderDTO> orders = orderRepo.findAll();
 
-        System.out.println("testdata initialized");
+        log.info("testdata initialized");
 
 
-        System.out.println("Reinitializing ObservableDataLists");
+        log.info("Reinitializing ObservableDataLists");
 
         Stream.of(customerList, orderList, productClassList).forEach(ObservableDataList::onInit);
     }
