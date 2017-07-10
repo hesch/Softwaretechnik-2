@@ -200,7 +200,9 @@
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <text value=""/>
+                        </properties>
                       </component>
                       <component id="5ef6e" class="javax.swing.JLabel" binding="nPhoneLabel">
                         <constraints>

@@ -7,6 +7,7 @@ import de.randomerror.entity.CustomerDTO;
 import de.randomerror.entity.OrderDTO;
 import de.randomerror.entity.OrderItemDTO;
 import de.randomerror.entity.ProductClassDTO;
+import de.randomerror.services.TranslationService;
 import de.randomerror.util.Provided;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ import java.util.stream.IntStream;
 
 @Provided
 public class SalesView implements View {
-
+    private TranslationService t = TranslationService.getInstance();
 
     private JFrame frame = new JFrame("Yukon");
 
@@ -90,7 +91,6 @@ public class SalesView implements View {
 
     public SalesView() {
         $$$setupUI$$$();
-        nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
 
@@ -174,11 +174,11 @@ public class SalesView implements View {
                             nAdressCountryField.setText(customer.getAddress().getCountry());
                         });
                     } else {
-                        nCustomerField.setText("unbekannte Kundennummer");
+                        nCustomerField.setText(t.translate("SALES.CUSTOMER_INFO.UNKNOWN"));
                         clearCustomerDetails();
                     }
                 } else {
-                    nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
+                    nCustomerField.setText(t.translate("SALES.CUSTOMER_INFO"));
                     clearCustomerDetails();
                 }
             }
@@ -255,7 +255,7 @@ public class SalesView implements View {
             nAdressZipCodeField.setText("");
             nAdressStateField.setText("");
             nAdressCountryField.setText("");
-            nCustomerField.setText("Geben sie eine Kundennummer ein um die Kundendaten abzurufen");
+            nCustomerField.setText(t.translate("SALES.CUSTOMER_INFO"));
             try {
                 while (true) {
                     nOrderItemModel.removeRow(0);
@@ -286,15 +286,42 @@ public class SalesView implements View {
      * creates and initializes the UIComponents contained in the view.
      */
     private void createUIComponents() {
-        orderModel = new DefaultTableModel(new String[]{"ID", "AddressDTO", "Kunde", "Gesamtpreis"}, 0);
-        orderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);
-        inventoryModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Bestand"}, 0);
-        nOrderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);
+        orderModel = new DefaultTableModel(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.ORDER.ADDRESS"), t.translate("SALES.ORDER.CUSTOMER"), t.translate("SALES.ORDER.PRICE")}, 0);
+        orderItemModel = new DefaultTableModel(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.PRODUCT.NAME"), t.translate("SALES.PRODUCT.DESCRIPTION"), t.translate("SALES.PRODUCT.SINGLE_PRICE"), t.translate("SALES.PRODUCT.AMOUNT"), t.translate("SALES.PRODUCT.PRICE")}, 0);
+        inventoryModel = new DefaultTableModel(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.PRODUCT.NAME"), t.translate("SALES.PRODUCT.DESCRIPTION"), t.translate("SALES.PRODUCT.SINGLE_PRICE"), t.translate("SALES.PRODUCT.STOCK")}, 0);
+        nOrderItemModel = new DefaultTableModel(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.PRODUCT.NAME"), t.translate("SALES.PRODUCT.DESCRIPTION"), t.translate("SALES.PRODUCT.SINGLE_PRICE"), t.translate("SALES.PRODUCT.AMOUNT"), t.translate("SALES.PRODUCT.PRICE")}, 0);
         orderTable = new JTable(orderModel);
         orderItemTable = new JTable(orderItemModel);
         nInventoryTable = new JTable(inventoryModel);
         nOrderItemsTable = new JTable(nOrderItemModel);
 
+    }
+
+    public void onInit() {
+        nAddButton.setText(t.translate("SALES.NEW_ORDER.ADD"));
+        nAbortButton.setText(t.translate("SALES.NEW_ORDER.CANCEL"));
+        nSaveButton.setText(t.translate("SALES.NEW_ORDER.SAVE"));
+        customerLabel.setText(t.translate("SALES.ORDER.CUSTOMER"));
+        customerIdLabel.setText(t.translate("SALES.ORDER_DETAIL.CUSTOMER_ID"));
+        orderIdLabel.setText(t.translate("SALES.ORDER_DETAIL.ORDER_ID"));
+        totalPriceLabel.setText(t.translate("SALES.NEW_ORDER.SUM"));
+        productsLabel.setText(t.translate("SALES.ORDER_DETAIL.PRODUCTS"));
+        nCustomerIdLabel.setText(t.translate("SALES.ORDER_DETAIL.CUSTOMER_ID"));
+        nCustomerLabel.setText(t.translate("SALES.ORDER_DETAIL.CUSTOMER"));
+        nPhoneLabel.setText(t.translate("SALES.NEW_ORDER.TELEPHONE"));
+        nAdressLabel.setText(t.translate("SALES.ORDER.ADDRESS"));
+        nTotalpriceLabel.setText(t.translate("SALES.NEW_ORDER.SUM"));
+        nProductIdLabel.setText(t.translate("SALES.PRODUCT.ID"));
+        nQuantityLabel.setText(t.translate("SALES.PRODUCT.AMOUNT"));
+        nAdressStreetLabel.setText(t.translate("SALES.ADDRESS.STREET"));
+        nAdressCityLabel.setText(t.translate("SALES.ADDRESS.CITY"));
+        nAdressZipCode.setText(t.translate("SALES.ADDRESS.ZIP"));
+        nAdressStateLabel.setText(t.translate("SALES.ADDRESS.PROVINCE"));
+        nAdressCountryLabel.setText(t.translate("SALES.ADDRESS.COUNTRY"));
+        nCustomerField.setText(t.translate("SALES.CUSTOMER_INFO"));
+
+        tabbedPane1.setTitleAt(0, t.translate("SALES.ORDER.TITLE"));
+        tabbedPane1.setTitleAt(1, t.translate("SALES.NEW_ORDER.TITLE"));
     }
 
     /**
@@ -370,6 +397,7 @@ public class SalesView implements View {
         nCustomerLabel.setText("Kunde:");
         nCustomerDetail.add(nCustomerLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nCustomerIdField = new JTextField();
+        nCustomerIdField.setText("");
         nCustomerDetail.add(nCustomerIdField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         nPhoneLabel = new JLabel();
         nPhoneLabel.setText("Telefon");

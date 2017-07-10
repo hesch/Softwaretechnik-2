@@ -13,7 +13,7 @@ import java.awt.*;
  */
 @Provided
 public class LoginView implements View {
-    public TranslationService t;
+    public TranslationService t = TranslationService.getInstance();
     public LoginViewController controller;
 
     private JFrame frame = new JFrame();
@@ -27,6 +27,8 @@ public class LoginView implements View {
     private JPasswordField passwordField = new JPasswordField(10);
 
     private JButton loginButton = new JButton();
+
+
 
     public LoginView() {
         frame.setLocationRelativeTo(null);

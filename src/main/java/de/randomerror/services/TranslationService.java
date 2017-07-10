@@ -9,11 +9,15 @@ import java.util.Properties;
 /**
  * Created by henri on 10.07.17.
  */
-@Provided
 public class TranslationService {
+    private static TranslationService instance = new TranslationService();
+    public static TranslationService getInstance() {
+        return instance;
+    }
+
     private Properties translations;
 
-    public TranslationService() {
+    private TranslationService() {
         setLanguage("en"); //set default Language
     }
 
