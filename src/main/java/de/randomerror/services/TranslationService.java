@@ -9,11 +9,15 @@ import java.util.Properties;
 /**
  * Service used for Translating the Application
  */
-@Provided
 public class TranslationService {
+    private static TranslationService instance = new TranslationService();
+    public static TranslationService getInstance() {
+        return instance;
+    }
+
     private Properties translations;
 
-    public TranslationService() {
+    private TranslationService() {
         setLanguage("en"); //set default Language
     }
 
