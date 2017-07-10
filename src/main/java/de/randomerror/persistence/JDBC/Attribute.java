@@ -38,6 +38,10 @@ public class Attribute {
         this.constraints = Arrays.asList(constraints);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getConstraintString() {
         return constraints.stream().map(Enum::toString).collect(Collectors.joining(" "));
     }

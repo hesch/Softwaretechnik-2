@@ -16,18 +16,30 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
     public REPO repo;
     private List<DATA> data;
 
+    /**
+     *
+     * @param element
+     */
     public void addElement(DATA element) {
         data.add(element);
         setChanged();
         notifyObservers(new ObservableEvent(element, EventState.ADDED));
     }
 
+    /**
+     *
+     * @param element
+     */
     public void removeElement(DATA element) {
         data.remove(element);
         setChanged();
         notifyObservers(new ObservableEvent(element, EventState.DELETED));
     }
 
+    /**
+     *
+     * @param id
+     */
     public void removeElement(long id) {
         data.stream().filter(o -> o.getId() == id).findFirst().ifPresent(o -> {
             data.remove(o);
@@ -36,6 +48,10 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
         });
     }
 
+    /**
+     *
+     * @param element
+     */
     public void updateElement(DATA element) {
         data.stream().filter(o -> element.getId() == o.getId()).findFirst().ifPresent(o -> {
             data.remove(o);
@@ -45,10 +61,17 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
         });
     }
 
+    /**
+     *
+     * @return
+     */
     public List<DATA> getData() {
         return Collections.unmodifiableList(data);
     }
 
+    /**
+     *
+     */
     public void onInit() {
         data = repo.findAll();
     }

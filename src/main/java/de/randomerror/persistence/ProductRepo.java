@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Created by henri on 08.05.17.
+ *
  */
 @Provided
 public class ProductRepo extends Repository<ProductDTO> implements ProductDAO {

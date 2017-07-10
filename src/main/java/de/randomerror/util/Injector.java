@@ -25,6 +25,11 @@ public class Injector {
 
     private Map<Class, Instance> classPool = new HashMap<>();
 
+    /**
+     *
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public void init() throws IOException, URISyntaxException {
         List<Class> classes = new Scanner().scanPackage("de.randomerror");
 
@@ -42,10 +47,20 @@ public class Injector {
         });
     }
 
+    /**
+     *
+     * @param c
+     * @param <T>
+     * @return
+     */
     public <T> T getProvided(Class<T> c) {
         return (T) getInstanceFromClassPool(c).get().getData();
     }
 
+    /**
+     *
+     * @param classes
+     */
     private void addToClassPool(List<Class> classes) {
         classes.stream()
                 .filter(c -> c.getAnnotation(Provided.class) != null)
@@ -54,6 +69,11 @@ public class Injector {
         classPool.keySet().forEach(this::resolveInstance);
     }
 
+    /**
+     *
+     * @param c
+     * @param <T>
+     */
     private <T> void resolveInstance(Class<T> c) {
         Instance<T> i = getInstanceFromClassPool(c).get();
 
@@ -91,6 +111,11 @@ public class Injector {
         i.setCircularDetection(false);
     }
 
+    /**
+     *
+     * @param f
+     * @param instance
+     */
     private void injectField(Field f, Object instance) {
         try {
             if(!getInstanceFromClassPool(f.getType()).map(Instance::isInitialized)
@@ -105,6 +130,11 @@ public class Injector {
         }
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     */
     private Optional<Instance> getInstanceFromClassPool(Class type) {
         return classPool.keySet().stream()
                 .filter(clazz -> type.isAssignableFrom(clazz))
@@ -112,6 +142,11 @@ public class Injector {
                 .map(classPool::get);
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     */
     private boolean containsType(Class type) {
         return classPool.keySet().stream()
                 .anyMatch(clazz -> type.isAssignableFrom(clazz));

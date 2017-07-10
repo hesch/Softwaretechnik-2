@@ -19,7 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-
+/**
+ *
+ */
 @Provided
 public class Main {
 
@@ -35,17 +37,29 @@ public class Main {
     ObservableOrderList orderList;
     ObservableProductClassList productClassList;
 
+    /**
+     *
+     * @param args
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public static void main(String[] args) throws IOException, URISyntaxException {
         System.out.println("stuff");
         Injector.getInstance().init();
         Injector.getInstance().getProvided(Main.class).init();
     }
 
+    /**
+     * initializes the Program
+     */
     public void init() {
         generateTestData();
         view.show();
     }
 
+    /**
+     * generates some Testdata
+     */
     public void generateTestData() {
         ProductDTO p1 = new ProductDTO("Zauberwürfel", "Ein Würfel. Er ist magisch!", 1337),
                 p2 = new ProductDTO("Kopfhörer", "Sie hören Köpfe!", 2799),

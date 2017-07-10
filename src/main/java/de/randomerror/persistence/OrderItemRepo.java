@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Created by henri on 14.05.17.
+ *
  */
 @Provided
 public class OrderItemRepo extends Repository<OrderItemDTO> implements OrderItemDAO {

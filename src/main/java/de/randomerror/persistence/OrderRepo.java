@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Created by Henri on 09.05.17.
+ *
  */
 @Provided
 public class OrderRepo extends Repository<OrderDTO> implements OrderDAO {

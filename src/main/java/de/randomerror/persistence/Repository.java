@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Created by henri on 14.05.17.
+ *
  */
 public abstract class Repository<T extends AbstractEntity> {
 

@@ -24,6 +24,11 @@ public class Entity {
         attributes = e.attributes.stream().map(Attribute::new).collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public Attribute getMatchingAttribute(String name) {
         return attributes.stream().filter(a -> a.getName().equals(name)).findFirst().get();
     }

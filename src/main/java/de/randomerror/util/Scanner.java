@@ -19,7 +19,13 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 @Log4j2
 public class Scanner {
-
+    /**
+     *
+     * @param packageName
+     * @return
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public List<Class> scanPackage(String packageName) throws IOException, URISyntaxException {
         ClassLoader classLoader = Scanner.class.getClassLoader();//ClassLoader.getSystemClassLoader();
         String path = packageName.replace('.', '/');
@@ -37,6 +43,12 @@ public class Scanner {
                 .flatMap(it -> pathToClasses(it, stuff))
                 .collect(Collectors.toList());
     }
+
+    /**
+     *
+     * @param url
+     * @return
+     */
     private URI URLToURI(URL url) {
         try {
             return url.toURI();
@@ -45,6 +57,12 @@ public class Scanner {
         }
         return null;
     }
+
+    /**
+     *
+     * @param uri
+     * @return
+     */
     private Path URIToPath(URI uri) {
         try {
             return Paths.get(uri);
@@ -53,6 +71,12 @@ public class Scanner {
         }
     }
 
+    /**
+     *
+     * @param path
+     * @param baseSegments
+     * @return
+     */
     private Class singleFileToClass(Path path, int baseSegments) {
         if(path.toString().endsWith(".class")) {
             String name = path.subpath(baseSegments, path.getNameCount()).toString().replace('/', '.');
@@ -67,6 +91,12 @@ public class Scanner {
         return null;
     }
 
+    /**
+     *
+     * @param path
+     * @param stuff
+     * @return
+     */
     private Stream<Class> pathToClasses(Path path, int stuff) {
         try {
             log.trace(path);

@@ -1,6 +1,8 @@
 package de.randomerror.util;
 
-
+/**
+ * Exception thrown when the Scanner detects Circular Dependencies
+ */
 public class CircularDependencyException extends RuntimeException {
     public CircularDependencyException() {
     }

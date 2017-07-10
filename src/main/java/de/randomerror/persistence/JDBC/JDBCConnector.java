@@ -38,13 +38,27 @@ public class JDBCConnector {
         }
     }
 
+    /**
+     *
+     * @param c
+     * @param e
+     */
     public static void registerEntity(Class c, Entity e) {
         entities.put(c, e);
     }
+
+    /**
+     *
+     * @param c
+     * @return
+     */
     public static Entity getEntity(Class c) {
         return entities.get(c);
     }
 
+    /**
+     *
+     */
     public void createDatabaseScheme() {
         log.info("Creating Database Scheme");
         entities.values().forEach(entity -> {
@@ -75,6 +89,11 @@ public class JDBCConnector {
         });
     }
 
+    /**
+     *
+     * @param entity
+     * @param id
+     */
     public void updateEntity(Entity entity, long id) {
         try {
             String sql = "UPDATE " + entity.getName() + " SET ";
@@ -126,6 +145,11 @@ public class JDBCConnector {
         }
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public long insertEntity(Entity entity) {
         long id = -1;
 
@@ -188,6 +212,12 @@ public class JDBCConnector {
         return id;
     }
 
+    /**
+     *
+     * @param entity
+     * @param id
+     * @return
+     */
     public Optional<Entity> loadEntity(Entity entity, long id) {
         try {
             String sql = "SELECT * FROM " + entity.getName() + " WHERE id = ?;";
@@ -235,6 +265,11 @@ public class JDBCConnector {
         return Optional.of(entity);
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public List<Entity> loadAllEntities(Entity entity) {
         List<Entity> results = null;
         try {

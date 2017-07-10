@@ -29,29 +29,57 @@ public class SalesService implements Observer {
     public CustomerDAO customerDAO;
     public ProductClassDAO productClassDAO;
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Optional<OrderDTO> getOrderById(int id) {
         return orderDAO.findById(id);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<OrderDTO> getAllOrders() {
         return orderDAO.findAll();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Optional<CustomerDTO> getCustomerById(int id) {
         return customerDAO.findById(id);
     }
 
+    /**
+     *
+     * @param o
+     */
     public void saveOrder(OrderDTO o) {
         orderDAO.save(o);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<ProductClassDTO> findAllProductClasses() {
         return productClassDAO.findAll();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Optional<ProductClassDTO> findProductClassById(long id) {
         return productClassDAO.findById(id);
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
@@ -65,6 +93,9 @@ public class SalesService implements Observer {
 
     }
 
+    /**
+     *
+     */
     public void onInit() {
         orderList.addObserver(this);
     }

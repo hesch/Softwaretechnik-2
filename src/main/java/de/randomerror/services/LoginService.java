@@ -7,7 +7,7 @@ import de.randomerror.util.Provided;
 import lombok.Getter;
 
 /**
- * Created by henri on 08.05.17.
+ * Service handling User Login and saving the current User after successful login
  */
 @Provided
 public class LoginService {
@@ -16,6 +16,11 @@ public class LoginService {
     @Getter
     private UserDTO currentUser;
 
+    /**
+     * Accept login Credentilas and querys the userRepo with the given arguments
+     * @param login
+     * @param pass
+     */
     public void login(String login, String pass) {
         currentUser = userRepo.findByLogin(login)
                         .filter(u -> u.getPassword().equals(pass))
