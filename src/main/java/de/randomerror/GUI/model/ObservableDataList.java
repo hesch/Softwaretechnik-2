@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- *
+ *  obervable list containing a given Datatype
  */
 public abstract class ObservableDataList<DATA extends AbstractEntity, REPO extends DAO<DATA>> extends Observable {
     public REPO repo;
     private List<DATA> data;
 
     /**
-     *
+     * adds the given Element to the list
      * @param element
      */
     public void addElement(DATA element) {
@@ -27,7 +27,7 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
     }
 
     /**
-     *
+     *removes the given Element from the list
      * @param element
      */
     public void removeElement(DATA element) {
@@ -37,7 +37,7 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
     }
 
     /**
-     *
+     *removes the Element with the given id from the list
      * @param id
      */
     public void removeElement(long id) {
@@ -49,7 +49,7 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
     }
 
     /**
-     *
+     * updates the given Element(specified by the id)
      * @param element
      */
     public void updateElement(DATA element) {
@@ -62,7 +62,7 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
     }
 
     /**
-     *
+     * returns a List<> containing all Entries in the list
      * @return
      */
     public List<DATA> getData() {
@@ -70,7 +70,7 @@ public abstract class ObservableDataList<DATA extends AbstractEntity, REPO exten
     }
 
     /**
-     *
+     * fills the list with the Data from the Repository used to initializes the Map
      */
     public void onInit() {
         data = repo.findAll();

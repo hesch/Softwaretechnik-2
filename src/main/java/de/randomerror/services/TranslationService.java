@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Created by henri on 10.07.17.
+ * Service used for Translating the Application
  */
 @Provided
 public class TranslationService {

@@ -9,7 +9,7 @@ import lombok.Getter;
 import java.util.*;
 
 /**
- *
+ *ObersavableDataList implemented for OrderDTOs
  */
 @Provided
 public class ObservableOrderList extends ObservableDataList<OrderDTO, OrderDAO> {

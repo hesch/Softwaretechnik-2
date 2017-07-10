@@ -6,7 +6,7 @@ import de.randomerror.util.Injector;
 import de.randomerror.util.Provided;
 
 /**
- *
+ * ObersavableDataList implemented for CustomerDTOs
  */
 @Provided
 public class ObservableCustomerList extends ObservableDataList<CustomerDTO, CustomerDAO> {
