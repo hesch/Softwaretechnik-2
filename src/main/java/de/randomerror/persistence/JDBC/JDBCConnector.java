@@ -46,6 +46,7 @@ public class JDBCConnector {
     }
 
     public void createDatabaseScheme() {
+        log.info("Creating Database Scheme");
         entities.values().forEach(entity -> {
             try {
                 Statement s = connection.createStatement();
@@ -61,7 +62,8 @@ public class JDBCConnector {
 
                 createSql += "(" + col + ");";
 
-                log.trace("SQL: " + createSql);
+                log.debug("Creating Table for Entity: {}", entity.getName());
+                log.trace("Query: " + createSql);
 
                 s.addBatch(createSql);
 
@@ -80,6 +82,9 @@ public class JDBCConnector {
                     .map(attribute -> attribute.getName() + "=?")
                     .collect(Collectors.joining(", "));
             sql += "WHERE id=?;";
+
+            log.debug("updating {} Entity with id: {}", entity.getName(), id);
+            log.trace("Query: {}", sql);
 
             PreparedStatement s = connection.prepareStatement(sql);
 
@@ -136,6 +141,9 @@ public class JDBCConnector {
                     .collect(Collectors.joining(", "));
             sql += ");";
 
+            log.debug("inserting {} Entity into Database", entity.getName());
+            log.trace("Query: {}", sql);
+
             PreparedStatement s = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             IntStream.range(0, attributesWithoutId.size()).forEach(index -> {
@@ -168,8 +176,10 @@ public class JDBCConnector {
 
             s.execute();
             ResultSet res = s.getGeneratedKeys();
-            if (res.next())
+            if (res.next()) {
                 id = res.getLong(1);
+                log.debug("id from Database is: {}", id);
+            }
             s.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -183,6 +193,9 @@ public class JDBCConnector {
             String sql = "SELECT * FROM " + entity.getName() + " WHERE id = ?;";
             PreparedStatement s = connection.prepareStatement(sql);
             s.setLong(1, id);
+
+            log.debug("loading {} Entity with id: {} from Database", entity.getName(), id);
+            log.trace("Query: {}", sql);
 
             ResultSet result = s.executeQuery();
 
@@ -228,6 +241,8 @@ public class JDBCConnector {
             results = new LinkedList<>();
             String sql = "SELECT * FROM " + entity.getName() + ";";
             Statement s = connection.createStatement();
+            log.debug("loading all {} Entities from Database", entity.getName());
+            log.trace("Query: {}", sql);
             ResultSet result = s.executeQuery(sql);
 
             while(result.next()) {
