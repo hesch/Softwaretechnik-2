@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
- *
+ * View to display Data and accept user Input to modify it.
  */
 
 @Provided
@@ -94,6 +94,20 @@ public class SalesView implements View {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
 
+        addTabbedPanelChangeListener();
+        addOrderTableListSelectionListener();
+        addInventoryListSelectionListener();
+        addFocusLostListener();
+        addNewOrderAddActionListener();
+        addSaveActionListener();
+        addAbortActionListener();
+        frame.add(salespanel);
+    }
+
+    /**
+     * adds a changelistener to the tabbedPanel Component
+     */
+    private void addTabbedPanelChangeListener() {
         tabbedPane1.addChangeListener(l -> {
             try {
                 while (true) {
@@ -102,7 +116,12 @@ public class SalesView implements View {
             } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...everything is normal*/}
             controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
         });
+    }
 
+    /**
+     * adds ListSelectionlistener to the orderTable Component
+     */
+    private void addOrderTableListSelectionListener() {
         orderTable.getSelectionModel().addListSelectionListener(selectionEvent -> {
             if (!selectionEvent.getValueIsAdjusting() && orderTable.getSelectedRow() >= 0) {
                 OrderDTO order = controller.getOrderById(Long.valueOf(orderTable.getValueAt(orderTable.getSelectedRow(), 0).toString()));
@@ -120,12 +139,24 @@ public class SalesView implements View {
                 orderItems.forEach(i -> orderItemModel.addRow(new String[]{i.getProduct().getId() + "", i.getProduct().getName(), i.getProduct().getDescription(), i.getProduct().getDoublePrice() + "", i.getNumber() + "", i.getTotal() + ""}));
             }
         });
+    }
+
+    /**
+     * adds ListSelectionlistener to the nInventoryTable Component
+     */
+    private void addInventoryListSelectionListener() {
         nInventoryTable.getSelectionModel().addListSelectionListener(inventorySelectionEvent -> {
             if (!inventorySelectionEvent.getValueIsAdjusting()) {
                 ProductClassDTO pc = controller.getProductClassById(Long.valueOf(nInventoryTable.getValueAt(nInventoryTable.getSelectedRow(), 0).toString()));
                 nProduktIdField.setText(pc.getProduct().getId() + "");
             }
         });
+    }
+
+    /**
+     * adds a FocusListener to the nCustomerIdFiled Components. The Listener loads a Customer using the SalesSevice
+     */
+    private void addFocusLostListener() {
         nCustomerIdField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -152,6 +183,9 @@ public class SalesView implements View {
                 }
             }
 
+            /**
+             * clears the Fields containing the customer Info
+             */
             private void clearCustomerDetails() {
                 nPhoneField.setText("");
                 nAdressStreetField.setText("");
@@ -161,6 +195,12 @@ public class SalesView implements View {
                 nAdressCountryField.setText("");
             }
         });
+    }
+
+    /**
+     * adds an Actionlistener to the nAddButton
+     */
+    private void addNewOrderAddActionListener() {
         nAddButton.addActionListener(addEvent -> {
             if (!nProduktIdField.getText().equals("")) {
                 if (Integer.valueOf(nQuantitySpinner.getValue() + "") != 0) {
@@ -184,6 +224,12 @@ public class SalesView implements View {
             }
             nTotalPriceField.setText(IntStream.range(0, nOrderItemModel.getRowCount()).mapToDouble(i -> Double.valueOf(nOrderItemsTable.getValueAt(i, 5) + "")).sum() + "");
         });
+    }
+
+    /**
+     * adds an ActionListener to the nSaveButton
+     */
+    private void addSaveActionListener() {
         nSaveButton.addActionListener(saveEvent -> {
             int id = Integer.valueOf(nCustomerIdField.getText());
             Optional<CustomerDTO> optional = controller.getCustomerById(id);
@@ -196,6 +242,12 @@ public class SalesView implements View {
                 controller.saveNewOrder(Integer.valueOf(nCustomerIdField.getText()), orderItems);
             }
         });
+    }
+
+    /**
+     * adds an Actionlistener to the nAbortButton
+     */
+    private void addAbortActionListener() {
         nAbortButton.addActionListener(abortEvent -> {
             nPhoneField.setText("");
             nAdressStreetField.setText("");
@@ -210,9 +262,11 @@ public class SalesView implements View {
                 }
             } catch (ArrayIndexOutOfBoundsException e) { /* nothing to see here...all is normal*/}
         });
-        frame.add(salespanel);
     }
 
+    /**
+     * makes the frame visible and initiates some Datastructures
+     */
     @Override
     public void show() {
         controller.getAllOrders().forEach(order -> orderModel.addRow(new String[]{order.getId() + "", order.getCustomer().getAddress() + "", order.getCustomer().getName(), order.getTotal() + ""}));
@@ -220,11 +274,17 @@ public class SalesView implements View {
         frame.setVisible(true);
     }
 
+    /**
+     * hides the frame
+     */
     @Override
     public void hide() {
         frame.setVisible(false);
     }
 
+    /**
+     * creates and initializes the UIComponents contained in the view.
+     */
     private void createUIComponents() {
         orderModel = new DefaultTableModel(new String[]{"ID", "AddressDTO", "Kunde", "Gesamtpreis"}, 0);
         orderItemModel = new DefaultTableModel(new String[]{"ID", "Name", "Beschreibung", "Einzelpreis", "Anzahl", "Preis"}, 0);

@@ -10,7 +10,7 @@ import java.util.*;
 
 
 /**
- *
+ * Manages Dependenies of Classes marked by the @Provided Annotation.
  */
 @Log4j2
 public class Injector {
