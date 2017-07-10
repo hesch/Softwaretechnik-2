@@ -92,6 +92,7 @@ public class SalesView implements View {
     private JSplitPane orderSplitter;
     private JPanel newOrder;
     private DefaultTableModel nOrderItemModel;
+    private JMenuBar languageMenuBar;
 
     public SalesView() {
         $$$setupUI$$$();
@@ -298,30 +299,6 @@ public class SalesView implements View {
         orderItemTable = new JTable(orderItemModel);
         nInventoryTable = new JTable(inventoryModel);
         nOrderItemsTable = new JTable(nOrderItemModel);
-
-        JMenuBar languageMenuBar = new JMenuBar();
-        JMenu languageMenu = new JMenu("Language");
-
-        JMenuItem eng = new JMenuItem("English"),
-                ger = new JMenuItem("German");
-
-        languageMenu.add(eng);
-        languageMenu.add(ger);
-
-        eng.addActionListener(ev -> {
-            t.setLanguage("en");
-            log.info("Setting Language to EN");
-            onInit();
-        });
-
-        ger.addActionListener(ev -> {
-            t.setLanguage("de");
-            log.info("Setting Language to DE");
-            onInit();
-        });
-
-        languageMenuBar.add(languageMenu);
-        frame.setJMenuBar(languageMenuBar);
     }
 
     public void onInit() {
@@ -349,6 +326,36 @@ public class SalesView implements View {
 
         tabbedPane1.setTitleAt(0, t.translate("SALES.ORDER.TITLE"));
         tabbedPane1.setTitleAt(1, t.translate("SALES.NEW_ORDER.TITLE"));
+
+        orderModel.setColumnIdentifiers(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.ORDER.ADDRESS"), t.translate("SALES.ORDER.CUSTOMER"), t.translate("SALES.ORDER.PRICE")});
+        orderItemModel.setColumnIdentifiers(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.PRODUCT.NAME"), t.translate("SALES.PRODUCT.DESCRIPTION"), t.translate("SALES.PRODUCT.SINGLE_PRICE"), t.translate("SALES.PRODUCT.AMOUNT"), t.translate("SALES.PRODUCT.PRICE")});
+        inventoryModel.setColumnIdentifiers(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.PRODUCT.NAME"), t.translate("SALES.PRODUCT.DESCRIPTION"), t.translate("SALES.PRODUCT.SINGLE_PRICE"), t.translate("SALES.PRODUCT.STOCK")});
+        nOrderItemModel.setColumnIdentifiers(new String[]{t.translate("SALES.ORDER.ID"), t.translate("SALES.PRODUCT.NAME"), t.translate("SALES.PRODUCT.DESCRIPTION"), t.translate("SALES.PRODUCT.SINGLE_PRICE"), t.translate("SALES.PRODUCT.AMOUNT"), t.translate("SALES.PRODUCT.PRICE")});
+
+
+        languageMenuBar = new JMenuBar();
+        JMenu languageMenu = new JMenu(t.translate("LANGUAGE"));
+
+        JMenuItem eng = new JMenuItem(t.translate("LANGUAGE.ENGLISH")),
+                ger = new JMenuItem(t.translate("LANGUAGE.GERMAN"));
+
+        languageMenu.add(eng);
+        languageMenu.add(ger);
+
+        eng.addActionListener(ev -> {
+            t.setLanguage("en");
+            log.info("Setting Language to EN");
+            onInit();
+        });
+
+        ger.addActionListener(ev -> {
+            t.setLanguage("de");
+            log.info("Setting Language to DE");
+            onInit();
+        });
+
+        languageMenuBar.add(languageMenu);
+        frame.setJMenuBar(languageMenuBar);
     }
 
     /**
