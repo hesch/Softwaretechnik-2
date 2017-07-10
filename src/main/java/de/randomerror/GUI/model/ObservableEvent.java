@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- *
+ * Event Containing and Object and a corresponding EventState
  */
 @Data
 @AllArgsConstructor
