@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- *
+ * Service that is used by the SalesController to access the Data from the Repositories.
  */
 @Provided
 public class SalesService implements Observer {
@@ -32,7 +32,7 @@ public class SalesService implements Observer {
     /**
      *
      * @param id
-     * @return
+     * @return Optional<OrderDTO>with the specified id if it can be found.
      */
     public Optional<OrderDTO> getOrderById(int id) {
         return orderDAO.findById(id);
@@ -40,7 +40,7 @@ public class SalesService implements Observer {
 
     /**
      *
-     * @return
+     * @return List<OrderDTO> List of all OrderDTO
      */
     public List<OrderDTO> getAllOrders() {
         return orderDAO.findAll();
@@ -49,14 +49,14 @@ public class SalesService implements Observer {
     /**
      *
      * @param id
-     * @return
+     * @return Optional<CustomerDTO> with the specified id if it can be found.
      */
     public Optional<CustomerDTO> getCustomerById(int id) {
         return customerDAO.findById(id);
     }
 
     /**
-     *
+     * saves the given OrderDTO using  the orderDAO 
      * @param o
      */
     public void saveOrder(OrderDTO o) {
@@ -65,7 +65,7 @@ public class SalesService implements Observer {
 
     /**
      *
-     * @return
+     * @return List<ProductClassDTO> List of all ProductClasses
      */
     public List<ProductClassDTO> findAllProductClasses() {
         return productClassDAO.findAll();
@@ -74,13 +74,17 @@ public class SalesService implements Observer {
     /**
      *
      * @param id
-     * @return
+     * @return Optional<ProductClassDTO> with the specified id if it can be found.
      */
     public Optional<ProductClassDTO> findProductClassById(long id) {
         return productClassDAO.findById(id);
     }
 
-
+    /**
+     * performs an action corresponding to the type of the second argument
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
         ObservableEvent e = (ObservableEvent) arg;
@@ -94,7 +98,7 @@ public class SalesService implements Observer {
     }
 
     /**
-     *
+ * registers the SalesService as observer on the orderList>
      */
     public void onInit() {
         orderList.addObserver(this);
