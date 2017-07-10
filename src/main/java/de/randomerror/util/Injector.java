@@ -26,7 +26,7 @@ public class Injector {
     private Map<Class, Instance> classPool = new HashMap<>();
 
     /**
-     *
+     *  calls the onInit Method of all Entries of the classPool
      * @throws IOException
      * @throws URISyntaxException
      */
@@ -51,14 +51,14 @@ public class Injector {
      *
      * @param c
      * @param <T>
-     * @return
+     * @return instance of the given Class
      */
     public <T> T getProvided(Class<T> c) {
         return (T) getInstanceFromClassPool(c).get().getData();
     }
 
     /**
-     *
+     * adds the given Classes to the classPool
      * @param classes
      */
     private void addToClassPool(List<Class> classes) {
@@ -70,7 +70,7 @@ public class Injector {
     }
 
     /**
-     *
+     * creates an Instance of the given Class
      * @param c
      * @param <T>
      */
@@ -112,6 +112,7 @@ public class Injector {
     }
 
     /**
+     * injects the specified Field into the given Object
      *
      * @param f
      * @param instance
@@ -131,7 +132,7 @@ public class Injector {
     }
 
     /**
-     *
+     *  creates an Optional containing an Instance of the specified class from the classPool if there is one
      * @param type
      * @return
      */
@@ -145,7 +146,7 @@ public class Injector {
     /**
      *
      * @param type
-     * @return
+     * @return true if classPool contains the given Class
      */
     private boolean containsType(Class type) {
         return classPool.keySet().stream()

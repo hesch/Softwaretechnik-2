@@ -3,7 +3,7 @@ package de.randomerror.util;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 /**
-*
+* Contains T and flags which indicate a status
 */
 @Data
 @NoArgsConstructor

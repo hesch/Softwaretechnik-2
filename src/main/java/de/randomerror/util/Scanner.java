@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- *
+ * Scans the classpath for classes
+ * much scan, such classes, wow
  */
 @NoArgsConstructor
 @Log4j2
@@ -22,7 +23,7 @@ public class Scanner {
     /**
      *
      * @param packageName
-     * @return
+     * @return a List of all Classes found in the given package
      * @throws IOException
      * @throws URISyntaxException
      */
@@ -45,7 +46,7 @@ public class Scanner {
     }
 
     /**
-     *
+     * translates a given URL to the corresponding URI
      * @param url
      * @return
      */
@@ -59,7 +60,7 @@ public class Scanner {
     }
 
     /**
-     *
+     * translates a given URI to the corresponding Path
      * @param uri
      * @return
      */
@@ -72,7 +73,7 @@ public class Scanner {
     }
 
     /**
-     *
+     * If the path points to a single file, the file is transformed to a class
      * @param path
      * @param baseSegments
      * @return
@@ -92,7 +93,7 @@ public class Scanner {
     }
 
     /**
-     *
+     * transforms all Files in the given path to classes
      * @param path
      * @param stuff
      * @return
