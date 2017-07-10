@@ -2,6 +2,7 @@ package de.randomerror.GUI.view;
 
 import de.randomerror.GUI.controller.LoginViewController;
 import de.randomerror.GUI.exceptions.CredentialsInvalidException;
+import de.randomerror.services.TranslationService;
 import de.randomerror.util.Provided;
 
 import javax.swing.*;
@@ -12,23 +13,22 @@ import java.awt.*;
  */
 @Provided
 public class LoginView implements View {
+    public TranslationService t;
     public LoginViewController controller;
 
-    private JFrame frame = new JFrame("login");
+    private JFrame frame = new JFrame();
 
     private JLabel infoLabel = new JLabel();
 
-    private JLabel nameLabel = new JLabel("Name:");
-    private JLabel passwordLabel = new JLabel("Password:");
+    private JLabel nameLabel = new JLabel();
+    private JLabel passwordLabel = new JLabel();
 
     private JTextField nameField = new JTextField(10);
     private JPasswordField passwordField = new JPasswordField(10);
 
-    private JButton loginButton = new JButton("Login");
+    private JButton loginButton = new JButton();
 
     public LoginView() {
-        infoLabel.setText("Login: sales  Passwort: test");
-
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,8 +88,6 @@ public class LoginView implements View {
             hide();
             controller.transitionToNextView();
         });
-
-        frame.pack();
     }
 
     @Override
@@ -100,5 +98,16 @@ public class LoginView implements View {
     @Override
     public void hide() {
         frame.setVisible(false);
+    }
+
+    public void onInit() {
+        frame.setTitle(t.translate("LOGIN.TITLE"));
+        infoLabel.setText(t.translate("LOGIN.INFO"));
+
+        nameLabel.setText(t.translate("LOGIN.NAME") + ":");
+        passwordLabel.setText(t.translate("LOGIN.PASSWORD") + ":");
+        loginButton.setText(t.translate("LOGIN.BUTTON"));
+
+        frame.pack();
     }
 }
