@@ -9,8 +9,11 @@ import de.randomerror.entity.OrderItemDTO;
 import de.randomerror.entity.ProductClassDTO;
 import de.randomerror.services.TranslationService;
 import de.randomerror.util.Provided;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -24,6 +27,7 @@ import java.util.stream.IntStream;
  * View to display Data and accept user Input to modify it.
  */
 
+@Log4j2
 @Provided
 public class SalesView implements View {
     private TranslationService t = TranslationService.getInstance();
@@ -295,6 +299,29 @@ public class SalesView implements View {
         nInventoryTable = new JTable(inventoryModel);
         nOrderItemsTable = new JTable(nOrderItemModel);
 
+        JMenuBar languageMenuBar = new JMenuBar();
+        JMenu languageMenu = new JMenu("Language");
+
+        JMenuItem eng = new JMenuItem("English"),
+                ger = new JMenuItem("German");
+
+        languageMenu.add(eng);
+        languageMenu.add(ger);
+
+        eng.addActionListener(ev -> {
+            t.setLanguage("en");
+            log.info("Setting Language to EN");
+            onInit();
+        });
+
+        ger.addActionListener(ev -> {
+            t.setLanguage("de");
+            log.info("Setting Language to DE");
+            onInit();
+        });
+
+        languageMenuBar.add(languageMenu);
+        frame.setJMenuBar(languageMenuBar);
     }
 
     public void onInit() {
